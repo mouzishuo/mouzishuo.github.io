@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>ota升级后多个应用crash | 得一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="PackageManagerServicePKMS">
+  
+  
+  
+  
+  <meta name="description" content="问题描述Android P的项目，进行OTA升级。升级后多个应用出现异常：启动时crash，切换系统语言后应用名称和图标混乱。恢复出厂设置后正常。 问题场景OTA高版本主要是进行了GMS包的升级，也就是对GMS包中的应用进行了升级，而出现问题的应用也都是GMS包中的应用。 问题分析过程首先当然是收集log。好在问题是必现的，所以就先抓了下有问题的应用的启动log，结果发现各种各样的错误都有：类找不">
+<meta name="keywords" content="PackageManagerService,PKMS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OTA升级后多个应用crash">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/01/10/OTA升级后，多个应用启动时crash/index.html">
+<meta property="og:site_name" content="得一">
+<meta property="og:description" content="问题描述Android P的项目，进行OTA升级。升级后多个应用出现异常：启动时crash，切换系统语言后应用名称和图标混乱。恢复出厂设置后正常。 问题场景OTA高版本主要是进行了GMS包的升级，也就是对GMS包中的应用进行了升级，而出现问题的应用也都是GMS包中的应用。 问题分析过程首先当然是收集log。好在问题是必现的，所以就先抓了下有问题的应用的启动log，结果发现各种各样的错误都有：类找不">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-11T08:56:23.504Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OTA升级后多个应用crash">
+<meta name="twitter:description" content="问题描述Android P的项目，进行OTA升级。升级后多个应用出现异常：启动时crash，切换系统语言后应用名称和图标混乱。恢复出厂设置后正常。 问题场景OTA高版本主要是进行了GMS包的升级，也就是对GMS包中的应用进行了升级，而出现问题的应用也都是GMS包中的应用。 问题分析过程首先当然是收集log。好在问题是必现的，所以就先抓了下有问题的应用的启动log，结果发现各种各样的错误都有：类找不">
+  
+
+  
+
+  <link rel="icon" href="/css/images/avatar.jpg">
+  <link rel="apple-touch-icon" href="/css/images/avatar.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-OTA升级后，多个应用启动时crash" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      OTA升级后多个应用crash
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/10/OTA升级后，多个应用启动时crash/" class="article-date">
+	  <time datetime="2019-01-10T04:00:00.000Z" itemprop="datePublished">2019-01-10</time>
+	</a>
+
+      
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>Android P的项目，进行OTA升级。升级后多个应用出现异常：启动时crash，切换系统语言后应用名称和图标混乱。恢复出厂设置后正常。</p>
+<h2 id="问题场景"><a href="#问题场景" class="headerlink" title="问题场景"></a>问题场景</h2><p>OTA高版本主要是进行了GMS包的升级，也就是对GMS包中的应用进行了升级，而出现问题的应用也都是GMS包中的应用。</p>
+<h2 id="问题分析过程"><a href="#问题分析过程" class="headerlink" title="问题分析过程"></a>问题分析过程</h2><p>首先当然是收集log。好在问题是必现的，所以就先抓了下有问题的应用的启动log，结果发现各种各样的错误都有：类找不到的、资源找不到的、AndroidManifest文件出错的……毫无规律，加上应用名字和图标的错误，反正问题的整个感觉就是乱。再加上恢复出厂设置后问题会消失，所以基本确定不是应用本身的问题，而是在升级过程中应用的更新出了问题。</p>
+<p>接着用adb shell dumpsys package对比了一下OTA前后应用的信息，发现升级前后应用的版本号等信息都没有变化，但是恢复出场后的应用版本是不一样的，但是/system分区中的应用拉出来看是换成了新应用的。很明显，就是在升级过程中应用的扫描出了问题，导致应用的信息没有得到更新。那应用的信息为什么没有升级成功呢？恢复出厂设置后问题消失，说明新的版本也是没问题的，恢复出厂主要就是清除/data中的东西，而OTA升级是不会清除/data的，是不是/data中缓存了什么东西导致了应用的信息没有得到更新？</p>
+<p>对这部分的代码不是很清楚，所以就用了个本办法，在PackageManagerService中搜索“OTA”，找到了下面的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If this is first boot after an OTA, and a normal boot, then</span></span><br><span class="line"><span class="comment">// we need to clear code cache directories.</span></span><br><span class="line"><span class="comment">// Note that we do *not* clear the application profiles. These remain valid</span></span><br><span class="line"><span class="comment">// across OTAs and are used to drive profile verification (post OTA) and</span></span><br><span class="line"><span class="comment">// profile compilation (without waiting to collect a fresh set of profiles).</span></span><br><span class="line"><span class="keyword">if</span> (mIsUpgrade &amp;&amp; !onlyCore) &#123;</span><br><span class="line">    Slog.i(TAG, <span class="string">"Build fingerprint changed; clearing code caches"</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mSettings.mPackages.size(); i++) &#123;</span><br><span class="line">        <span class="keyword">final</span> PackageSetting ps = mSettings.mPackages.valueAt(i);</span><br><span class="line">        <span class="keyword">if</span> (Objects.equals(StorageManager.UUID_PRIVATE_INTERNAL, ps.volumeUuid)) &#123;</span><br><span class="line">            <span class="comment">// No apps are running this early, so no need to freeze</span></span><br><span class="line">            clearAppDataLIF(ps.pkg, UserHandle.USER_ALL,</span><br><span class="line">                    StorageManager.FLAG_STORAGE_DE | StorageManager.FLAG_STORAGE_CE</span><br><span class="line">                            | Installer.FLAG_CLEAR_CODE_CACHE_ONLY);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ver.fingerprint = Build.FINGERPRINT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>里面有个log输出，在正常升级中应该是能输出的，但是做了到userdebug的升级包，抓了log后没发现这个记录，也就是说<code>mIsUpgrade &amp;&amp; !onlyCore</code>这条件不满足。正常启动中<code>!onlyCore</code>这个条件肯定是满足的（加密第一次启动时才不满足），所以mIsUpgrade这个是false的，也就是说PKMS压根就没觉得这是升级了。</p>
+<p>看看mIsUpgrade的值是怎么确定的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> VersionInfo ver = mSettings.getInternalVersion();</span><br><span class="line">mIsUpgrade = !Build.FINGERPRINT.equals(ver.fingerprint);</span><br></pre></td></tr></table></figure></p>
+<p>也就是说比较两个版本的指纹，如果不相同才判定为升级。<code>mSettings.getInternalVersion()</code>的结果可以在dumpsys package的头几行看到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Database versions:</span><br><span class="line">  Internal:</span><br><span class="line">    sdkVersion=28 databaseVersion=3 </span><br><span class="line">    fingerprint=Mobicel/HYPE/HYPE:8.1.0/O11019/1533524463:user/release-keys </span><br><span class="line">  External:</span><br><span class="line">    sdkVersion=28 databaseVersion=3 </span><br><span class="line">    fingerprint=Mobicel/HYPE/HYPE:8.1.0/O11019/1533524463:user/release-keys</span><br></pre></td></tr></table></figure></p>
+<p>然后看了两个版本的指纹，发现确实是一样的，所以PKMS认为这不是在升级。</p>
+<p>在PKMS的构造方法中会对预置的apk进行扫描，不管是不是升级、是不是第一次启动，然后和packages.xml里的信息进行比较。前面也说了手机里的apk已经发生变化了，那么按说扫描过程中也会更新应用的信息吧？这就又回到刚才说的缓存问题了。在PKMS的构造方法里看了下，发现了下面的内容：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mCacheDir = preparePackageParserCache(mIsUpgrade);</span><br></pre></td></tr></table></figure>
+<p>看起来和缓存有关，而且还和升级有关，很可能就是这个了。mCacheDir的作用没有注释，那就进这方法里看下吧：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> File <span class="title">preparePackageParserCache</span><span class="params">(<span class="keyword">boolean</span> isUpgrade)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!DEFAULT_PACKAGE_PARSER_CACHE_ENABLED) &#123;<span class="comment">//是否开启缓存</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Disable package parsing on eng builds to allow for faster incremental development.</span></span><br><span class="line">    <span class="keyword">if</span> (Build.IS_ENG) &#123;<span class="comment">//ENG版本不使用缓存</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (SystemProperties.getBoolean(<span class="string">"pm.boot.disable_package_cache"</span>, <span class="keyword">false</span>)) &#123;</span><br><span class="line">        Slog.i(TAG, <span class="string">"Disabling package parser cache due to system property."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The base directory for the package parser cache lives under /data/system/.</span></span><br><span class="line">    <span class="keyword">final</span> File cacheBaseDir = FileUtils.createDir(Environment.getDataSystemDirectory(),</span><br><span class="line">            <span class="string">"package_cache"</span>);</span><br><span class="line">    <span class="keyword">if</span> (cacheBaseDir == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If this is a system upgrade scenario, delete the contents of the package cache dir.</span></span><br><span class="line">    <span class="comment">// This also serves to "GC" unused entries when the package cache version changes (which</span></span><br><span class="line">    <span class="comment">// can only happen during upgrades).</span></span><br><span class="line">    <span class="keyword">if</span> (isUpgrade) &#123;</span><br><span class="line">        FileUtils.deleteContents(cacheBaseDir);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Return the versioned package cache directory. This is something like</span></span><br><span class="line">    <span class="comment">// "/data/system/package_cache/1"</span></span><br><span class="line">    File cacheDir = FileUtils.createDir(cacheBaseDir, PACKAGE_PARSER_CACHE_VERSION);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (cacheDir == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Something went wrong. Attempt to delete everything and return.</span></span><br><span class="line">        Slog.wtf(TAG, <span class="string">"Cache directory cannot be created - wiping base dir "</span> + cacheBaseDir);</span><br><span class="line">        FileUtils.deleteContentsAndDir(cacheBaseDir);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The following is a workaround to aid development on non-numbered userdebug</span></span><br><span class="line">    <span class="comment">// builds or cases where "adb sync" is used on userdebug builds. If we detect that</span></span><br><span class="line">    <span class="comment">// the system partition is newer.</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// <span class="doctag">NOTE:</span> When no BUILD_NUMBER is set by the build system, it defaults to a build</span></span><br><span class="line">    <span class="comment">// that starts with "eng." to signify that this is an engineering build and not</span></span><br><span class="line">    <span class="comment">// destined for release.</span></span><br><span class="line">    <span class="keyword">if</span> (Build.IS_USERDEBUG &amp;&amp; Build.VERSION.INCREMENTAL.startsWith(<span class="string">"eng."</span>)) &#123;</span><br><span class="line">        Slog.w(TAG, <span class="string">"Wiping cache directory because the system partition changed."</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Heuristic: If the /system directory has been modified recently due to an "adb sync"</span></span><br><span class="line">        <span class="comment">// or a regular make, then blow away the cache. Note that mtimes are *NOT* reliable</span></span><br><span class="line">        <span class="comment">// in general and should not be used for production changes. In this specific case,</span></span><br><span class="line">        <span class="comment">// we know that they will work.</span></span><br><span class="line">        File frameworkDir = <span class="keyword">new</span> File(Environment.getRootDirectory(), <span class="string">"framework"</span>);</span><br><span class="line">        <span class="keyword">if</span> (cacheDir.lastModified() &lt; frameworkDir.lastModified()) &#123;</span><br><span class="line">            FileUtils.deleteContents(cacheBaseDir);</span><br><span class="line">            cacheDir = FileUtils.createDir(cacheBaseDir, PACKAGE_PARSER_CACHE_VERSION);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cacheDir;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面的代码可以得到这个缓存的以下信息：</p>
+<ul>
+<li>可以在代码里通过DEFAULT_PACKAGE_PARSER_CACHE_ENABLED配置是否使用缓存；</li>
+<li>eng版本默认关闭缓存；</li>
+<li>可以通过pm.boot.disable_package_cache属性控制是否使用缓存；</li>
+<li>缓存位于/data/system/package_cache/；</li>
+<li>升级后第一次开机会清空缓存，然后重新创建；</li>
+<li>通过adb sync更新system分区的东西后，也会重新创建缓存；</li>
+</ul>
+<p>下面再来看下缓存是怎么对应用的更新产生影响的。以前大致了解过PKMS启动过程，PKMS扫描预置应用包含以下流程，<br>PKMS构造方法-&gt;scanDirTracedLI()-&gt; scanDirLI()，然后就进入了应用解析的流程，来看下scanDirLI（）的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//scanDir就是system/app等目录</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">scanDirLI</span><span class="params">(File scanDir, <span class="keyword">int</span> parseFlags, <span class="keyword">int</span> scanFlags, <span class="keyword">long</span> currentTime)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">final</span> File[] files = scanDir.listFiles();</span><br><span class="line">     <span class="keyword">if</span> (ArrayUtils.isEmpty(files)) &#123;</span><br><span class="line">         Log.d(TAG, <span class="string">"No files in app dir "</span> + scanDir);</span><br><span class="line">         <span class="keyword">return</span>;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="comment">//……</span></span><br><span class="line">     <span class="keyword">try</span> (ParallelPackageParser parallelPackageParser = <span class="keyword">new</span> ParallelPackageParser(</span><br><span class="line">             mSeparateProcesses, mOnlyCore, mMetrics, mCacheDir,</span><br><span class="line">             mParallelPackageParserCallback)) &#123;</span><br><span class="line">         <span class="comment">// Submit files for parsing in parallel</span></span><br><span class="line">         <span class="keyword">int</span> fileCount = <span class="number">0</span>;</span><br><span class="line">         <span class="keyword">for</span> (File file : files) &#123;</span><br><span class="line">             <span class="keyword">final</span> <span class="keyword">boolean</span> isPackage = (isApkFile(file) || file.isDirectory())</span><br><span class="line">                     &amp;&amp; !PackageInstallerService.isStageName(file.getName());</span><br><span class="line">             <span class="keyword">if</span> (!isPackage) &#123;</span><br><span class="line">                 <span class="comment">// Ignore entries which are not packages</span></span><br><span class="line">                 <span class="keyword">continue</span>;</span><br><span class="line">             &#125;</span><br><span class="line">             parallelPackageParser.submit(file, parseFlags);</span><br><span class="line">             fileCount++;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="comment">//……</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在构造<code>parallelPackageParser</code>时会将<code>mCacheDir</code>传递给构造方法，然后在commit（）中传递给PackageParser，应用的解析最终都是通过PackageParser进行的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Submits the file for parsing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> scanFile file to scan</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> parseFlags parse falgs</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">submit</span><span class="params">(File scanFile, <span class="keyword">int</span> parseFlags)</span> </span>&#123;</span><br><span class="line">    mService.submit(() -&gt; &#123;</span><br><span class="line">        ParseResult pr = <span class="keyword">new</span> ParseResult();</span><br><span class="line">        Trace.traceBegin(TRACE_TAG_PACKAGE_MANAGER, <span class="string">"parallel parsePackage ["</span> + scanFile + <span class="string">"]"</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//……</span></span><br><span class="line">            pp.setCacheDir(mCacheDir);</span><br><span class="line">            <span class="comment">//……</span></span><br><span class="line">            pr.pkg = parsePackage(pp, scanFile, parseFlags);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            pr.throwable = e;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            Trace.traceEnd(TRACE_TAG_PACKAGE_MANAGER);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//……</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之后在下面的方法中调用PackageParser中的方法进行应用解析：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> PackageParser.<span class="function">Package <span class="title">parsePackage</span><span class="params">(PackageParser packageParser, File scanFile,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> parseFlags)</span> <span class="keyword">throws</span> PackageParser.PackageParserException </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> packageParser.parsePackage(scanFile, parseFlags, <span class="keyword">true</span> <span class="comment">/* useCaches */</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>PackageParser解析应用方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * If &#123;<span class="doctag">@code</span> useCaches&#125; is true, the package parser might return a cached</span></span><br><span class="line"><span class="comment"> * result from a previous parse of the same &#123;<span class="doctag">@code</span> packageFile&#125; with the same</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> flags&#125;. Note that this method does not check whether &#123;<span class="doctag">@code</span> packageFile&#125;</span></span><br><span class="line"><span class="comment"> * has changed since the last parse, it's up to callers to do so.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> #parsePackageLite(File, int)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Package <span class="title">parsePackage</span><span class="params">(File packageFile, <span class="keyword">int</span> flags, <span class="keyword">boolean</span> useCaches)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> PackageParserException </span>&#123;<span class="comment">//parallelPackageParser传过来的useCaches是true的</span></span><br><span class="line">    Package parsed = useCaches ? getCachedResult(packageFile, flags) : <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (parsed != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> parsed;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">long</span> parseTime = LOG_PARSE_TIMINGS ? SystemClock.uptimeMillis() : <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (packageFile.isDirectory()) &#123;</span><br><span class="line">        parsed = parseClusterPackage(packageFile, flags);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        parsed = parseMonolithicPackage(packageFile, flags);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">long</span> cacheTime = LOG_PARSE_TIMINGS ? SystemClock.uptimeMillis() : <span class="number">0</span>;</span><br><span class="line">    cacheResult(packageFile, flags, parsed);</span><br><span class="line">    <span class="comment">//……</span></span><br><span class="line">    <span class="keyword">return</span> parsed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注释里说的很清楚，如果使用缓存，则可能返回上次解析的结果（路径和flags一样），不管应用是不是发生了变化，这是调用者应该关心的。代码的逻辑也很简单，如果存在缓存就从缓存了获取结果直接返回；否则重新进行解析，并缓存结果。来看下缓存的获取过程：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Returns the cached parse result for &#123;<span class="doctag">@code</span> packageFile&#125; for parse flags &#123;<span class="doctag">@code</span> flags&#125;,</span></span><br><span class="line"><span class="comment">  * or &#123;<span class="doctag">@code</span> null&#125; if no cached result exists.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="function"><span class="keyword">private</span> Package <span class="title">getCachedResult</span><span class="params">(File packageFile, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (mCacheDir == <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">final</span> String cacheKey = getCacheKey(packageFile, flags);</span><br><span class="line">     <span class="keyword">final</span> File cacheFile = <span class="keyword">new</span> File(mCacheDir, cacheKey);</span><br><span class="line"></span><br><span class="line">     <span class="keyword">try</span> &#123;</span><br><span class="line">         <span class="comment">// If the cache is not up to date, return null.</span></span><br><span class="line">         <span class="keyword">if</span> (!isCacheUpToDate(packageFile, cacheFile)) &#123;</span><br><span class="line">             <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">final</span> <span class="keyword">byte</span>[] bytes = IoUtils.readFileAsByteArray(cacheFile.getAbsolutePath());</span><br><span class="line">         Package p = fromCacheEntry(bytes);</span><br><span class="line">         <span class="keyword">if</span> (mCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">             String[] overlayApks = mCallback.getOverlayApks(p.packageName);</span><br><span class="line">             <span class="keyword">if</span> (overlayApks != <span class="keyword">null</span> &amp;&amp; overlayApks.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                 <span class="keyword">for</span> (String overlayApk : overlayApks) &#123;</span><br><span class="line">                     <span class="comment">// If a static RRO is updated, return null.</span></span><br><span class="line">                     <span class="keyword">if</span> (!isCacheUpToDate(<span class="keyword">new</span> File(overlayApk), cacheFile)) &#123;</span><br><span class="line">                         <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> p;</span><br><span class="line">     &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">         Slog.w(TAG, <span class="string">"Error reading package cache: "</span>, e);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// If something went wrong while reading the cache entry, delete the cache file</span></span><br><span class="line">         <span class="comment">// so that we regenerate it the next time.</span></span><br><span class="line">         cacheFile.delete();</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>该方法会从以byte数组的形式读取缓存然后再把结果转换成Package对象，也就是说缓存里缓存的不是apk本身，而是对Package对象的持久化。另外有三种情况下缓存会返回null:</p>
+<pre><code>- 缓存的修改时间比apk的早（可以通过stat命令查看时间）；
+- apk 任何一个rro的修改时间比缓存修改时间晚；
+- 获取缓存出错，此时会删除缓存，等下次再生成；
+</code></pre><p>通过上面的代码可以知道，缓存在两种情况下不会影响升级，一是系统认为是升级，会把缓存清掉，等应用解析完再创建；二是应用（或RRO）的修改时间比缓存晚，按说通过OTA后的应用修改时间应该比旧版本的缓存新的，但是不知道为什么，升级后system/app的修改时间是2009-01-01的（看了Pixel的时间也是这样，不知道是不是bug），而缓存的时间是最近的，所以最后缓存还是生效了……信息是老的，但是运行的时候是用的新应用，然后就出现了乱七八糟的问题。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以前看PKMS扫描应用的时候把缓存部分跳过去了，所以遇到相关问题时还要分析log、重新看代码，解决问题的逻辑也不是很顺畅，不过连蒙带猜结合代码还是找到原因了。虽然发现是指纹的问题，不需要修改，但是补充了一个PKMS的知识点，还是有点收获的。</p>
+<p>最后还是简单的总结下这个问题：因为项目还在开发中，为了方便测试，项目负责人设置了一个固定的指纹，导致OTA后PKMS不知道升级了，没有清除缓存；而且OTA后应用的时间是2009年的，导致PKMS认为缓存比应用新，是可用的，所以直接从缓存中反持久化了Package对象，这就导致了应用是新的但是信息是旧的，两者是不匹配的就出了一堆莫名其妙的问题。之前的版本应用没有进行大的改动，所以没发现这个问题，这次恰好升级了GMS包，就暴露了出来。所以说，项目的指纹最好是每个版本自动变化啊……</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/16/android:documentLaunchMode属性的作用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">android:documentLaunchMode属性的作用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题场景"><span class="nav-number">2.</span> <span class="nav-text">问题场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题分析过程"><span class="nav-number">3.</span> <span class="nav-text">问题分析过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            得一
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 me All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

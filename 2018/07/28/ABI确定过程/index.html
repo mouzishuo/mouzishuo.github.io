@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>abi确定过程 | 得一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AndroidPackageManagerServicePKMSABI">
+  
+  
+  
+  
+  <meta name="description" content="ABI确定过程之所以了解这块内容，是因为在项目中出现了一个奇怪的问题：64位的代码编译刷机后，多个app无法运行，点击后直接闪退，log提示是找不到dex文件。问题非必现，但是第一次启动后如果存在该问题，之后就会一直存在该问题。但是恢复出厂设置和重新刷机后问题可能会消失。 经人提示是32和62位相关的东西引起的，看log发现出问题的apk都是64位的，但是查找的路径是32位的，所以找不到。 问题的">
+<meta name="keywords" content="Android,PackageManagerService,PKMS,ABI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ABI确定过程">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/07/28/ABI确定过程/index.html">
+<meta property="og:site_name" content="得一">
+<meta property="og:description" content="ABI确定过程之所以了解这块内容，是因为在项目中出现了一个奇怪的问题：64位的代码编译刷机后，多个app无法运行，点击后直接闪退，log提示是找不到dex文件。问题非必现，但是第一次启动后如果存在该问题，之后就会一直存在该问题。但是恢复出厂设置和重新刷机后问题可能会消失。 经人提示是32和62位相关的东西引起的，看log发现出问题的apk都是64位的，但是查找的路径是32位的，所以找不到。 问题的">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.2cto.com/uploadfile/Collfiles/20170930/20170930113542587.png">
+<meta property="og:updated_time" content="2018-08-15T02:46:40.052Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ABI确定过程">
+<meta name="twitter:description" content="ABI确定过程之所以了解这块内容，是因为在项目中出现了一个奇怪的问题：64位的代码编译刷机后，多个app无法运行，点击后直接闪退，log提示是找不到dex文件。问题非必现，但是第一次启动后如果存在该问题，之后就会一直存在该问题。但是恢复出厂设置和重新刷机后问题可能会消失。 经人提示是32和62位相关的东西引起的，看log发现出问题的apk都是64位的，但是查找的路径是32位的，所以找不到。 问题的">
+<meta name="twitter:image" content="https://www.2cto.com/uploadfile/Collfiles/20170930/20170930113542587.png">
+  
+
+  
+
+  <link rel="icon" href="/css/images/avatar.jpg">
+  <link rel="apple-touch-icon" href="/css/images/avatar.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-ABI确定过程" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      ABI确定过程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/28/ABI确定过程/" class="article-date">
+	  <time datetime="2018-07-28T06:21:08.000Z" itemprop="datePublished">2018-07-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android基础/">Android基础</a><a class="article-category-link" href="/categories/Android基础/应用安装/">应用安装</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="ABI确定过程"><a href="#ABI确定过程" class="headerlink" title="ABI确定过程"></a>ABI确定过程</h1><p>之所以了解这块内容，是因为在项目中出现了一个奇怪的问题：64位的代码编译刷机后，多个app无法运行，点击后直接闪退，log提示是找不到dex文件。问题非必现，但是第一次启动后如果存在该问题，之后就会一直存在该问题。但是恢复出厂设置和重新刷机后问题可能会消失。</p>
+<p>经人提示是32和62位相关的东西引起的，看log发现出问题的apk都是64位的，但是查找的路径是32位的，所以找不到。</p>
+<p>问题的log如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: FATAL EXCEPTION: main</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: Process: com.android.deskclock, PID: 1344</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: java.lang.RuntimeException: Unable to instantiate application com.android.deskclock.DeskClockApplication: java.lang.ClassNotFoundException: Didn't find class "com.android.deskclock.DeskClockApplication" on path: DexPathList[[zip file "/system/app/ApeDeskClock80/ApeDeskClock80.apk"],nativeLibraryDirectories=[/system/app/ApeDeskClock80/lib/arm64, /system/app/ApeDeskClock80/ApeDeskClock80.apk!/lib/armeabi, /system/lib, /vendor/lib, /system/lib, /vendor/lib]]</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.app.LoadedApk.makeApplication(LoadedApk.java:999)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:5742)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.app.ActivityThread.-wrap1(Unknown Source:0)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1680)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:164)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:6523)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:438)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:857)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: Caused by: java.lang.ClassNotFoundException: Didn't find class "com.android.deskclock.DeskClockApplication" on path: DexPathList[[zip file "/system/app/ApeDeskClock80/ApeDeskClock80.apk"],nativeLibraryDirectories=[/system/app/ApeDeskClock80/lib/arm64, /system/app/ApeDeskClock80/ApeDeskClock80.apk!/lib/armeabi, /system/lib, /vendor/lib, /system/lib, /vendor/lib]]</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:125)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at java.lang.ClassLoader.loadClass(ClassLoader.java:379)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at java.lang.ClassLoader.loadClass(ClassLoader.java:312)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.app.Instrumentation.newApplication(Instrumentation.java:1087)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	at android.app.LoadedApk.makeApplication(LoadedApk.java:993)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	... 9 more</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 	Suppressed: java.io.IOException: No original dex files found for dex location /system/app/ApeDeskClock80/ApeDeskClock80.apk</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.DexFile.openDexFileNative(Native Method)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.DexFile.openDexFile(DexFile.java:353)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.DexFile.&lt;init&gt;(DexFile.java:100)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.DexFile.&lt;init&gt;(DexFile.java:74)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.DexPathList.loadDexFile(DexPathList.java:374)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.DexPathList.makeDexElements(DexPathList.java:337)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.DexPathList.&lt;init&gt;(DexPathList.java:157)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.BaseDexClassLoader.&lt;init&gt;(BaseDexClassLoader.java:65)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at dalvik.system.PathClassLoader.&lt;init&gt;(PathClassLoader.java:64)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at com.android.internal.os.ClassLoaderFactory.createClassLoader(ClassLoaderFactory.java:73)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at com.android.internal.os.ClassLoaderFactory.createClassLoader(ClassLoaderFactory.java:88)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at android.app.ApplicationLoaders.getClassLoader(ApplicationLoaders.java:69)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at android.app.ApplicationLoaders.getClassLoader(ApplicationLoaders.java:35)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at android.app.LoadedApk.createOrUpdateClassLoaderLocked(LoadedApk.java:703)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at android.app.LoadedApk.getClassLoader(LoadedApk.java:737)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at android.app.LoadedApk.getResources(LoadedApk.java:964)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at android.app.ContextImpl.createAppContext(ContextImpl.java:2271)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		at android.app.ActivityThread.handleBindApplication(ActivityThread.java:5666)</span><br><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: 		... 8 more</span><br><span class="line"></span><br><span class="line">……</span><br><span class="line">01-01 12:16:15.024   800   800 W PackageManager: Instruction set mismatch, PackageSetting&#123;2aef961 com.ape.factory/1000&#125; requires arm whereas PackageSetting&#123;324db9c factory.tinnosnew.tinno.ui.test/1000&#125; requires arm64</span><br><span class="line">01-01 12:16:15.024   800   800 W PackageManager: Instruction set mismatch, PackageSetting&#123;2aef961 com.ape.factory/1000&#125; requires arm whereas PackageSetting&#123;8fef249 com.android.settings/1000&#125; requires arm64</span><br></pre></td></tr></table></figure>
+<p>刚开始无从下手，先百度。然后找到两篇博客和这个问题一模一样。</p>
+<p><a href="https://blog.csdn.net/buding_code/article/details/54633048" target="_blank" rel="noopener">https://blog.csdn.net/buding_code/article/details/54633048</a></p>
+<p><a href="https://blog.csdn.net/qq_37610155/article/details/78607276" target="_blank" rel="noopener">https://blog.csdn.net/qq_37610155/article/details/78607276</a></p>
+<p>问题原因都是同一个uid的app有的是32位的有的是64位的，uid都是1000 ，也就是是android.uid.system。从问题的现象可以推断该问题和第一次启动时的某些操作有关，另外和同uid的32位应用有关。根据这两篇博客在log中查找关键词Instruction set mismatch，找到32应用为com.ape.factory。问题点找到了，根据“Instruction set mismatch”的log可以追到PKMS中的adjustCpuAbisForSharedUserLPw方法，从方法名看是用来调整相同uid应用的cpuAbi的，那就来了解下ABI是什么，以及为什么会出现这个问题。</p>
+<blockquote>
+<p>以下关于ABI确定过程的内容来自：<a href="https://www.2cto.com/kf/201709/687437.html。" target="_blank" rel="noopener">https://www.2cto.com/kf/201709/687437.html。</a></p>
+</blockquote>
+<hr>
+<p>所谓的ABI全称是application binary interface，是一个机器语言级别的接口，描述的是二进制代码之间的兼容性，也就是说一起工作的二进制文件必须是ABI兼容的。</p>
+<p>我们都知道Android现在支持的CPU架构大概有：ARMv5，ARMv7 (从2010年起)，x86 (从2011年起)，MIPS (从2012年起)，ARMv8，MIPS64和x86_64这么多种，在Android<a href="https://www.2cto.com/os/" target="_blank" rel="noopener">系统</a>中，上面的每一种CPU架构都关联着一个相应的ABI。如果某个app使用了.so文件，那Android系统就必须要保证这个app进程所关联的ABI要和.so文件所依赖的ABI对应，否则这个app就可能会因为找不到需要的so文件而无法正常运行。今天这篇文章就来介绍一下Android系统是如何决定每个app进程以哪种ABI形式来启动的。</p>
+<h2 id="1-abi相关property"><a href="#1-abi相关property" class="headerlink" title="1. abi相关property"></a>1. abi相关property</h2><p>我们先来看几个和abi相关的系统property(以我自己的系统为例):</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ro.product.cpu.abilist] : [arm64-v8a, armeabi-v7a, armeabi]</span><br><span class="line">[ro.product.cpu.abilist32] : [armeabi-v7a, armeabi]</span><br><span class="line">[ro.product.cpu.abilist64] : [arm64-v8a]</span><br></pre></td></tr></table></figure>
+<p>ro.product.cpu.abilist的值表明当前系统所支持所有的ABI类型 ro.product.cpu.abilist32和ro.product.cpu.abilist64分别表示系统所支持的32位和64位的ABI类型。 需要注意的是，这些property的排序代表着ABI的优先级，比如ro.product.cpu.abilist的值里arm64-v8a排在第一个，就表明如果没有指定，arm64-v8a就会成为app进程默认启动的关联ABI。</p>
+<h2 id="2-app进程启动流程"><a href="#2-app进程启动流程" class="headerlink" title="2. app进程启动流程"></a>2. app进程启动流程</h2><p>下面这张图是Android系统启动一个新进程的流程图：</p>
+<p><img src="https://www.2cto.com/uploadfile/Collfiles/20170930/20170930113542587.png" alt=""></p>
+<p>可以看到，Android系统中启动新的app进程都是通过socket机制通知zygote进程，然后由zogote进程启动新的app进程。图中有几个关键的函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">startProcessLocked(ProcessRecord app, String hostingType,</span><br><span class="line">            String hostingNameStr, String abiOverride, String entryPoint, String[] entryPointArgs) &#123;</span><br><span class="line">    ... ...</span><br><span class="line"> </span><br><span class="line">    String requiredAbi = (abiOverride != <span class="keyword">null</span>) ? abiOverride : app.info.primaryCpuAbi;</span><br><span class="line">    <span class="keyword">if</span> (requiredAbi == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// Build.SUPPORTED_ABIS[0]的值就是ro.product.cpu.abilist这个property的值的第一项</span></span><br><span class="line">        requiredAbi = Build.SUPPORTED_ABIS[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    app.requiredAbi = requiredAbi;</span><br><span class="line"> </span><br><span class="line">    Process.ProcessStartResult startResult = Process.start(entryPoint,</span><br><span class="line">                    app.processName, uid, uid, gids, debugFlags, mountExternal,</span><br><span class="line">                    app.info.targetSdkVersion, app.info.seinfo, requiredAbi, instructionSet,</span><br><span class="line">                    app.info.dataDir, entryPointArgs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>startProcessLocked方法里确定app进程的关联abi过程如下：</p>
+<p>如果abiOverride非空的话，就使用abiOverride的值，否则使用app.info.primaryCpuAbi的值 如果app.info.primaryCpuAbi也为空，则使用ro.product.cpu.abilist这个property的值的第一项 关于abiOverride的值，其实我也并不知道它是哪里来的，但是一般情况下，这个值都是空的.</p>
+<h2 id="3-primaryCpuAbi值的确定"><a href="#3-primaryCpuAbi值的确定" class="headerlink" title="3. primaryCpuAbi值的确定"></a>3. primaryCpuAbi值的确定</h2><p>上面提到过app.info.primaryCpuAbi的值会对app进程最终的运行架构产生影响，那app.info.primaryCpuAbi的值又是在哪里确定的呢，答案就在PKMS(PackageManagerService)里。</p>
+<p>在PKMS里有两处会对app.info.primaryCpuAbi的值产生影响，分别在scanPackageDirtyLI和adjustCpuAbisForSharedUserLPw两个方法里。</p>
+<h3 id="3-1-非第一次开机，直接读取"><a href="#3-1-非第一次开机，直接读取" class="headerlink" title="3.1 非第一次开机，直接读取"></a>3.1 非第一次开机，直接读取</h3><p>如果手机不是第一次开机或者升级，则应用的ABI直接从packages.xml中读取。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((scanFlags &amp; SCAN_FIRST_BOOT_OR_UPGRADE) == <span class="number">0</span>) &#123;</span><br><span class="line">    PackageSetting foundPs = mSettings.getPackageLPr(pkg.packageName);</span><br><span class="line">    <span class="keyword">if</span> (foundPs != <span class="keyword">null</span>) &#123;</span><br><span class="line">        primaryCpuAbiFromSettings = foundPs.primaryCpuAbiString;</span><br><span class="line">        secondaryCpuAbiFromSettings = foundPs.secondaryCpuAbiString;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-scanPackageDirtyLI"><a href="#3-2-scanPackageDirtyLI" class="headerlink" title="3.2 scanPackageDirtyLI"></a>3.2 scanPackageDirtyLI</h3><p>先看看scanPackageDirtyLI方法里和primaryCpuAbi相关的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">scanPackageDirtyLI() &#123;</span><br><span class="line">    ... ...</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 这个方法里会通过apk包里包含的so库的架构来决定app的primaryCpuAbi的值</span></span><br><span class="line">    derivePackageAbi(pkg, scanFile, cpuAbiOverride, extractNativeLibs,</span><br><span class="line">                        mAppLib32InstallDir);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (isSystemApp(pkg) &amp;&amp; !pkg.isUpdatedSystemApp() &amp;&amp;</span><br><span class="line">            pkg.applicationInfo.primaryCpuAbi == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果是system app，并且这个app没有通过上面的函数找到primaryCpuAbi的值</span></span><br><span class="line">        setBundledAppAbisAndRoots(pkg, pkgSetting);</span><br><span class="line">        <span class="comment">// setNativeLibraryPaths方法会根据CpuAbi的值确定apk使用的so库的安装路径</span></span><br><span class="line">        setNativeLibraryPaths(pkg);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    ... ...</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 当前解析的apk是framework-res.apk, 对这个特殊的apk, 让它的ABI值的系统相同</span></span><br><span class="line">    <span class="comment">// 在我这里，它就是arm64-v8a</span></span><br><span class="line">    <span class="keyword">if</span> (mPlatformPackage == pkg) &#123;</span><br><span class="line">        pkg.applicationInfo.primaryCpuAbi = VMRuntime.getRuntime().is64Bit() ?</span><br><span class="line">                Build.SUPPORTED_64_BIT_ABIS[<span class="number">0</span>] : Build.SUPPORTED_32_BIT_ABIS[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的这段代码可以看到：</p>
+<p>对所有的app，会先通过derivePackageAbi()方法尝试确定app的primaryCpuAbi的值 如果是system app, 并且通过derivePackageAbi()方法没有确定primaryCpuAbi的值，会再尝试通过setBundledAppAbisAndRoots()方法来确定 需要注意的是，无论是第三方app还是系统app, 运行完这段代码之后，仍然存在primaryCpuAbi值为空的情况，这是正常现象.</p>
+<p>接着先来看下derivePackageAbi()方法是如何确定primaryCpuAbi的值的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">derivePackageAbi</span><span class="params">(PackageParser.Package pkg, File scanFile,</span></span></span><br><span class="line"><span class="function"><span class="params">                                 String cpuAbiOverride, <span class="keyword">boolean</span> extractLibs)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里会先设置一个默认的so库安装路径</span></span><br><span class="line">    setNativeLibraryPaths(pkg);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (isMultiArch(pkg.applicationInfo)) &#123;</span><br><span class="line">        <span class="comment">// 这里处理的是支持两种abi的apk, 这种apk的AndroidManifest.xml里会设置android:multiarch为true</span></span><br><span class="line">        ... ...</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        String[] abiList = (cpuAbiOverride != <span class="keyword">null</span>) ?</span><br><span class="line">                <span class="keyword">new</span> String[] &#123; cpuAbiOverride &#125; : Build.SUPPORTED_ABIS;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> copyRet;</span><br><span class="line">        <span class="comment">// 这是一个JNI函数，作用就是根据apk包里的lib/目录下的.so的ABI确定返回值</span></span><br><span class="line">        copyRet = NativeLibraryHelper.copyNativeBinariesForSupportedAbi(handle,</span><br><span class="line">                nativeLibraryRoot, abiList, useIsaSpecificSubdirs);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// 根据copyRet的值，确定当前app的primaryCpuAbi值</span></span><br><span class="line">        <span class="keyword">if</span> (copyRet &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            pkg.applicationInfo.primaryCpuAbi = abiList[copyRet];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (copyRet == PackageManager.NO_NATIVE_LIBRARIES &amp;&amp; cpuAbiOverride != <span class="keyword">null</span>) &#123;</span><br><span class="line">            pkg.applicationInfo.primaryCpuAbi = cpuAbiOverride;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (needsRenderScriptOverride) &#123;</span><br><span class="line">            pkg.applicationInfo.primaryCpuAbi = abiList[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 到这里有一些app已经确定了primaryCpuAbi的值，所以再调一次这个函数，更新它使用的.so库的安装位置</span></span><br><span class="line">    setNativeLibraryPaths(pkg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过这段代码会可以看出：</p>
+<p>一些apk包里lib目录下有.so文件的，可以通过.so文件的ABI来确定app的primaryCpuAbi的值 对于那些lib下没有.so文件的apk, 比如不使用so库的或者是系统app，运行完这个方法之后，primaryCpuAbi的值仍然是空</p>
+<p>接下来看下系统app是如何通过setBundledAppAbisAndRoots()方法来确定primaryCpuAbi的值的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setBundledAppAbisAndRoots</span><span class="params">(PackageParser.Package pkg,</span></span></span><br><span class="line"><span class="function"><span class="params">                                    PackageSetting pkgSetting)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> String apkName = deriveCodePathName(pkg.applicationInfo.getCodePath());</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">final</span> String apkRoot = calculateBundledApkRoot(pkg.applicationInfo.sourceDir);</span><br><span class="line">    <span class="comment">// 使用setBundledAppAbi()方法确定primaryCpuAbi值</span></span><br><span class="line">    setBundledAppAbi(pkg, apkRoot, apkName);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (pkgSetting != <span class="keyword">null</span>) &#123;</span><br><span class="line">        pkgSetting.primaryCpuAbiString = pkg.applicationInfo.primaryCpuAbi;</span><br><span class="line">        pkgSetting.secondaryCpuAbiString = pkg.applicationInfo.secondaryCpuAbi;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setBundledAppAbi</span><span class="params">(PackageParser.Package pkg, String apkRoot, String apkName)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> File codeFile = <span class="keyword">new</span> File(pkg.codePath);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> has64BitLibs;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> has32BitLibs;</span><br><span class="line">    <span class="keyword">if</span> (isApkFile(codeFile)) &#123;</span><br><span class="line">        <span class="comment">// 只有framework-res.apk这个包会进这个if分支，has64BitLibs和has32BitLibs的值都是false</span></span><br><span class="line">        <span class="comment">// 在前面scanPackageDirtyLI里有说过，这个app的primaryCpuAbi的值是arm64-v8a</span></span><br><span class="line">        has64BitLibs = (<span class="keyword">new</span> File(apkRoot, <span class="keyword">new</span> File(LIB64_DIR_NAME, apkName).getPath())).exists();</span><br><span class="line">        has32BitLibs = (<span class="keyword">new</span> File(apkRoot, <span class="keyword">new</span> File(LIB_DIR_NAME, apkName).getPath())).exists();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 对于其它的app, codeFile是apk所在的路径</span></span><br><span class="line">        <span class="keyword">final</span> File rootDir = <span class="keyword">new</span> File(codeFile, LIB_DIR_NAME);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">final</span> String isa = VMRuntime.getInstructionSet(Build.SUPPORTED_64_BIT_ABIS[<span class="number">0</span>]);</span><br><span class="line">        <span class="comment">// 通过判断/system/app/$&#123;APP_NAME&#125;/lib64这个文件夹是否存在决定has64BitLibs的值</span></span><br><span class="line">        has64BitLibs = (<span class="keyword">new</span> File(rootDir, isa)).exists();</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">final</span> String isa = VMRuntime.getInstructionSet(Build.SUPPORTED_32_BIT_ABIS[<span class="number">0</span>]);</span><br><span class="line">        <span class="comment">// 通过判断/system/app/$&#123;APP_NAME&#125;/lib这个文件夹是否存在决定has32BitLibs的值</span></span><br><span class="line">        has32BitLibs = (<span class="keyword">new</span> File(rootDir, isa)).exists();</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 下面这一段会根据has64BitLibs和has32BitLibs的值来确定app的primaryCpuAbi的值</span></span><br><span class="line">    <span class="keyword">if</span> (has64BitLibs &amp;&amp; !has32BitLibs) &#123;</span><br><span class="line">        pkg.applicationInfo.primaryCpuAbi = Build.SUPPORTED_64_BIT_ABIS[<span class="number">0</span>];</span><br><span class="line">        pkg.applicationInfo.secondaryCpuAbi = <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (has32BitLibs &amp;&amp; !has64BitLibs) &#123;</span><br><span class="line">        pkg.applicationInfo.primaryCpuAbi = Build.SUPPORTED_32_BIT_ABIS[<span class="number">0</span>];</span><br><span class="line">        pkg.applicationInfo.secondaryCpuAbi = <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (has32BitLibs &amp;&amp; has64BitLibs) &#123;</span><br><span class="line">        <span class="keyword">if</span> (VMRuntime.is64BitInstructionSet(getPreferredInstructionSet())) &#123;</span><br><span class="line">            pkg.applicationInfo.primaryCpuAbi = Build.SUPPORTED_64_BIT_ABIS[<span class="number">0</span>];</span><br><span class="line">            pkg.applicationInfo.secondaryCpuAbi = Build.SUPPORTED_32_BIT_ABIS[<span class="number">0</span>];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pkg.applicationInfo.primaryCpuAbi = Build.SUPPORTED_32_BIT_ABIS[<span class="number">0</span>];</span><br><span class="line">            pkg.applicationInfo.secondaryCpuAbi = Build.SUPPORTED_64_BIT_ABIS[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        pkg.applicationInfo.primaryCpuAbi = <span class="keyword">null</span>;</span><br><span class="line">        pkg.applicationInfo.secondaryCpuAbi = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据上面的代码，可以知道：</p>
+<p>对系统app而言，根据/system/app/\${APP_NAME}/lib和/system/app/\${APP_NAME}/lib64这两个文件夹是否存在，来确定它的primaryCpuAbi的值 当然，如果系统app不存在上述两个文件夹，那它的primaryCpuAbi的值仍然为空</p>
+<p>所以在经过scanPackageDirtyLI()方法之后，会存在以下四种情况：</p>
+<p>无论是系统app还是第三方app, 如果apk包里lib目录存在.so文件，会根据.so文件来确定primaryCpuAbi的值 如果是系统app, apk包里又不存在.so文件，就会进一步根据/system/app/${APP_NAME}/lib和/system/app/${APP_NAME}/lib64这两个文件夹是否存在，来确定它的primaryCpuAbi的值 对于framework-res.apk为个特殊的apk文件，它的primaryCpuAbi的值由虚拟机是什么架构来决定，在我这里，它是arm64-v8a 对于其余的apk, 它们的primaryCpuAbi的值仍然为空.</p>
+<h3 id="3-3-adjustCpuAbisForSharedUserLPw"><a href="#3-3-adjustCpuAbisForSharedUserLPw" class="headerlink" title="3.3 adjustCpuAbisForSharedUserLPw"></a>3.3 adjustCpuAbisForSharedUserLPw</h3><p>先来看下adjustCpuAbisForSharedUserLPw的调用位置，在PKMS的构造函数里:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">PackageManagerService</span><span class="params">(Context context, Installer installer,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">boolean</span> factoryTest, <span class="keyword">boolean</span> onlyCore)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//... ...</span></span><br><span class="line">    <span class="comment">// 逐个解析系统里的所有apk文件，上一节中的内容，都在这里完成</span></span><br><span class="line">    scanDirLI();</span><br><span class="line">    <span class="comment">//... ...</span></span><br><span class="line">    <span class="comment">// 当所有的apk文件解析完之后，对使用了相同UID的apk, 调用adjustCpuAbisForSharedUserLPw</span></span><br><span class="line">    <span class="keyword">for</span> (SharedUserSetting setting : mSettings.getAllSharedUsersLPw()) &#123;</span><br><span class="line">        <span class="comment">// setting.packages是所有使用相同UID的apk的集合</span></span><br><span class="line">        adjustCpuAbisForSharedUserLPw(setting.packages, <span class="keyword">null</span> <span class="comment">/* scanned package */</span>,</span><br><span class="line">                <span class="keyword">false</span> <span class="comment">/* force dexopt */</span>, <span class="keyword">false</span> <span class="comment">/* defer dexopt */</span>);</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="comment">// ... ...</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">adjustCpuAbisForSharedUserLPw</span><span class="params">(Set&lt;packagesetting&gt; packagesForUser,</span></span></span><br><span class="line"><span class="function"><span class="params">        PackageParser.Package scannedPackage, <span class="keyword">boolean</span> forceDexOpt, <span class="keyword">boolean</span> deferDexOpt)</span> </span>&#123;</span><br><span class="line">    String requiredInstructionSet = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//... ...</span></span><br><span class="line">    PackageSetting requirer = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">for</span> (PackageSetting ps : packagesForUser) &#123;</span><br><span class="line">        <span class="keyword">if</span> (scannedPackage == <span class="keyword">null</span> || !scannedPackage.packageName.equals(ps.name)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (ps.primaryCpuAbiString == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 这个for循环的作用就是遍历所有使用相同UID的package，把遍历过程中遇到的第一个确定primaryCpuAbi</span></span><br><span class="line">            <span class="comment">// 的那个package取出来，保存到requirer中</span></span><br><span class="line">            <span class="keyword">final</span> String instructionSet = VMRuntime.getInstructionSet(ps.primaryCpuAbiString);</span><br><span class="line">            <span class="keyword">if</span> (requiredInstructionSet == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// 只取第一个被遍历到的</span></span><br><span class="line">                requiredInstructionSet = instructionSet;</span><br><span class="line">                requirer = ps;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (requiredInstructionSet != <span class="keyword">null</span>) &#123;</span><br><span class="line">        String adjustedAbi;</span><br><span class="line">        <span class="keyword">if</span> (requirer != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 证明在这个集合中找到了已经确定primaryCpuAbi的那个package</span></span><br><span class="line">            adjustedAbi = requirer.primaryCpuAbiString;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// scannedPackage == null时，这种情况不存在，所以不考虑这里</span></span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">for</span> (PackageSetting ps : packagesForUser) &#123;</span><br><span class="line">            <span class="keyword">if</span> (scannedPackage == <span class="keyword">null</span> || !scannedPackage.packageName.equals(ps.name)) &#123;</span><br><span class="line">                <span class="keyword">if</span> (ps.primaryCpuAbiString != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 将adjustedAbi的值给那些使用同一个UID并且primaryCpuAbi是空的package</span></span><br><span class="line">                ps.primaryCpuAbiString = adjustedAbi;</span><br><span class="line">                <span class="keyword">if</span> (ps.pkg != <span class="keyword">null</span> &amp;&amp; ps.pkg.applicationInfo != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    ps.pkg.applicationInfo.primaryCpuAbi = adjustedAbi;</span><br><span class="line">                  <span class="comment">//  ... ...</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的作用就是调整使用相同UID的package的primaryCpuAbi的值，将那些还没有确定primaryCpuAbi的package用已经确定了的Abi的值代替。这里将是那些没有确定primaryCpuAbi的apk<br>再次确定abi值的最后一次机会，如果在这里还无法确定，那就在启动进程时，使用系统默认值。</p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>最后来总结一下Android系统确定app进程关联哪种ABI的流程：</p>
+<ul>
+<li>手机不是第一次开机或者升级，直接从packages.xml中读取；</li>
+</ul>
+<ul>
+<li>如果apk包中lib文件夹下有.so库，就根据这个.so库的架构模式确定app的primaryCpuAbi的值 ;</li>
+<li>对于system app, 如果没法通过第一步确定primaryCpuAbi的值，PKMS会根据/system/app/\${APP_NAME}/lib和/system/app/\${APP_NAME}/lib64这两个文件夹是否存在，来确定它的primaryCpuAbi的值;</li>
+<li>对于还没有确定的app, 在最后还会将自己的primaryCpuAbi值与和他使用相同UID的package的值设成一样; </li>
+<li>对于到这里还没有确认primaryCpuAbi的app，就会在启动进程时使用ro.product.cpu.abilist这个property的值的第一项作为它关联的ABI;</li>
+</ul>
+<hr>
+<p>了解了ABI的确定过程，继续来看前面的问题。上面说的很清楚，第一次开机时app的ABI确定过程分四个过程，首先是找lib文件夹下有没有so，有的话根据so来确定ABI；然后看app目录下有没有lib或lib64文件夹，有的话根据文件夹确定ABI；通过adjustCpuAbisForSharedUserLPw方法将app的api调整为与之uid相同的某个app的ABI；还无法确认的话（同uid的应用都不存在lib和lib64文件夹），去系统默认值。</p>
+<p>根据以上过程可以推断，出问题的应用应该是本身无法确定ABI，在通过adjustCpuAbisForSharedUserLPw确定ABI时是根据 com.ape.factory来确定的ABI，也就是32位。因为问题不是必现的，所以adjustCpuAbisForSharedUserLPw确定ABI的顺序应该不是确定的。来看下该方法的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * Adjusts ABIs for a set of packages belonging to a shared user so that they all match.</span></span><br><span class="line"><span class="comment">  * i.e, so that all packages can be run inside a single process if required.</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * Optionally, callers can pass in a parsed package via &#123;<span class="doctag">@code</span> newPackage&#125; in which case</span></span><br><span class="line"><span class="comment">  * this function will either try and make the ABI for all packages in &#123;<span class="doctag">@code</span> packagesForUser&#125;</span></span><br><span class="line"><span class="comment">  * match &#123;<span class="doctag">@code</span> scannedPackage&#125; or will update the ABI of &#123;<span class="doctag">@code</span> scannedPackage&#125; to match</span></span><br><span class="line"><span class="comment">  * the ABI selected for &#123;<span class="doctag">@code</span> packagesForUser&#125;. This variant is used when installing or</span></span><br><span class="line"><span class="comment">  * updating a package that belongs to a shared user.</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">NOTE:</span> We currently only match for the primary CPU abi string. Matching the secondary</span></span><br><span class="line"><span class="comment">  * adds unnecessary complexity.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">adjustCpuAbisForSharedUserLPw</span><span class="params">(Set&lt;PackageSetting&gt; packagesForUser,</span></span></span><br><span class="line"><span class="function"><span class="params">         PackageParser.Package scannedPackage)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     String requiredInstructionSet = <span class="keyword">null</span>;</span><br><span class="line">     <span class="comment">//根据log可以判断scannedPackage为空，不考虑这个分支</span></span><br><span class="line">     <span class="keyword">if</span> (scannedPackage != <span class="keyword">null</span> &amp;&amp; scannedPackage.applicationInfo.primaryCpuAbi != <span class="keyword">null</span>) &#123;</span><br><span class="line">         requiredInstructionSet = VMRuntime.getInstructionSet(</span><br><span class="line">                  scannedPackage.applicationInfo.primaryCpuAbi);</span><br><span class="line">         Slog.i(TAG, <span class="string">"In adjustCpuAbisForSharedUserLPw, scannedPackage:"</span> + scannedPackage.toString() + <span class="string">", primaryCpuAbi:"</span> + scannedPackage.applicationInfo.primaryCpuAbi);</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     PackageSetting requirer = <span class="keyword">null</span>;<span class="comment">//首个能自身确定ABI的应用</span></span><br><span class="line">   　<span class="comment">//遍历同ｕid的应用，packagesForUser是个ｓｅｔ，每次遍历的顺序不确定</span></span><br><span class="line">     <span class="keyword">for</span> (PackageSetting ps : packagesForUser) &#123;</span><br><span class="line">         <span class="comment">// If packagesForUser contains scannedPackage, we skip it. This will happen</span></span><br><span class="line">         <span class="comment">// when scannedPackage is an update of an existing package. Without this check,</span></span><br><span class="line">         <span class="comment">// we will never be able to change the ABI of any package belonging to a shared</span></span><br><span class="line">         <span class="comment">// user, even if it's compatible with other packages.</span></span><br><span class="line">         <span class="keyword">if</span> (scannedPackage == <span class="keyword">null</span> || !scannedPackage.packageName.equals(ps.name)) &#123;</span><br><span class="line">           　<span class="comment">//找到首个能自身确定ABI的应用，用于确定requirer和requiredInstructionSet</span></span><br><span class="line">             <span class="keyword">if</span> (ps.primaryCpuAbiString == <span class="keyword">null</span>) &#123;</span><br><span class="line">                 <span class="keyword">continue</span>;</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             <span class="keyword">final</span> String instructionSet = VMRuntime.getInstructionSet(ps.primaryCpuAbiString);</span><br><span class="line">           　<span class="comment">//找到首个能自身确定ABI的应用之前requiredInstructionSet一直为空</span></span><br><span class="line">             <span class="keyword">if</span> (requiredInstructionSet != <span class="keyword">null</span> &amp;&amp; !instructionSet.equals(requiredInstructionSet)) &#123;</span><br><span class="line">                 <span class="comment">// We have a mismatch between instruction sets (say arm vs arm64) warn about</span></span><br><span class="line">                 <span class="comment">// this but there's not much we can do.</span></span><br><span class="line">                 <span class="comment">//同ｕｉｄ的应用是能运行在同一个进程的，所以指令集应该是一致的，但是如果不一致，</span></span><br><span class="line">                 <span class="comment">//系统也无能为力</span></span><br><span class="line">                 String errorMessage = <span class="string">"Instruction set mismatch, "</span></span><br><span class="line">                         + ((requirer == <span class="keyword">null</span>) ? <span class="string">"[caller]"</span> : requirer)</span><br><span class="line">                         + <span class="string">" requires "</span> + requiredInstructionSet + <span class="string">" whereas "</span> + ps</span><br><span class="line">                         + <span class="string">" requires "</span> + instructionSet;</span><br><span class="line">                 Slog.w(TAG, errorMessage);</span><br><span class="line">             &#125;</span><br><span class="line">　　<span class="comment">//找到首个能自身确定ABI的应用后赋值，之后循环不会再走到这里</span></span><br><span class="line">             <span class="keyword">if</span> (requiredInstructionSet == <span class="keyword">null</span>) &#123;</span><br><span class="line">                 requiredInstructionSet = instructionSet;</span><br><span class="line">                 requirer = ps;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (requiredInstructionSet != <span class="keyword">null</span>) &#123;</span><br><span class="line">         String adjustedAbi;</span><br><span class="line">         <span class="keyword">if</span> (requirer != <span class="keyword">null</span>) &#123;<span class="comment">//存在能确定自身ＡＢＩ的应用</span></span><br><span class="line">             <span class="comment">// requirer != null implies that either scannedPackage was null or that scannedPackage</span></span><br><span class="line">             <span class="comment">// did not require an ABI, in which case we have to adjust scannedPackage to match</span></span><br><span class="line">             <span class="comment">// the ABI of the set (which is the same as requirer's ABI)</span></span><br><span class="line">             　adjustedAbi = requirer.primaryCpuAbiString;</span><br><span class="line">             <span class="keyword">if</span> (scannedPackage != <span class="keyword">null</span>) &#123;</span><br><span class="line">                 scannedPackage.applicationInfo.primaryCpuAbi = adjustedAbi;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="comment">// requirer == null implies that we're updating all ABIs in the set to</span></span><br><span class="line">             <span class="comment">// match scannedPackage.</span></span><br><span class="line">             adjustedAbi =  scannedPackage.applicationInfo.primaryCpuAbi;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">for</span> (PackageSetting ps : packagesForUser) &#123;</span><br><span class="line">             <span class="keyword">if</span> (scannedPackage == <span class="keyword">null</span> || !scannedPackage.packageName.equals(ps.name)) &#123;</span><br><span class="line">                 <span class="keyword">if</span> (ps.primaryCpuAbiString != <span class="keyword">null</span>) &#123;<span class="comment">//能自己确定ＡＢＩ的就不会再走这里，保留已经确定的值</span></span><br><span class="line">                     <span class="keyword">continue</span>;</span><br><span class="line">                 &#125;</span><br><span class="line">	　　</span><br><span class="line">                 ps.primaryCpuAbiString = adjustedAbi;</span><br><span class="line">                 <span class="keyword">if</span> (ps.pkg != <span class="keyword">null</span> &amp;&amp; ps.pkg.applicationInfo != <span class="keyword">null</span> &amp;&amp;</span><br><span class="line">                         !TextUtils.equals(adjustedAbi, ps.pkg.applicationInfo.primaryCpuAbi)) &#123;</span><br><span class="line">                   　<span class="comment">//根据首个得到的ＡＢＩ确定其余应用的ＡＢＩ，该值会写入/ｄａｔａ/system/packages.xml中，再次启动手机时直接从该文件读取</span></span><br><span class="line">                     ps.pkg.applicationInfo.primaryCpuAbi = adjustedAbi;</span><br><span class="line">                     <span class="keyword">if</span> (DEBUG_ABI_SELECTION) &#123;</span><br><span class="line">                         Slog.i(TAG, <span class="string">"Adjusting ABI for "</span> + ps.name + <span class="string">" to "</span> + adjustedAbi</span><br><span class="line">                                 + <span class="string">" (requirer="</span></span><br><span class="line">                                 + (requirer != <span class="keyword">null</span> ? requirer.pkg : <span class="string">"null"</span>)</span><br><span class="line">                                 + <span class="string">", scannedPackage="</span></span><br><span class="line">                                 + (scannedPackage != <span class="keyword">null</span> ? scannedPackage : <span class="string">"null"</span>)</span><br><span class="line">                                 + <span class="string">")"</span>);</span><br><span class="line">                     &#125;</span><br><span class="line">                     <span class="keyword">try</span> &#123;</span><br><span class="line">                         mInstaller.rmdex(ps.codePathString,</span><br><span class="line">                                 getDexCodeInstructionSet(getPreferredInstructionSet()));</span><br><span class="line">                     &#125; <span class="keyword">catch</span> (InstallerException ignored) &#123;</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>关于<code>ps.pkg.applicationInfo.primaryCpuAbi = adjustedAbi;</code>中<code>primaryCpuAbi</code>的说明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The primary ABI that this application requires, This is inferred from the ABIs</span></span><br><span class="line"><span class="comment"> * of the native JNI libraries the application bundles. Will be &#123;<span class="doctag">@code</span> null&#125;</span></span><br><span class="line"><span class="comment"> * if this application does not require any particular ABI.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * If non-null, the application will always be launched with this ABI.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@hide</span>&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> String primaryCpuAbi;</span><br></pre></td></tr></table></figure>
+<p>上面的代码证明上面的推测是正确的，保险起见，又加了些log,分别抓取了正常情况下的ｌｏｇ和出问题时的ｌｏｇ，从log中可以看出，在出问题时，com.ape.factory都是遍历过程中第一个可以确认自身ABI的应用，而在正常的情况下，第一个可以确认自身ABI的应用的ABI都是64位的，满足这个条件的应用有两个：com.android.settings和factory.tinnosnew.tinno.ui.test（/system/app/Mygsensortest）。所以<strong>是否会出问题取决于在遍历过程中先取到factory还是另外两个应用，只要不先取到factory就不会出现问题。</strong>将代码修改未只能根据factory确定其余应用ABI，则该问题变为必现，进一步证明该问题就是factory引起的。</p>
+<p>最后，要确定是不是存在相同uid中同时有32位和64位的apk，只需要在log中搜索‘“PackageManager: Instruction set mismatch”即可。比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Instruction set mismatch, PackageSetting&#123;b4910c6 factory.tinnosnew.tinno.ui.test/1000&#125; requires arm64 whereas PackageSetting&#123;da776f5 com.ape.factory/1000&#125; requires arm</span><br></pre></td></tr></table></figure>
+<p>表示先取得的是64位的factory.tinnosnew.tinno.ui.test，这时一切正常；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01-01 12:40:19.782   823   823 W PackageManager: Instruction set mismatch, PackageSetting&#123;58e729 com.ape.factory/1000&#125; requires arm whereas PackageSetting&#123;79d22ba com.android.settings/1000&#125; requires arm64</span><br><span class="line">01-01 12:40:19.783   823   823 W PackageManager: Instruction set mismatch, PackageSetting&#123;58e729 com.ape.factory/1000&#125; requires arm whereas PackageSetting&#123;bd64d3a factory.tinnosnew.tinno.ui.test/1000&#125; requires arm64</span><br></pre></td></tr></table></figure>
+<p>表示先取到的是com.ape.factory，这时就会出现文中的问题。</p>
+<h3 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h3><p>一个疑惑：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">01-01 12:00:00.869  1344  1344 E AndroidRuntime: java.lang.RuntimeException: Unable to instantiate application com.android.deskclock.DeskClockApplication: java.lang.ClassNotFoundException: Didn't find class "com.android.deskclock.DeskClockApplication" on path: DexPathList[[zip file "/system/app/ApeDeskClock80/ApeDeskClock80.apk"],nativeLibraryDirectories=[/system/app/ApeDeskClock80/lib/arm64, /system/app/ApeDeskClock80/ApeDeskClock80.apk!/lib/armeabi, /system/lib, /vendor/lib, /system/lib, /vendor/lib]]</span><br></pre></td></tr></table></figure>
+<p>一直以为这段log说的是在“zip file “/system/app/ApeDeskClock80/ApeDeskClock80.apk”],nativeLibraryDirectories=[/system/app/ApeDeskClock80/lib/arm64, /system/app/ApeDeskClock80/ApeDeskClock80.apk!/lib/armeabi, /system/lib, /vendor/lib, /system/lib, /vendor/lib”这些路径下找不到DeskClockApplication这个类，但实际上dex文件是在appname/oat/arm（64）下面的，即使不存下32和64位的问题，也应该找不到dex的，为什么能找到？</p>
+<p>后来问了同时才知道DexPathList[[zip file “/system/app/ApeDeskClock80/ApeDeskClock80.apk”],nativeLibraryDirectories=[/system/app/ApeDeskClock80/lib/arm64, /system/app/ApeDeskClock80/ApeDeskClock80.apk!/lib/armeabi, /system/lib, /vendor/lib, /system/lib, /vendor/lib]]描述的是一系列的dex文件，[zip file “/system/app/ApeDeskClock80/ApeDeskClock80.apk”],nativeLibraryDirectories=[/system/app/ApeDeskClock80/lib/arm64, /system/app/ApeDeskClock80/ApeDeskClock80.apk!/lib/armeabi, /system/lib, /vendor/lib, /system/lib, /vendor/lib]是其中一个dex文件的描述信息。这部分还有待了解。</p>
+<p>以上的内容时关于首次开机时应用ABI的确定的，关于应用其他安装方式中ABI的确定在了解应用安装过程时再做了解。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/01/PKMS启动过程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          PKMS启动过程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/28/adb安装应用/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">应用安装-adb方式进行安装</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABI确定过程"><span class="nav-number">1.</span> <span class="nav-text">ABI确定过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-abi相关property"><span class="nav-number">1.1.</span> <span class="nav-text">1. abi相关property</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-app进程启动流程"><span class="nav-number">1.2.</span> <span class="nav-text">2. app进程启动流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-primaryCpuAbi值的确定"><span class="nav-number">1.3.</span> <span class="nav-text">3. primaryCpuAbi值的确定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-非第一次开机，直接读取"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 非第一次开机，直接读取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-scanPackageDirtyLI"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 scanPackageDirtyLI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-adjustCpuAbisForSharedUserLPw"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 adjustCpuAbisForSharedUserLPw</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-总结"><span class="nav-number">1.4.</span> <span class="nav-text">4. 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#尾声"><span class="nav-number">1.4.1.</span> <span class="nav-text">尾声</span></a></li></ol></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            得一
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 me All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

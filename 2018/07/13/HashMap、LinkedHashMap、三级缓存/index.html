@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>hashmap、linkedhashmap、三级缓存 | 得一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="数据结构缓存LruCacheDiskLruCacheHashMapLinkedHashMap">
+  
+  
+  
+  
+  <meta name="description" content="HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。">
+<meta name="keywords" content="数据结构,缓存,LruCache,DiskLruCache,HashMap,LinkedHashMap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HashMap、LinkedHashMap、三级缓存">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/07/13/HashMap、LinkedHashMap、三级缓存/index.html">
+<meta property="og:site_name" content="得一">
+<meta property="og:description" content="HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-15T02:52:27.568Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HashMap、LinkedHashMap、三级缓存">
+<meta name="twitter:description" content="HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。">
+  
+
+  
+
+  <link rel="icon" href="/css/images/avatar.jpg">
+  <link rel="apple-touch-icon" href="/css/images/avatar.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-HashMap、LinkedHashMap、三级缓存" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      HashMap、LinkedHashMap、三级缓存
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/" class="article-date">
+	  <time datetime="2018-07-13T09:13:55.000Z" itemprop="datePublished">2018-07-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android基础/">Android基础</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p>HashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出<strong>ConcurrentModificationException</strong>异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。</p>
+<p>HashMap中的树节点size是普通节点的两倍左右，所以在桶里的节点不多的时候（阈值为6，转换成树节点的阈值为8），会把树节点重新转换成普通节点。因为红黑树的平均查找长度是log（n），长度为8的时候，平均查找长度为3。。如果继续使用链表，平均查找长度为8/2=4。这才有转换为树的必要。。链表长度如果是6以内，6/2=3，速度也很快的。转化为树还有生成树的时间，并不明智。</p>
+<p>红黑树和HashMap可以参考<a href="https://www.cnblogs.com/liwei2222/p/8013367.html，其实和算法这本书上说的差不多。" target="_blank" rel="noopener">https://www.cnblogs.com/liwei2222/p/8013367.html，其实和算法这本书上说的差不多。</a></p>
+<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>关于LinkedHashMap可以参考：<a href="https://www.cnblogs.com/xiaoxi/p/6170590.html。LinkedHashMap相当于HashMap和LinkedList（循环双向链表）的结合，可以选择按照插入顺序或者访问顺序记录节点顺序。" target="_blank" rel="noopener">https://www.cnblogs.com/xiaoxi/p/6170590.html。LinkedHashMap相当于HashMap和LinkedList（循环双向链表）的结合，可以选择按照插入顺序或者访问顺序记录节点顺序。</a></p>
+<h2 id="三级缓存"><a href="#三级缓存" class="headerlink" title="三级缓存"></a>三级缓存</h2><p>使用缓存的好处：</p>
+<ul>
+<li>加快数据的获取速度，降低开销；</li>
+<li>减轻服务器的负担（访问网络地情况）；</li>
+<li>在没网络的情况下获取数据；</li>
+</ul>
+<p>关于LruCache参考：<a href="https://www.jianshu.com/p/b49a111147ee。LruCache采用LinkedHashMap实现，最新访问的节点放到尾部，头部的就是上次访问离现在最久的，缓存满的话删除头部的节点。" target="_blank" rel="noopener">https://www.jianshu.com/p/b49a111147ee。LruCache采用LinkedHashMap实现，最新访问的节点放到尾部，头部的就是上次访问离现在最久的，缓存满的话删除头部的节点。</a></p>
+<p>LinkedHashMap可以用来实现LruCache的关键两点：</p>
+<ul>
+<li>LinkedHashMap是按Key-Value存储内容的，和Cache一致；</li>
+<li>LinkedHashMap设置accessOrder为true时可以按照访问顺序记录元素的顺序，正好可以用来实现Lru算法。</li>
+</ul>
+<p>Android的三级缓存：</p>
+<ul>
+<li>网络缓存；</li>
+<li>磁盘缓存DiskLruCache（Android不包含，需要到Github下载）；</li>
+<li>内存缓存LruCache（Android 3.1支持）；</li>
+</ul>
+<p>最重要的是后面两种。</p>
+<h2 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h2><p>LruCache基本用法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cacheSize = <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span>; <span class="comment">// 4MiB</span></span><br><span class="line">LruCache&lt;String, Bitmap&gt; bitmapCache = <span class="keyword">new</span> LruCache&lt;String, Bitmap&gt;(cacheSize) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(String key, Bitmap value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value.getByteCount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>cacheSize和sizeOf的单位要一致。</p>
+<p>LruCache是线程安全的，比如get()方法中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">            mapValue = map.get(key);</span><br><span class="line">            <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">                hitCount++;</span><br><span class="line">                <span class="keyword">return</span> mapValue;</span><br><span class="line">            &#125;</span><br><span class="line">            missCount++;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>另外，该类不允许null作为key和value。get,put和remove方法返回null均表示不存在该元素。</p>
+<p>LruCache的size属性表示的值和单位有关不一定时元素的个数，比如图片的缓存size表示的可能是多少M。</p>
+<blockquote>
+<p>trim表示修剪，trimToSize方法就表示把Map修剪到多大，这里指的是最大的size。</p>
+</blockquote>
+<p>LruCache的put，get方法都可能调用trimToSize方法，pu好理解，get方法中之所以会调用该方法是因为在缓存中不存在Key对应的entry时会调用create方法（默认实现返回null），如果create成功size就会发生改变，所以需要调用trimToSize以免超出最大size。remove方法是删除元素的，所以不不需要调用该方法。</p>
+<p>entryRemove被调用的三种情况：</p>
+<ul>
+<li>缓存满了，移除元素；</li>
+<li>调用remove方法移除元素；</li>
+<li>put方法<strong>更新</strong>了元素；</li>
+</ul>
+<p>entryRemove默认实现为空，可以重写来进行资源的显式释放，比如回收Bitmap。</p>
+<h2 id="DiskLruCache"><a href="#DiskLruCache" class="headerlink" title="DiskLruCache"></a>DiskLruCache</h2><p>DiskLruCache用于实现磁盘缓存，通过将缓存对象写入磁盘实现缓存的效果。DiskLruCache的使用过程如下。</p>
+<ol>
+<li><p>创建</p>
+<p>DiskLruCache不能通过LruCache创建。它提供了open方法创建自身。这一点在AOSP源码的external/glide/third_party/disklrucache/src/main/java/com/bumptech/glide/disklrucache/DiskLruCache.java中确实是这样，但是在external/okhttp/okhttp/src/main/java/com/squareup/okhttp/internal/DiskLruCache.java中未找到该方法，暂时就按glide中的来。open方法的声明如下：</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Opens the cache in &#123;<span class="doctag">@code</span> directory&#125;, creating a cache if none exists</span></span><br><span class="line"><span class="comment">   * there.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> directory 应用的缓存目录，或者其他指定的目录，区别在于应用卸载后缓存会不会清空</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> appVersion 应用的版本，如前后版本改变，缓存会被清空，一般为1即可</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> valueCount 每个entry中value的个数，一般为1</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> maxSize 缓存总大下，比如50M</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> IOException if reading or writing the cache directory fails</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DiskLruCache <span class="title">open</span><span class="params">(File directory, <span class="keyword">int</span> appVersion, <span class="keyword">int</span> valueCount, <span class="keyword">long</span> maxSize)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> IOException</span></span><br></pre></td></tr></table></figure>
+<p>​    典型的缓存创建过程如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">privata <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> DISK_CACHE_SIZE = <span class="number">1024</span> * <span class="number">0124</span>  * <span class="number">50</span>;<span class="comment">//50M</span></span><br><span class="line">File diskCahceDir = getDiskCacheDir(mContext, <span class="string">"bitmap"</span>);</span><br><span class="line"><span class="keyword">if</span> (!diskCacheDir.exists())&#123;</span><br><span class="line">	diskCacheDir.mkdirs();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache = DiskLruCache.open(diskCacheDir, <span class="number">1</span>, <span class="number">1</span>, DISK_CACHE_SIZE);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li><p>缓存添加</p>
+<p>DiskLruCache的缓存添加是通过Editor完成的，Editor是一个缓存对象的编辑器对象（类似于SharedPreferences值得editor）。仍然以图片为例，添加缓存要经过以下步骤：</p>
+<ul>
+<li><p>url转化成key，因为url中可能存在一些特殊字符，可能会影响url的使用，一般采用url的md5值；</p>
+</li>
+<li><p>获取Editor对象，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String key = hashKeyFromUrl(url);</span><br><span class="line">DiskLruCache.Editor editor = mDiskLruCache.edit(key);</span><br><span class="line"><span class="keyword">if</span> (editir != <span class="keyword">null</span>) &#123;</span><br><span class="line">  <span class="comment">//之前设置了一个节点只有一个数据，所以DISK_CACHE_INDEX为0即可</span></span><br><span class="line">  OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将数据写入editor的输出流；</p>
+</li>
+<li><p>使用editor的commit()方法提交数据，或者在出现问题时用abort()方法回退整个操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line"><span class="keyword">if</span>(downloadUrlToStream(url, outputStream))&#123;</span><br><span class="line">  editor.commit();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  editor.abort();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache.flush;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>缓存查找</p>
+<p>和缓存的添加类似，先将url转化成key,然后通过DiskLruCache的get方法得到一个SnapShot对象，接着再通过SnapShot对象得到缓存文件的输入流，有了输入流就可以得到Bitmap了。为了避免oom，一般不直接加载原图，通过BitmapFactory.Options对象可以加载缩放后的对象，但是该方法对FileInputStream的缩放存在问题，因为FileInputStream是一种有序的文件流，而两次的decodeStream的调用会影响文件流的位置属性，导致第二次decodeStream得到的时null。为了解决这个问题，可以通过文件流来的到对应的文件描述符（getFD方法），然后通过BitmapFactory.decodeFileDescriptor方法来加载缩放后的图片。</p>
+</li>
+</ol>
+<p>DiskLruCahce的内容来自《Android开发艺术探索》12.2.2小节，相关代码可以参考该书内容。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/22/应用安装-开机安装应用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          应用安装-开机安装应用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/10/LeakCanary/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">LeakCanary原理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap"><span class="nav-number">1.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedHashMap"><span class="nav-number">2.</span> <span class="nav-text">LinkedHashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三级缓存"><span class="nav-number">3.</span> <span class="nav-text">三级缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LruCache"><span class="nav-number">4.</span> <span class="nav-text">LruCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DiskLruCache"><span class="nav-number">5.</span> <span class="nav-text">DiskLruCache</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            得一
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 me All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

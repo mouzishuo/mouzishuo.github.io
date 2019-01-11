@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>activitymanagerservice启动过程 | 得一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="AndroidActivityManagerService">
+  
+  
+  
+  
+  <meta name="description" content="ActivityManagerService简称AMS，也就是通常说的组件管理器，是系统核心服务之一，用于对四大组件进行管理，包括创建四大组件，组件生命周期管理等。这里先先了解下AMS的创建过程。代码基于Android P。 AMS的启动是在SystemServer中进行的。SystemServer中服务启动分为三个过程： 123startBootstrapServices();startCore">
+<meta name="keywords" content="Android,ActivityManagerService">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActivityManagerService启动过程">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/09/02/ActivityManager启动过程/index.html">
+<meta property="og:site_name" content="得一">
+<meta property="og:description" content="ActivityManagerService简称AMS，也就是通常说的组件管理器，是系统核心服务之一，用于对四大组件进行管理，包括创建四大组件，组件生命周期管理等。这里先先了解下AMS的创建过程。代码基于Android P。 AMS的启动是在SystemServer中进行的。SystemServer中服务启动分为三个过程： 123startBootstrapServices();startCore">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mouzishuo.github.io/2018/09/02/ActivityManager启动过程/ams-other.png">
+<meta property="og:updated_time" content="2018-09-03T06:14:44.229Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ActivityManagerService启动过程">
+<meta name="twitter:description" content="ActivityManagerService简称AMS，也就是通常说的组件管理器，是系统核心服务之一，用于对四大组件进行管理，包括创建四大组件，组件生命周期管理等。这里先先了解下AMS的创建过程。代码基于Android P。 AMS的启动是在SystemServer中进行的。SystemServer中服务启动分为三个过程： 123startBootstrapServices();startCore">
+<meta name="twitter:image" content="https://mouzishuo.github.io/2018/09/02/ActivityManager启动过程/ams-other.png">
+  
+
+  
+
+  <link rel="icon" href="/css/images/avatar.jpg">
+  <link rel="apple-touch-icon" href="/css/images/avatar.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-ActivityManager启动过程" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      ActivityManagerService启动过程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/02/ActivityManager启动过程/" class="article-date">
+	  <time datetime="2018-09-02T03:46:00.000Z" itemprop="datePublished">2018-09-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AMS/">AMS</a><a class="article-category-link" href="/categories/AMS/Android基础/">Android基础</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ActivityManagerService简称AMS，也就是通常说的组件管理器，是系统核心服务之一，用于对四大组件进行管理，包括创建四大组件，组件生命周期管理等。这里先先了解下AMS的创建过程。代码基于Android P。</p>
+<p>AMS的启动是在SystemServer中进行的。SystemServer中服务启动分为三个过程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">startBootstrapServices();</span><br><span class="line">startCoreServices();</span><br><span class="line">startOtherServices();</span><br></pre></td></tr></table></figure>
+<p>AMS的启动贯穿了这三个过程。</p>
+<h3 id="startBootstrapServices"><a href="#startBootstrapServices" class="headerlink" title="startBootstrapServices"></a>startBootstrapServices</h3><p>BootstrapServices是指系统启动所需的核心服务，这些服务具有复杂的相互依赖关系所以放到一个地方初始化。其中AMS的初始化代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Activity manager runs the show.</span></span><br><span class="line">traceBeginAndSlog(<span class="string">"StartActivityManager"</span>);</span><br><span class="line">mActivityManagerService = mSystemServiceManager.startService(</span><br><span class="line">        ActivityManagerService.Lifecycle.class).getService();</span><br><span class="line">mActivityManagerService.setSystemServiceManager(mSystemServiceManager);</span><br><span class="line">mActivityManagerService.setInstaller(installer);</span><br><span class="line">traceEnd();</span><br></pre></td></tr></table></figure>
+<p>其中mSystemServiceManager是SystemServiceManager的实例用于管理系统服务的创建启动及其他生命周期事件。而 <strong>ActivityManagerService.Lifecycle</strong>是 ActivityManagerService的静态内部类，继承了SystemService并封装了一些AMS生命周期的回调，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Lifecycle</span> <span class="keyword">extends</span> <span class="title">SystemService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ActivityManagerService mService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Lifecycle</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        mService = <span class="keyword">new</span> ActivityManagerService(context);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mService.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBootPhase</span><span class="params">(<span class="keyword">int</span> phase)</span> </span>&#123;</span><br><span class="line">        mService.mBootPhase = phase;</span><br><span class="line">        <span class="keyword">if</span> (phase == PHASE_SYSTEM_SERVICES_READY) &#123;</span><br><span class="line">            mService.mBatteryStatsService.systemServicesReady();</span><br><span class="line">            mService.mServices.systemServicesReady();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCleanupUser</span><span class="params">(<span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        mService.mBatteryStatsService.onCleanupUser(userId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ActivityManagerService <span class="title">getService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mService;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SystemServiceManager的startService()方法是一个泛型方法，用于启动系统服务，其实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Creates and starts a system service. The class must be a subclass of</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> com.android.server.SystemService&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> serviceClass A Java class that implements the SystemService interface.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> The service instance, never null.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> RuntimeException if the service fails to start.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line"><span class="keyword">public</span> &lt;T extends SystemService&gt; <span class="function">T <span class="title">startService</span><span class="params">(Class&lt;T&gt; serviceClass)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> String name = serviceClass.getName();</span><br><span class="line">        <span class="comment">//……</span></span><br><span class="line">        Trace.traceBegin(Trace.TRACE_TAG_SYSTEM_SERVER, <span class="string">"StartService "</span> + name);</span><br><span class="line">        <span class="comment">//……</span></span><br><span class="line">        <span class="keyword">final</span> T service;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Constructor&lt;T&gt; constructor = serviceClass.getConstructor(Context.class);</span><br><span class="line">            service = constructor.newInstance(mContext);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException ex) &#123;<span class="comment">//……</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException ex) &#123;<span class="comment">//……</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException ex) &#123;<span class="comment">//……</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException ex) &#123; <span class="comment">//……</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        startService(service);</span><br><span class="line">        <span class="keyword">return</span> service;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        Trace.traceEnd(Trace.TRACE_TAG_SYSTEM_SERVER);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先需要通过反射的方法得到service的实例，因为泛型不是具体的类，无法在编译期加载，只能使用反射在运行时动态加载。这里的service指的是ActivityManagerService.Lifecycle，而不是ActivityManagerService本身，之所以这么设计应该是应为ActivityManagerService已经继承了IActivityManager.Stub，无法再继承SystemService。</p>
+<p>在LifeCycle的构造方法中构建了AMS的实例，AMS构造方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// Note: This method is invoked on the main thread but may need to attach various</span></span><br><span class="line">  <span class="comment">// handlers to other threads.  So take care to be explicit about the looper.</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ActivityManagerService</span><span class="params">(Context systemContext)</span> </span>&#123;</span><br><span class="line">      <span class="comment">//……</span></span><br><span class="line">      mContext = systemContext;</span><br><span class="line">      <span class="comment">//……</span></span><br><span class="line">      mSystemThread = ActivityThread.currentActivityThread();</span><br><span class="line">      mUiContext = mSystemThread.getSystemUiContext();</span><br><span class="line">      <span class="comment">//……</span></span><br><span class="line">      mHandlerThread = <span class="keyword">new</span> ServiceThread(TAG,</span><br><span class="line">              THREAD_PRIORITY_FOREGROUND, <span class="keyword">false</span> <span class="comment">/*allowIo*/</span>);</span><br><span class="line">      mHandlerThread.start();</span><br><span class="line">      mHandler = <span class="keyword">new</span> MainHandler(mHandlerThread.getLooper());</span><br><span class="line">      mUiHandler = mInjector.getUiHandler(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">      mProcStartHandlerThread = <span class="keyword">new</span> ServiceThread(TAG + <span class="string">":procStart"</span>,</span><br><span class="line">              THREAD_PRIORITY_FOREGROUND, <span class="keyword">false</span> <span class="comment">/* allowIo */</span>);</span><br><span class="line">      mProcStartHandlerThread.start();</span><br><span class="line">      mProcStartHandler = <span class="keyword">new</span> Handler(mProcStartHandlerThread.getLooper());</span><br><span class="line"></span><br><span class="line">      mConstants = <span class="keyword">new</span> ActivityManagerConstants(<span class="keyword">this</span>, mHandler);</span><br><span class="line"></span><br><span class="line">      <span class="comment">/* static; one-time init here */</span></span><br><span class="line">      <span class="keyword">if</span> (sKillHandler == <span class="keyword">null</span>) &#123;</span><br><span class="line">          sKillThread = <span class="keyword">new</span> ServiceThread(TAG + <span class="string">":kill"</span>,</span><br><span class="line">                  THREAD_PRIORITY_BACKGROUND, <span class="keyword">true</span> <span class="comment">/* allowIo */</span>);</span><br><span class="line">          sKillThread.start();</span><br><span class="line">          sKillHandler = <span class="keyword">new</span> KillHandler(sKillThread.getLooper());</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      mFgBroadcastQueue = <span class="keyword">new</span> BroadcastQueue(<span class="keyword">this</span>, mHandler,</span><br><span class="line">              <span class="string">"foreground"</span>, BROADCAST_FG_TIMEOUT, <span class="keyword">false</span>);</span><br><span class="line">      mBgBroadcastQueue = <span class="keyword">new</span> BroadcastQueue(<span class="keyword">this</span>, mHandler,</span><br><span class="line">              <span class="string">"background"</span>, BROADCAST_BG_TIMEOUT, <span class="keyword">true</span>);</span><br><span class="line">      mBroadcastQueues[<span class="number">0</span>] = mFgBroadcastQueue;</span><br><span class="line">      mBroadcastQueues[<span class="number">1</span>] = mBgBroadcastQueue;</span><br><span class="line"></span><br><span class="line">      mServices = <span class="keyword">new</span> ActiveServices(<span class="keyword">this</span>);</span><br><span class="line">      mProviderMap = <span class="keyword">new</span> ProviderMap(<span class="keyword">this</span>);</span><br><span class="line">      mAppErrors = <span class="keyword">new</span> AppErrors(mUiContext, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">      File dataDir = Environment.getDataDirectory();</span><br><span class="line">      File systemDir = <span class="keyword">new</span> File(dataDir, <span class="string">"system"</span>);</span><br><span class="line">      systemDir.mkdirs();</span><br><span class="line"><span class="comment">//……</span></span><br><span class="line">      mAppOpsService = mInjector.getAppOpsService(<span class="keyword">new</span> File(systemDir, <span class="string">"appops.xml"</span>), mHandler);<span class="comment">//原生权限管理服务，暂时不管</span></span><br><span class="line">      <span class="comment">//……</span></span><br><span class="line">      mTempConfig.setToDefaults();</span><br><span class="line">      mTempConfig.setLocales(LocaleList.getDefault());</span><br><span class="line">      mConfigurationSeq = mTempConfig.seq = <span class="number">1</span>;</span><br><span class="line">      mStackSupervisor = createStackSupervisor();</span><br><span class="line">      mStackSupervisor.onConfigurationChanged(mTempConfig);</span><br><span class="line">    </span><br><span class="line">      mKeyguardController = mStackSupervisor.getKeyguardController();</span><br><span class="line">      mCompatModePackages = <span class="keyword">new</span> CompatModePackages(<span class="keyword">this</span>, systemDir, mHandler);</span><br><span class="line">      <span class="comment">//用于对Intent启动的组件进行拦截</span></span><br><span class="line">      mIntentFirewall = <span class="keyword">new</span> IntentFirewall(<span class="keyword">new</span> IntentFirewallInterface(), mHandler);</span><br><span class="line">      mTaskChangeNotificationController =</span><br><span class="line">              <span class="keyword">new</span> TaskChangeNotificationController(<span class="keyword">this</span>, mStackSupervisor, mHandler);</span><br><span class="line">      mActivityStartController = <span class="keyword">new</span> ActivityStartController(<span class="keyword">this</span>);</span><br><span class="line">      mRecentTasks = createRecentTasks();</span><br><span class="line">      mStackSupervisor.setRecentTasks(mRecentTasks);</span><br><span class="line">      mLockTaskController = <span class="keyword">new</span> LockTaskController(mContext, mStackSupervisor, mHandler);</span><br><span class="line">      mLifecycleManager = <span class="keyword">new</span> ClientLifecycleManager();</span><br><span class="line">      <span class="comment">//……</span></span><br><span class="line">      mHiddenApiBlacklist = <span class="keyword">new</span> HiddenApiSettings(mHandler, mContext);</span><br><span class="line"></span><br><span class="line">      Watchdog.getInstance().addMonitor(<span class="keyword">this</span>);</span><br><span class="line">      Watchdog.getInstance().addThread(mHandler);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// bind background thread to little cores</span></span><br><span class="line">      <span class="comment">// this is expected to fail inside of framework tests because apps can't touch cpusets directly</span></span><br><span class="line">      <span class="comment">// make sure we've already adjusted system_server's internal view of itself first</span></span><br><span class="line">      updateOomAdjLocked();</span><br><span class="line">      <span class="comment">//……</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>首先是进行Context和ActivityThread等成员的初始化，ActivityThread这个东西挺重要的，之后还要好好了解下，这里先关注主线流程。</p>
+<p>AMS初始化过程中创建了三个ServiceThread，关于ServiceThread在了解PKMS的时候就接触过了，是系统服务专用的一个HandlerThread类，也就是一个带消息循环的线程，用来帮系统服务分担工作的，所以也不需要担心系统服务会不会管的事情太多而忙不过来。</p>
+<p>前面说了AMS是管理四大组件的，接下来AMS首先创建了两个BroadcastQueue，一个是前台优先级的，一个是后台优先级的，用于进行广播的管理。</p>
+<p>有了广播当然也要有Service和provider了，这两种组件分别用ActiveServices和ProviderMap进行管理，四大组件已经有了三个了，至于重头戏Activity还在后面，等下再说。</p>
+<p>再然后会试着创建/data/system/目录，如果已存在的话就什么都不做。这个目录目测是用来存储一些系统用到的持久化文件的。</p>
+<p>后面还有一堆的初始化工作，很多还不知道是干什么的，就先挑感兴趣的来看下。前面说了四大组件就差Activity了，Activity是通过什么来管理呢？其实是通过mStackSupervisor，这是一个ActivityStackSupervisor的实例，顾名思义是用来管理ActivityStack的，这个ActivityStack并不是平时说的任务栈，ActivityStack的内部管理着一个TaskRecord的列表，这个TaskRecord才是通常说的任务栈，而TaskRecord中维护着一个ActivityRecord的ArrayList，而这个ActivityRecord就是Activity在AMS中的表示。来看下mStackSupervisor的创建过程：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> ActivityStackSupervisor <span class="title">createStackSupervisor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ActivityStackSupervisor supervisor = <span class="keyword">new</span> ActivityStackSupervisor(<span class="keyword">this</span>, mHandler.getLooper());</span><br><span class="line">    supervisor.initialize();</span><br><span class="line">    <span class="keyword">return</span> supervisor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>里面的mHandler在前面出现过，是mHandlerThread这个ServiceThread的handler，也就是说和ActivityStackSupervisor相关的消息也不是在主线程处理的。在initialize()方法中会初始化RunningTasks实例，用以表示系统中正在运行的Task。</p>
+<p>平时经常用到的最近任务也是在这里进行创建的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mRecentTasks = createRecentTasks();</span><br><span class="line">mStackSupervisor.setRecentTasks(mRecentTasks);</span><br></pre></td></tr></table></figure>
+<p>createRecentTasks()调用了RecentTasks的构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RecentTasks(ActivityManagerService service, ActivityStackSupervisor stackSupervisor) &#123;</span><br><span class="line">    <span class="keyword">final</span> File systemDir = Environment.getDataSystemDirectory();</span><br><span class="line">    <span class="keyword">final</span> Resources res = service.mContext.getResources();</span><br><span class="line">    mService = service;</span><br><span class="line">    mUserController = service.mUserController;</span><br><span class="line">    mTaskPersister = <span class="keyword">new</span> TaskPersister(systemDir, stackSupervisor, service, <span class="keyword">this</span>);</span><br><span class="line">    mGlobalMaxNumTasks = ActivityManager.getMaxRecentTasksStatic();</span><br><span class="line">    mHasVisibleRecentTasks = res.getBoolean(com.android.internal.R.bool.config_hasRecents);</span><br><span class="line">    loadParametersFromResources(res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>mTaskPersister用于进行taskid的持久化，将taskId写入/data/system_de/0/persisted_taskIds.txt文件。mGlobalMaxNumTasks表示最大的任务数，低内存设备为36，非低内存设备48.mHasVisibleRecentTasks表示最近任务是否可见，可通过com.android.internal.R.bool.config_hasRecents这个资源进行配置，除此之外还可以进行以下配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Component name for the activity that will be presenting the Recents UI, which will receive special permissions for API related</span></span><br><span class="line"><span class="comment">      to fetching and presenting recent tasks. The default configuration uses Launcehr3QuickStep as default launcher and points to</span></span><br><span class="line"><span class="comment">      the corresponding recents component. When using a different default launcher, change this appropriately or use the default</span></span><br><span class="line"><span class="comment">      systemui implementation: com.android.systemui/.recents.RecentsActivity --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span> <span class="attr">name</span>=<span class="string">"config_recentsComponentName"</span> <span class="attr">translatable</span>=<span class="string">"false"</span>&gt;</span>com.android.launcher3/com.android.quickstep.RecentsActivity<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The minimum number of visible recent tasks to be presented to the user through the</span></span><br><span class="line"><span class="comment">     SystemUI. Can be -1 if there is no minimum limit. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span> <span class="attr">name</span>=<span class="string">"config_minNumVisibleRecentTasks_grid"</span>&gt;</span>-1<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The maximum number of visible recent tasks to be presented to the user through the</span></span><br><span class="line"><span class="comment">     SystemUI. Can be -1 if there is no maximum limit. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span> <span class="attr">name</span>=<span class="string">"config_maxNumVisibleRecentTasks_grid"</span>&gt;</span>9<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The minimum number of visible recent tasks to be presented to the user through the</span></span><br><span class="line"><span class="comment">     SystemUI. Can be -1 if there is no minimum limit. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span> <span class="attr">name</span>=<span class="string">"config_minNumVisibleRecentTasks_lowRam"</span>&gt;</span>-1<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The maximum number of visible recent tasks to be presented to the user through the</span></span><br><span class="line"><span class="comment">     SystemUI. Can be -1 if there is no maximum limit. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span> <span class="attr">name</span>=<span class="string">"config_maxNumVisibleRecentTasks_lowRam"</span>&gt;</span>9<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The minimum number of visible recent tasks to be presented to the user through the</span></span><br><span class="line"><span class="comment">     SystemUI. Can be -1 if there is no minimum limit. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span> <span class="attr">name</span>=<span class="string">"config_minNumVisibleRecentTasks"</span>&gt;</span>5<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The maximum number of visible recent tasks to be presented to the user through the</span></span><br><span class="line"><span class="comment">     SystemUI. Can be -1 if there is no maximum limit. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span> <span class="attr">name</span>=<span class="string">"config_maxNumVisibleRecentTasks"</span>&gt;</span>-1<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The duration in which a recent task is considered in session and should be visible. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span> <span class="attr">name</span>=<span class="string">"config_activeTaskDurationHours"</span>&gt;</span>6<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>除了config_hasRecents之外的配置项在Android O中还是没有的，其中config_recentsComponentName可以配置显示最近任务的组件，Android P中有两个组件可以显示最近任务，一个是launcher的com.android.launcher3/com.android.quickstep.RecentsActivity，一个是SystemUI的 com.android.systemui/.recents.RecentsActivity，默认采用launcher中的组件。</p>
+<p>后面关于hidden api和性能的代码暂时不做了解。</p>
+<p>好了，AMS的初始化到这里就结束了，之后通过mActivityManagerService.setSystemServiceManager(mSystemServiceManager);设置AMS的管理器。</p>
+<h3 id="startCoreServices"><a href="#startCoreServices" class="headerlink" title="startCoreServices"></a>startCoreServices</h3><p>在该方法中只是将AMS和UsageStatsManager进行关联，至于UsageStatsManager是干吗的暂时不关心。</p>
+<h3 id="startOtherServices"><a href="#startOtherServices" class="headerlink" title="startOtherServices"></a>startOtherServices</h3><p>该方法中AMS出现了这么几次，挑其中几个感兴趣的来了解下：</p>
+<p><img src="/2018/09/02/ActivityManager启动过程/ams-other.png" alt=""></p>
+<ul>
+<li><p>installSystemProviders, 安装系统的provider，包括Settings.System,Settings.Secure,Settings.Global等内容，该方法的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">installSystemProviders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     List&lt;ProviderInfo&gt; providers;</span><br><span class="line">     <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">         ProcessRecord app = mProcessNames.get(<span class="string">"system"</span>, SYSTEM_UID);</span><br><span class="line">         providers = generateApplicationProvidersLocked(app);</span><br><span class="line">         <span class="keyword">if</span> (providers != <span class="keyword">null</span>) &#123;</span><br><span class="line">             <span class="keyword">for</span> (<span class="keyword">int</span> i=providers.size()-<span class="number">1</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">                 ProviderInfo pi = (ProviderInfo)providers.get(i);</span><br><span class="line">                 <span class="keyword">if</span> ((pi.applicationInfo.flags&amp;ApplicationInfo.FLAG_SYSTEM) == <span class="number">0</span>) &#123;</span><br><span class="line">                     Slog.w(TAG, <span class="string">"Not installing system proc provider "</span> + pi.name</span><br><span class="line">                             + <span class="string">": not system .apk"</span>);</span><br><span class="line">                     providers.remove(i);</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">if</span> (providers != <span class="keyword">null</span>) &#123;</span><br><span class="line">         mSystemThread.installSystemProviders(providers);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">         mSystemProvidersInstalled = <span class="keyword">true</span>;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     mConstants.start(mContext.getContentResolver());</span><br><span class="line">     mCoreSettingsObserver = <span class="keyword">new</span> CoreSettingsObserver(<span class="keyword">this</span>);</span><br><span class="line">     mFontScaleSettingObserver = <span class="keyword">new</span> FontScaleSettingObserver();</span><br><span class="line">     mDevelopmentSettingsObserver = <span class="keyword">new</span> DevelopmentSettingsObserver();</span><br><span class="line">     GlobalSettingsToPropertiesMapper.start(mContext.getContentResolver());</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Now that the settings provider is published we can consider sending</span></span><br><span class="line">     <span class="comment">// in a rescue party.</span></span><br><span class="line">     RescueParty.onSettingsProviderPublished(mContext);</span><br><span class="line"></span><br><span class="line">     <span class="comment">//mUsageStatsService.monitorPackages();</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>首先通过<code>mProcessNames.get(&quot;system&quot;, SYSTEM_UID);</code> 获取进程名为system，uid为SystemUID（1000）的进程，然后获取该进程中的provider信息，值得注意的是，进程名为system（<code>android:process=&quot;system&quot;</code>），sharedUid为system(android:sharedUserId=”android.uid.system”)的应用有多个，常用到的SettingsProvider就是其中之一，但是包含provider的只有framework-res和SettingsProvider这两个（cts里还有一个，但是不算在内），这部分主要就是针对SettingsProvider的。</p>
+<p>之后通过<code>mSystemThread.installSystemProviders(providers);</code> 对获取的providers进行安装，也就是放到mProviderMap中，再然后就是对各种provider添加observer。关于provider的处理在以后单独了解，这里知道有这回事就行。</p>
+</li>
+<li><p>watchdog.init(context, mActivityManagerService);初始化看门狗，暂不了解。</p>
+</li>
+<li><p>mActivityManagerService.setWindowManager(wm);关联WMS实例，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWindowManager</span><span class="params">(WindowManagerService wm)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        mWindowManager = wm;</span><br><span class="line">        mStackSupervisor.setWindowManager(wm);</span><br><span class="line">        mLockTaskController.setWindowManager(wm);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个时候调用这个方法是因为AMS需要和WMS交互但是在AMS初始化的过程中WMS实例还不存在（是在otherService中生成的），所以需要在WMS生成后和AMS进行关联。</p>
+</li>
+<li><p>mActivityManagerService.systemReady，代码比较长，只挑其中几个感兴趣的片段来看下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">mActivityManagerService.systemReady(() -&gt; &#123;</span><br><span class="line">            Slog.i(TAG, <span class="string">"Making services ready"</span>);</span><br><span class="line">            traceBeginAndSlog(<span class="string">"StartActivityManagerReadyPhase"</span>);</span><br><span class="line">            <span class="comment">//通知系统服务，SystemServer到了PHASE_ACTIVITY_MANAGER_READY阶段</span></span><br><span class="line">            mSystemServiceManager.startBootPhase(</span><br><span class="line">                    SystemService.PHASE_ACTIVITY_MANAGER_READY);</span><br><span class="line">            traceEnd();</span><br><span class="line">            traceBeginAndSlog(<span class="string">"StartObservingNativeCrashes"</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;<span class="comment">//添加NativeCrashListener</span></span><br><span class="line">                mActivityManagerService.startObservingNativeCrashes();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">                reportWtf(<span class="string">"observing native crashes"</span>, e);</span><br><span class="line">            &#125;</span><br><span class="line">            traceEnd();</span><br><span class="line">            <span class="comment">//……</span></span><br><span class="line">            traceBeginAndSlog(<span class="string">"StartSystemUI"</span>);</span><br><span class="line">            <span class="keyword">try</span> &#123;<span class="comment">//启动SystemUI的com.android.systemui.SystemUIService</span></span><br><span class="line">                 <span class="comment">//并通知WMS，绑定keyguard</span></span><br><span class="line">                startSystemUi(context, windowManagerF);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">                reportWtf(<span class="string">"starting System UI"</span>, e);</span><br><span class="line">            &#125;</span><br><span class="line">            traceEnd();</span><br><span class="line">            <span class="comment">//……</span></span><br><span class="line">            traceBeginAndSlog(<span class="string">"StartWatchdog"</span>);</span><br><span class="line">            Watchdog.getInstance().start();</span><br><span class="line">            traceEnd();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Wait for all packages to be prepared</span></span><br><span class="line">            mPackageManagerService.waitForAppDataPrepared();</span><br><span class="line">		   <span class="comment">//……</span></span><br><span class="line">            <span class="comment">// 所有的package data已准备完成，可以运行第三方的代码了，通知系统服务</span></span><br><span class="line">            mSystemServiceManager.startBootPhase(</span><br><span class="line">                    SystemService.PHASE_THIRD_PARTY_APPS_CAN_START);</span><br><span class="line">            traceEnd();</span><br><span class="line">			<span class="comment">//……</span></span><br><span class="line">        &#125;, BOOT_TIMINGS_TRACE_LOG);</span><br></pre></td></tr></table></figure>
+<p>在systemReady方法中，runnable运行之后会启动homeActivity:<code>startHomeActivityLocked(currentUserId, &quot;systemReady&quot;);</code> 。</p>
+<p>​</p>
+</li>
+</ul>
+<p>以上就是AMS启动的大致流程，主要就是创建AMS实例、关联其他服务，以及启动完成三个阶段，其中有很多内容未做了解，有些理解可能也不太到位，这里仅对已了解内容作个记录，以后再进行补充和修正。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/09/15/虚拟按键隐藏过程log/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          虚拟按键隐藏过程log
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/28/应用安装-点击apk安装/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">应用安装-点击apk安装</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#startBootstrapServices"><span class="nav-number">1.</span> <span class="nav-text">startBootstrapServices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#startCoreServices"><span class="nav-number">2.</span> <span class="nav-text">startCoreServices</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#startOtherServices"><span class="nav-number">3.</span> <span class="nav-text">startOtherServices</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            得一
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 me All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

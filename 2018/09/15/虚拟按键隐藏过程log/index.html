@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>虚拟按键隐藏过程log | 得一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="SystemUI">
+  
+  
+  
+  
+  <meta name="description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
+<meta name="keywords" content="SystemUI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="虚拟按键隐藏过程log">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/09/15/虚拟按键隐藏过程log/index.html">
+<meta property="og:site_name" content="得一">
+<meta property="og:description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-28T08:12:23.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="虚拟按键隐藏过程log">
+<meta name="twitter:description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
+  
+
+  
+
+  <link rel="icon" href="/css/images/avatar.jpg">
+  <link rel="apple-touch-icon" href="/css/images/avatar.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-虚拟按键隐藏过程log" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      虚拟按键隐藏过程log
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/15/虚拟按键隐藏过程log/" class="article-date">
+	  <time datetime="2018-09-15T05:22:30.000Z" itemprop="datePublished">2018-09-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。</p>
+<p>刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdebug版本。编译时间比较长，闲着也是闲着，就先在代码里看下有没有什么头绪吧。</p>
+<p>在SystemUI的代码里搜索关键字“recent”，“disable”，“hide”，最终在StatusBar.java里发现了一个“DISABLE_RECENT”进而找到了framework里的StatusBarManager.java中的以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_EXPAND = View.STATUS_BAR_DISABLE_EXPAND;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NOTIFICATION_ICONS = View.STATUS_BAR_DISABLE_NOTIFICATION_ICONS;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NOTIFICATION_ALERTS</span><br><span class="line">        = View.STATUS_BAR_DISABLE_NOTIFICATION_ALERTS;</span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NOTIFICATION_TICKER</span><br><span class="line">        = View.STATUS_BAR_DISABLE_NOTIFICATION_TICKER;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_SYSTEM_INFO = View.STATUS_BAR_DISABLE_SYSTEM_INFO;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_HOME = View.STATUS_BAR_DISABLE_HOME;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_RECENT = View.STATUS_BAR_DISABLE_RECENT;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_BACK = View.STATUS_BAR_DISABLE_BACK;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_CLOCK = View.STATUS_BAR_DISABLE_CLOCK;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_SEARCH = View.STATUS_BAR_DISABLE_SEARCH;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NAVIGATION = </span><br><span class="line">        View.STATUS_BAR_DISABLE_HOME | View.STATUS_BAR_DISABLE_RECENT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NONE = <span class="number">0x00000000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_MASK = DISABLE_EXPAND | DISABLE_NOTIFICATION_ICONS</span><br><span class="line">        | DISABLE_NOTIFICATION_ALERTS | DISABLE_NOTIFICATION_TICKER</span><br><span class="line">        | DISABLE_SYSTEM_INFO | DISABLE_RECENT | DISABLE_HOME | DISABLE_BACK | DISABLE_CLOCK</span><br><span class="line">        | DISABLE_SEARCH;</span><br></pre></td></tr></table></figure>
+<p>各种各样的disable，而这些disable都在StatusBar的disable()方法中出现了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * State is one or more of the DISABLE constants from StatusBarManager.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">disable</span><span class="params">(<span class="keyword">int</span> state1, <span class="keyword">int</span> state2, <span class="keyword">boolean</span> animate)</span> </span>&#123;</span><br><span class="line">     state2 = mRemoteInputQuickSettingsDisabler.adjustDisableFlags(state2);</span><br><span class="line"></span><br><span class="line">     animate &amp;= mStatusBarWindowState != WINDOW_STATE_HIDDEN;</span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> old1 = mDisabled1;</span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> diff1 = state1 ^ old1;</span><br><span class="line">     mDisabled1 = state1;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> old2 = mDisabled2;</span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> diff2 = state2 ^ old2;</span><br><span class="line">     mDisabled2 = state2;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">         Log.d(TAG, String.format(<span class="string">"disable1: 0x%08x -&gt; 0x%08x (diff1: 0x%08x)"</span>,</span><br><span class="line">             old1, state1, diff1));</span><br><span class="line">         Log.d(TAG, String.format(<span class="string">"disable2: 0x%08x -&gt; 0x%08x (diff2: 0x%08x)"</span>,</span><br><span class="line">             old2, state2, diff2));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     StringBuilder flagdbg = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">     flagdbg.append(<span class="string">"disable&lt;"</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_EXPAND))                ? <span class="string">'E'</span> : <span class="string">'e'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_EXPAND))                ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ICONS))    ? <span class="string">'I'</span> : <span class="string">'i'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_NOTIFICATION_ICONS))    ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS))   ? <span class="string">'A'</span> : <span class="string">'a'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS))   ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_SYSTEM_INFO))           ? <span class="string">'S'</span> : <span class="string">'s'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_SYSTEM_INFO))           ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_BACK))                  ? <span class="string">'B'</span> : <span class="string">'b'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_BACK))                  ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_HOME))                  ? <span class="string">'H'</span> : <span class="string">'h'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_HOME))                  ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_RECENT))                ? <span class="string">'R'</span> : <span class="string">'r'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_RECENT))                ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_CLOCK))                 ? <span class="string">'C'</span> : <span class="string">'c'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_CLOCK))                 ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_SEARCH))                ? <span class="string">'S'</span> : <span class="string">'s'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_SEARCH))                ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="string">"&gt; disable2&lt;"</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS))       ? <span class="string">'Q'</span> : <span class="string">'q'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS))       ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_SYSTEM_ICONS))         ? <span class="string">'I'</span> : <span class="string">'i'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_SYSTEM_ICONS))         ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE))   ? <span class="string">'N'</span> : <span class="string">'n'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE))   ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="string">'&gt;'</span>);</span><br><span class="line">     Log.d(TAG, flagdbg.toString());</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_EXPAND) != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE_EXPAND) != <span class="number">0</span>) &#123;</span><br><span class="line">             animateCollapsePanels();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_RECENT) != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE_RECENT) != <span class="number">0</span>) &#123;</span><br><span class="line">             <span class="comment">// close recents if it's visible</span></span><br><span class="line">             mHandler.removeMessages(MSG_HIDE_RECENT_APPS);</span><br><span class="line">             mHandler.sendEmptyMessage(MSG_HIDE_RECENT_APPS);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS) != <span class="number">0</span>) &#123;</span><br><span class="line">         mEntryManager.setDisableNotificationAlerts(</span><br><span class="line">                 (state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS) != <span class="number">0</span>);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff2 &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS) != <span class="number">0</span>) &#123;</span><br><span class="line">         updateQsExpansionEnabled();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff2 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE) != <span class="number">0</span>) &#123;</span><br><span class="line">         updateQsExpansionEnabled();</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE) != <span class="number">0</span>) &#123;</span><br><span class="line">             animateCollapsePanels();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>其中mDisabled1和mDisabled2表示之前的disable状态，state1和state2表示新的状态，diff1和diff2表示发生改变的标志位。状态的改变会记录在flagdbg中从代码中来看，如果新的state中包含某个disable标志位，则log中用一个大写字母表示，否则用小写表示；如果某个标志位发生改变，则字母后面会加上一个“!”。三个虚拟按键分别对应B(b),H(b),R(r).</p>
+<p>在刷机后抓取了开机向导过程中的log，从其中找到了以下信息:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">09-21 14:21:36.096  1432  1432 D StatusBar: disable1: 0x00000000 -&gt; 0x03a50000 (diff1: 0x03a50000)</span><br><span class="line">09-21 14:21:36.097  1432  1432 D StatusBar: disable2: 0x00000000 -&gt; 0x00000010 (diff2: 0x00000010)</span><br><span class="line">09-21 14:21:36.097  1432  1432 D StatusBar: disable&lt;E!i A!s b H!R!C!S!&gt; disable2&lt;q i n &gt;</span><br></pre></td></tr></table></figure>
+<p>该条记录表示E，I，A，H，R，C，S等标志为发生了变化。这里只关心三个虚拟按键，b表示back按键还是可用的而且没有发生变化；H!表示home键状态从enable变为disable了;R!表示recents按键也从enable变为了disable。</p>
+<p>上面这些内容比较好理解，仅作记录。关于最开始提到的问题，最后发现别人添加功能改出来的，这里就不关心了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/11/09/Ubuntu samba无法访问服务器/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu samba无法访问服务器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/09/02/ActivityManager启动过程/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">ActivityManagerService启动过程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav">无</ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            得一
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 me All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
