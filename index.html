@@ -148,6 +148,57 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-FLAG_ACTIVITY_TASK_ON_HOME" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/15/FLAG_ACTIVITY_TASK_ON_HOME/">FLAG_ACTIVITY_TASK_ON_HOME作用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/15/FLAG_ACTIVITY_TASK_ON_HOME/" class="article-date">
+	  <time datetime="2019-01-15T08:49:00.000Z" itemprop="datePublished">2019-01-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          最近做项目时测试提了个问题：查看联系人时，收到新短信，查看短信后，按返回键，回到了launcher而不是联系人（其实不一定要是联系人，其他应用也一样）。看到这个问题第一感觉是“这个问题和应用的启动模式和Flag有关”，然后觉得这不是问题。测试备注了这个”问题“Google对比机上也存在，本来想直接关掉的，但是想想具体原因自己也不清楚，还是看下吧。
+这种问题一般看下启动时的flag就能大概找到问题的原因，想看启动时的flag可以通过Android studio调试，也可以直接看log，一般直...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/15/FLAG_ACTIVITY_TASK_ON_HOME/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-OTA升级后，多个应用启动时crash" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -603,57 +654,6 @@ Handler类注释：Handler可以向与线程关联的MessageQueue中发送Messag
         </p>
         <p class="article-more-link">
           <a href="/2018/08/13/Android消息机制/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-PKMS启动过程" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/01/PKMS启动过程/">PKMS启动过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/01/PKMS启动过程/" class="article-date">
-	  <time datetime="2018-08-01T06:23:08.000Z" itemprop="datePublished">2018-08-01</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android基础/">Android基础</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          PKMS启动过程参考：https://blog.csdn.net/u012124438/article/details/54882771
-PackageManagerService，是Android系统中核心服务之一，管理着所有跟package相关的工作。Android是基于mashup（混搭）的风格设计的，程序是由一个个的组件拼凑起来的，而PackageManagerService的任务就是解析package，然后把其中的组件信息一个个的拆解出来把相关信息放到内存里，当然还要处理pack...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/01/PKMS启动过程/#more">阅读全文</a>
         </p>
       
     </div>
