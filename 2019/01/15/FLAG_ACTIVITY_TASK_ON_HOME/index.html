@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="最近做项目时测试提了个问题：查看联系人时，收到新短信，查看短信后，按返回键，回到了launcher而不是联系人（其实不一定要是联系人，其他应用也一样）。看到这个问题第一感觉是“这个问题和应用的启动模式和Flag有关”，然后觉得这不是问题。测试备注了这个”问题“Google对比机上也存在，本来想直接关掉的，但是想想具体原因自己也不清楚，还是看下吧。 这种问题一般看下启动时的flag就能大概找到问题的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-15T08:49:19.036Z">
+<meta property="og:updated_time" content="2019-01-15T08:59:36.727Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FLAG_ACTIVITY_TASK_ON_HOME作用">
 <meta name="twitter:description" content="最近做项目时测试提了个问题：查看联系人时，收到新短信，查看短信后，按返回键，回到了launcher而不是联系人（其实不一定要是联系人，其他应用也一样）。看到这个问题第一感觉是“这个问题和应用的启动模式和Flag有关”，然后觉得这不是问题。测试备注了这个”问题“Google对比机上也存在，本来想直接关掉的，但是想想具体原因自己也不清楚，还是看下吧。 这种问题一般看下启动时的flag就能大概找到问题的">
@@ -195,7 +195,7 @@
 <li>0x00004000:FLAG_ACTIVITY_TASK_ON_HOME</li>
 </ul>
 <p>第三个flag看起来很像是造成问题的原因，来看下注释：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * If set in an Intent passed to &#123;<span class="doctag">@link</span> Context#startActivity Context.startActivity()&#125;,</span></span><br><span class="line"><span class="comment"> * this flag will cause a newly launching task to be placed on top of the current</span></span><br><span class="line"><span class="comment"> * home activity task (if there is one).  That is, pressing back from the task</span></span><br><span class="line"><span class="comment"> * will always return the user to home even if that was not the last activity they</span></span><br><span class="line"><span class="comment"> * saw.   This can only be used in conjunction with &#123;<span class="doctag">@link</span> #FLAG_ACTIVITY_NEW_TASK&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FLAG_ACTIVITY_TASK_ON_HOME = <span class="number">0X00004000</span>;</span><br></pre></td></tr></table></figure></p>
-<p>也就是说添加这个flag会导致activy被放到当先home activity stack上，再加上FLAG_ACTIVITY_NEW_TASK和FLAG_ACTIVITY_CLEAR_TASK这两个flag，最后的结果就是创建一个新的stack并把activity放到这个stack里，然后把这个stack放到home activity stack上面，该stack变成可见stack，home在它下面，所以这个stack中的activity中的activity都销毁后，home activity stack就会变成可见stack，所以这个问题里按home键会直接从Message进入到launcher。</p>
+<p>也就是说添加这个flag会导致新启动的stack放到当先home activity stack上，再加上FLAG_ACTIVITY_NEW_TASK和FLAG_ACTIVITY_CLEAR_TASK这两个flag，最后的结果就是创建一个新的stack并把activity放到这个stack里，然后把这个stack放到home activity stack上面，该stack变成可见stack，home在它下面，所以这个stack中的activity中的activity都销毁后，home activity stack就会变成可见stack，所以这个问题里按home键会直接从Message进入到launcher。</p>
 
       
     </div>
