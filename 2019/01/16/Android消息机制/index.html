@@ -15,18 +15,18 @@
 <meta name="keywords" content="Android,消息机制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android消息机制简介">
-<meta property="og:url" content="https://mouzishuo.github.io/2018/08/13/Android消息机制/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/01/16/Android消息机制/index.html">
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="相关类介绍先来看下相关类在源码中的注释。  Handler Handler类注释：Handler可以向与线程关联的MessageQueue中发送Message及Runnable对象，并可以处对这些Message及Runnable对象进行处理.每一个Handler都和一个线程以及该线程的MessageQueue关联。当创建一个Handler时，该Handler就会和创建该Handler的线程Mess">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://mouzishuo.github.io/2018/08/13/Android消息机制/Message-obtain.png">
-<meta property="og:image" content="https://mouzishuo.github.io/2018/08/13/Android消息机制/Message对象池.png">
-<meta property="og:image" content="https://mouzishuo.github.io/2018/08/13/Android消息机制/Handler-sendMessage.png">
-<meta property="og:updated_time" content="2018-08-13T08:52:27.194Z">
+<meta property="og:image" content="https://mouzishuo.github.io/2019/01/16/Android消息机制/Message-obtain.png">
+<meta property="og:image" content="https://mouzishuo.github.io/2019/01/16/Android消息机制/Message对象池.png">
+<meta property="og:image" content="https://mouzishuo.github.io/2019/01/16/Android消息机制/Handler-sendMessage.png">
+<meta property="og:updated_time" content="2019-01-16T01:14:47.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android消息机制简介">
 <meta name="twitter:description" content="相关类介绍先来看下相关类在源码中的注释。  Handler Handler类注释：Handler可以向与线程关联的MessageQueue中发送Message及Runnable对象，并可以处对这些Message及Runnable对象进行处理.每一个Handler都和一个线程以及该线程的MessageQueue关联。当创建一个Handler时，该Handler就会和创建该Handler的线程Mess">
-<meta name="twitter:image" content="https://mouzishuo.github.io/2018/08/13/Android消息机制/Message-obtain.png">
+<meta name="twitter:image" content="https://mouzishuo.github.io/2019/01/16/Android消息机制/Message-obtain.png">
   
 
   
@@ -173,12 +173,12 @@
     
     <div class="article-meta">
       
-	<a href="/2018/08/13/Android消息机制/" class="article-date">
-	  <time datetime="2018-08-13T08:52:27.194Z" itemprop="datePublished">2018-08-13</time>
+	<a href="/2019/01/16/Android消息机制/" class="article-date">
+	  <time datetime="2019-01-16T01:14:47.564Z" itemprop="datePublished">2019-01-16</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Android基础/">Android基础</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
 
       
 	<a class="article-views">
@@ -226,7 +226,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Message <span class="title">obtainMessage</span><span class="params">(<span class="keyword">int</span> what, <span class="keyword">int</span> arg1, <span class="keyword">int</span> arg2, Object obj)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Message.obtain(<span class="keyword">this</span>, what, arg1, arg2, obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>从注释上可知，其实Handler获取Message最终还是通过Message的相关方法，只不过除了从Message对象池获取Message外，还将本身设为了Message的target。下面来看下Message的相关方法。</p>
 <p>​</p>
-<p><img src="/2018/08/13/Android消息机制/Message-obtain.png" alt="obtain"></p>
+<p><img src="/2019/01/16/Android消息机制/Message-obtain.png" alt="obtain"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Return a new Message instance from the global pool. Allows us to</span></span><br><span class="line"><span class="comment"> * avoid allocating new objects in many cases.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (sPoolSync) &#123;</span><br><span class="line">        <span class="keyword">if</span> (sPool != <span class="keyword">null</span>) &#123;</span><br><span class="line">            Message m = sPool;</span><br><span class="line">            sPool = m.next;</span><br><span class="line">            m.next = <span class="keyword">null</span>;</span><br><span class="line">            m.flags = <span class="number">0</span>; <span class="comment">// clear in-use flag</span></span><br><span class="line">            sPoolSize--;</span><br><span class="line">            <span class="keyword">return</span> m;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Message();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面这个方法是其他几个方法的基础，另外几个方法（上图中第2~6个重载方法）都是在该方法的基础上对得到的Message属性（即Message携带的数据）进行了赋值。比如下面的方法，除了获取Message对象外，还将该对象的target设为了参数handler。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Same as &#123;<span class="doctag">@link</span> #obtain()&#125;, but sets the value for the &lt;em&gt;target&lt;/em&gt; member on the Message returned.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> h  Handler to assign to the returned Message object's &lt;em&gt;target&lt;/em&gt; member.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> A Message object from the global pool.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Message <span class="title">obtain</span><span class="params">(Handler h)</span> </span>&#123;</span><br><span class="line">    Message m = obtain();</span><br><span class="line">    m.target = h;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> m;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -242,7 +242,7 @@
 <p>从上面的代码中可以看出来，Message采用了链表的结构，每次取对象时将链表头部的元素取出并将指针向前移动一位，同时清除返回对象的in-use标志。在sPool为空的情况下，也就是对象池中没有可用的对象是才会重新构造Message对象。Message的构造方法如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Constructor (but the preferred way to get a Message is to call &#123;<span class="doctag">@link</span> #obtain() Message.obtain()&#125;).</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="title">Message</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>问题来了，开始的时候对象池为空，而且构造方法里什么也没做，那么构造的对象是怎么加入到对象池（链表）中的？查找一下引用sPool的地方:</p>
-<p><img src="/2018/08/13/Android消息机制/Message对象池.png" alt="sPool"></p>
+<p><img src="/2019/01/16/Android消息机制/Message对象池.png" alt="sPool"></p>
 </li>
 </ol>
 <p>对sPool进行修改的地方有两处，其中一处在obtain()方法中，这个排除，还有一处是在recycleUnchecked()方法中。</p>
@@ -256,7 +256,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Sends this Message to the Handler specified by &#123;<span class="doctag">@link</span> #getTarget&#125;.</span></span><br><span class="line"><span class="comment"> * Throws a null pointer exception if this field has not been set.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendToTarget</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    target.sendMessage(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>其实就是调用Handler的sendMessage(Message msg)方法。</p>
 <p>Handler发送消息的方法有以下几种重载方式：</p>
-<p><img src="/2018/08/13/Android消息机制/Handler-sendMessage.png" alt=""></p>
+<p><img src="/2019/01/16/Android消息机制/Handler-sendMessage.png" alt=""></p>
 <p>几个sendEmptyMessage……的方法其实在方法内部通过obtain方法获取了Message对象，然后设置该对象的what值，最后调用对应的sendMessage……方法。而sendMessage()、sendMessageDelayed()最终都是调用的sendMessageAtTime()方法。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Enqueue a message into the message queue after all pending messages</span></span><br><span class="line"><span class="comment"> * before the absolute time (in milliseconds) &lt;var&gt;uptimeMillis&lt;/var&gt;.</span></span><br><span class="line"><span class="comment"> * &lt;b&gt;The time-base is &#123;<span class="doctag">@link</span> android.os.SystemClock#uptimeMillis&#125;.&lt;/b&gt;</span></span><br><span class="line"><span class="comment"> * Time spent in deep sleep will add an additional delay to execution.</span></span><br><span class="line"><span class="comment"> * You will receive it in &#123;<span class="doctag">@link</span> #handleMessage&#125;, in the thread attached</span></span><br><span class="line"><span class="comment"> * to this handler.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uptimeMillis The absolute time at which the message should be</span></span><br><span class="line"><span class="comment"> *         delivered, using the</span></span><br><span class="line"><span class="comment"> *         &#123;<span class="doctag">@link</span> android.os.SystemClock#uptimeMillis&#125; time-base.</span></span><br><span class="line"><span class="comment"> *         </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> Returns true if the message was successfully placed in to the </span></span><br><span class="line"><span class="comment"> *         message queue.  Returns false on failure, usually because the</span></span><br><span class="line"><span class="comment"> *         looper processing the message queue is exiting.  Note that a</span></span><br><span class="line"><span class="comment"> *         result of true does not mean the message will be processed -- if</span></span><br><span class="line"><span class="comment"> *         the looper is quit before the delivery time of the message</span></span><br><span class="line"><span class="comment"> *         occurs then the message will be dropped.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendMessageAtTime</span><span class="params">(Message msg, <span class="keyword">long</span> uptimeMillis)</span> </span>&#123;</span><br><span class="line">    MessageQueue queue = mQueue;</span><br><span class="line">    <span class="keyword">if</span> (queue == <span class="keyword">null</span>) &#123;</span><br><span class="line">        RuntimeException e = <span class="keyword">new</span> RuntimeException(</span><br><span class="line">                <span class="keyword">this</span> + <span class="string">" sendMessageAtTime() called with no mQueue"</span>);</span><br><span class="line">        Log.w(<span class="string">"Looper"</span>, e.getMessage(), e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> enqueueMessage(queue, msg, uptimeMillis);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>从注释可知，放入消息队列中的Message是按照传递的uptimeMillis进行排列的，sendMessageAtTime()传递的是发送消息时的时间加上延时的时间（不包括休眠时间），而另一个方法sendMessageAtFrontOfQueue()与之类似，不过传递的绝对时间为0，这回导致该消息被放置到消息队列的最前面。</p>
@@ -326,19 +326,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/13/SparseArray/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          SparseArray
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/08/01/PKMS启动过程/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/01/15/FLAG_ACTIVITY_TASK_ON_HOME/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">PKMS启动过程</div>
+      <div class="article-nav-title">FLAG_ACTIVITY_TASK_ON_HOME作用</div>
     </a>
   
 </nav>
