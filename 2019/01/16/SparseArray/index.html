@@ -3,19 +3,28 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>category: 数据结构 | 得一</title>
+  <title>sparsearray | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="数据结构Android">
   
   
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="得一">
-<meta property="og:url" content="https://mouzishuo.github.io/categories/Android/数据结构/index.html">
+  
+  <meta name="description" content="SparseArray稀疏数组，是Android内部特有的api,标准的jdk是没有这个类的. SparseArray保存的是Integer到Object的映射。和普通Array不同，SparseArray允许索引之间存在间隔，在Android中用来替代HashMap&amp;lt;Integer, Object&amp;gt;这种形式，目的是节省内存：一方面，SparseArray不会进行自动装箱的操作；另一方">
+<meta name="keywords" content="数据结构,Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SparseArray">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/01/16/SparseArray/index.html">
 <meta property="og:site_name" content="得一">
+<meta property="og:description" content="SparseArray稀疏数组，是Android内部特有的api,标准的jdk是没有这个类的. SparseArray保存的是Integer到Object的映射。和普通Array不同，SparseArray允许索引之间存在间隔，在Android中用来替代HashMap&amp;lt;Integer, Object&amp;gt;这种形式，目的是节省内存：一方面，SparseArray不会进行自动装箱的操作；另一方">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mouzishuo.github.io/2019/01/16/SparseArray/home/android/Documents/Notes/Map/SparseArray.png">
+<meta property="og:updated_time" content="2019-01-16T03:17:03.268Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="得一">
+<meta name="twitter:title" content="SparseArray">
+<meta name="twitter:description" content="SparseArray稀疏数组，是Android内部特有的api,标准的jdk是没有这个类的. SparseArray保存的是Integer到Object的映射。和普通Array不同，SparseArray允许索引之间存在间隔，在Android中用来替代HashMap&amp;lt;Integer, Object&amp;gt;这种形式，目的是节省内存：一方面，SparseArray不会进行自动装箱的操作；另一方">
+<meta name="twitter:image" content="https://mouzishuo.github.io/2019/01/16/SparseArray/home/android/Documents/Notes/Map/SparseArray.png">
   
 
   
@@ -52,8 +61,6 @@
   
 
   
-    <link rel="stylesheet" href="/css/archive.css">
-  
   
   
 
@@ -61,7 +68,7 @@
 </html>
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -83,7 +90,7 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;">
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -148,43 +155,83 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;">
-  
-  
-  
+          <section id="main" style="float:none;"><article id="post-SparseArray" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
     
     
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <h1><a href="/archives/2018" class="archive-year">2018</a></h1>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      
-	<a href="/2018/08/13/SparseArray/" class="archive-article-date">
-	  <time datetime="2018-08-13T10:06:28.000Z" itemprop="datePublished">2018-08-13</time>
-	</a>
-
-      
+      <header class="article-header">
+        
   
     <h1 class="thumb" itemprop="name">
-      <a class="archive-article-title" href="/2018/08/13/SparseArray/">SparseArray</a>
+      SparseArray
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/16/SparseArray/" class="article-date">
+	  <time datetime="2019-01-16T03:17:15.908Z" itemprop="datePublished">2019-01-16</time>
+	</a>
 
+      
+    <a class="article-category-link" href="/categories/Android基础/">Android基础</a><a class="article-category-link" href="/categories/Android基础/数据结构/">数据结构</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SparseArray"><a href="#SparseArray" class="headerlink" title="SparseArray"></a>SparseArray</h1><p>稀疏数组，是Android内部特有的api,标准的jdk是没有这个类的.</p>
+<p>SparseArray保存的是Integer到Object的映射。和普通Array不同，SparseArray允许索引之间存在间隔，在Android中用来替代HashMap&lt;Integer, Object&gt;这种形式，目的是节省内存：一方面，SparseArray不会进行自动装箱的操作；另一方面，SparseArray不依赖于额外的Entry数据结构。</p>
+<p>SparseArray的map关系是通过两个数组来实现的，通过二分查找来查找key。这个数据结构的设计意图不是用来存储大量的数据的。通常来说，SparseArray的效率低于HashMap，因为查找需要通过二分查找，而添加和删除需要通过数组的插入和删除操作进行。对于几百项的数据量，性能的差别不大，少于50%.</p>
+<p>为了提高性能，SparseArray对删除操作进行了优化：在删除元素，并不会马上把数组中的元素移除，而是会先把该元素标记为已删除。该项在之后可以得到复用（key不变），或者在之后的垃圾回收过程中进行统一的移除。垃圾回收发生在以下几种情况：数据容量需要发生改变、map的size发生改变或者元素值被检索。</p>
+<p>SparseArray可以通过<code>keyAt</code>和<code>valueAt</code>方法进行遍历。</p>
+<p>SparseArray的成员如下：</p>
+<p><img src="/2019/01/16/SparseArray/home/android/Documents/Notes/Map/SparseArray.png" alt="SparseArray"></p>
+<p>可以看到，SparseArray添加和获取删除元素的方式都和HashMap类似。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/16/Android消息机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Android消息机制简介</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SparseArray"><span class="nav-number">1.</span> <span class="nav-text">SparseArray</span></a></li></ol>
+    
+    </div>
+  </aside>
 
 </section>
         
@@ -282,6 +329,8 @@
 
 
 
+  <script src="/js/dialog.js"></script>
+
 
 
 
@@ -360,6 +409,8 @@
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
