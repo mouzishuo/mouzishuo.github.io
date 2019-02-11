@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>android o项目首次刷机packageinstaller无法安装和卸载应用 | 得一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="PKMS权限">
+  
+  
+  
+  
+  <meta name="description" content="1.问题现象   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。 2.问题log   应用安装的log：   12345678910111213141516171819202122232401-01 12:08:06.781  6599  6599 E AndroidRuntime: FA">
+<meta name="keywords" content="PKMS,权限">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android O项目首次刷机PackageInstaller无法安装和卸载应用">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/02/11/Android O项目首次刷机PackageInstaller无法安装和卸载应用/index.html">
+<meta property="og:site_name" content="得一">
+<meta property="og:description" content="1.问题现象   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。 2.问题log   应用安装的log：   12345678910111213141516171819202122232401-01 12:08:06.781  6599  6599 E AndroidRuntime: FA">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-02-11T07:30:28.154Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android O项目首次刷机PackageInstaller无法安装和卸载应用">
+<meta name="twitter:description" content="1.问题现象   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。 2.问题log   应用安装的log：   12345678910111213141516171819202122232401-01 12:08:06.781  6599  6599 E AndroidRuntime: FA">
+  
+
+  
+
+  <link rel="icon" href="/css/images/avatar.jpg">
+  <link rel="apple-touch-icon" href="/css/images/avatar.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css">
+  
+
+  
+  
+  
+
+</head>
+</html>
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                  <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div></li>
+            </ul></div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Android O项目首次刷机PackageInstaller无法安装和卸载应用" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      Android O项目首次刷机PackageInstaller无法安装和卸载应用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/11/Android O项目首次刷机PackageInstaller无法安装和卸载应用/" class="article-date">
+	  <time datetime="2019-02-11T07:29:30.000Z" itemprop="datePublished">2019-02-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-问题现象"><a href="#1-问题现象" class="headerlink" title="1.问题现象"></a>1.问题现象</h2><p>   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。</p>
+<h2 id="2-问题log"><a href="#2-问题log" class="headerlink" title="2.问题log"></a>2.问题log</h2><p>   应用安装的log：<br>   <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: FATAL EXCEPTION: main</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: Process: com.google.android.packageinstaller, PID: 6599</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: java.lang.RuntimeException: Unable to start activity ComponentInfo&#123;com.google.android.packageinstaller/com.android.packageinstaller.InstallInstalling&#125;: java.lang.NullPointerException: Attempt to invoke virtual method <span class="string">'void android.app.AppOpsManager.checkPackage(int, java.lang.String)'</span> on a null object reference</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2805)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2883)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.ActivityThread.-wrap11(Unknown Source:0)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.ActivityThread<span class="variable">$H</span>.handleMessage(ActivityThread.java:1613)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:164)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:6523)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit<span class="variable">$MethodAndArgsCaller</span>.run(RuntimeInit.java:438)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:857)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: Caused by: java.lang.NullPointerException: Attempt to invoke virtual method <span class="string">'void android.app.AppOpsManager.checkPackage(int, java.lang.String)'</span> on a null object reference</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.os.Parcel.readException(Parcel.java:2019)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.os.Parcel.readException(Parcel.java:1959)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.content.pm.IPackageInstaller<span class="variable">$Stub</span><span class="variable">$Proxy</span>.createSession(IPackageInstaller.java:254)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.content.pm.PackageInstaller.createSession(PackageInstaller.java:324)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at com.android.packageinstaller.InstallInstalling.onCreate(InstallInstalling.java:147)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:7022)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:7013)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1214)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2758)</span><br><span class="line">01-01 12:08:06.781  6599  6599 E AndroidRuntime: 	... 9 more</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-问题分析"><a href="#3-问题分析" class="headerlink" title="3.问题分析"></a>3.问题分析</h2><p>从来log上看问题的原因是在InstallInstalling启动过程中出现了NPE，问题出现在performLaunchActivity()方法进行binder通信的过程中，即<code>IPackageInstaller$Stub$Proxy.createSession</code>，对端代码为PackageInstallerService，问题出现在其createSession()方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">createSession</span><span class="params">(SessionParams params, String installerPackageName, <span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> createSessionInternal(params, installerPackageName, userId);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> ExceptionUtils.wrap(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">createSessionInternal</span><span class="params">(SessionParams params, String installerPackageName, <span class="keyword">int</span> userId)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="comment">//……</span></span><br><span class="line">    <span class="keyword">if</span> ((callingUid == Process.SHELL_UID) || (callingUid == Process.ROOT_UID)) &#123;</span><br><span class="line">        params.installFlags |= PackageManager.INSTALL_FROM_ADB;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Only apps with INSTALL_PACKAGES are allowed to set an installer that is not the</span></span><br><span class="line">        <span class="comment">// caller.</span></span><br><span class="line">        <span class="keyword">if</span> (mContext.checkCallingOrSelfPermission(Manifest.permission.INSTALL_PACKAGES) !=</span><br><span class="line">                PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">            mAppOps.checkPackage(callingUid, installerPackageName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//……</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//……</span></span><br><span class="line">    <span class="keyword">return</span> sessionId;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>结合log来看，出问题的就是<code>mAppOps.checkPackage(callingUid, installerPackageName);</code>这行代码，问题原因是mAppOps为null。mAppOps为AppOpsManager的实例，相当于AppOpsService的封装。mAppOps的初始化是在PackageInstallerService中的systemReady()中进行的：<code>mAppOps = mContext.getSystemService(AppOpsManager.class);</code>。Context#getSystemService()获取的服务是在<code>SystemServiceRegistry</code>中注册的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Manages all of the system services that can be returned by &#123;<span class="doctag">@link</span> Context#getSystemService&#125;.</span></span><br><span class="line"><span class="comment"> * Used by &#123;<span class="doctag">@link</span> ContextImpl&#125;.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@hide</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SystemServiceRegistry</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        registerService(Context.APP_OPS_SERVICE, AppOpsManager.class,</span><br><span class="line">        <span class="keyword">new</span> CachedServiceFetcher&lt;AppOpsManager&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> AppOpsManager <span class="title">createService</span><span class="params">(ContextImpl ctx)</span> <span class="keyword">throws</span> ServiceNotFoundException </span>&#123;</span><br><span class="line">                IBinder b = ServiceManager.getServiceOrThrow(Context.APP_OPS_SERVICE);</span><br><span class="line">                IAppOpsService service = IAppOpsService.Stub.asInterface(b);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> AppOpsManager(ctx, service);</span><br><span class="line">            &#125;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>AppOpsManager是在SystemServiceRegistry的静态代码块中注册的，所以目前来看造成mAppOps为null的原因有以下几种：</p>
+<ul>
+<li>有可能是SystemServiceRegistry加载出了问题；</li>
+<li>服务或者注册出了问题</li>
+<li>mAppOps没有初始化也就是PackageInstallerService的systemReady()没有执行（mAppOps的初始化是该方法的第一行代码）。</li>
+</ul>
+<p>第一种可能基本可以排除，因为SystemServiceRegistry中同时注册了很过系统服务，如果这个类加载出了问题，表现出来的现象应该要严重得多。第三种可能性最大，为了进一步分析mAppOps为null的原因，需要抓下首次开机启动时的log，并开启MTK的PMS调试开关（adb shell dumpsys package log a on）。</p>
+<p>在抓到的开机log中，发现了大量AppOpsService的log：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">01-01 12:12:39.507   838   838 I AppOps  : Pruning old package com.google.android.inputmethod.latin/com.android.server.AppOpsService<span class="variable">$UidState</span>@85b6b67: new uid=10068</span><br><span class="line">01-01 12:12:39.508   838   838 I AppOps  : Pruning old package com.mediatek.mtklogger/com.android.server.AppOpsService<span class="variable">$UidState</span>@2504d14: new uid=10069</span><br><span class="line">01-01 12:12:39.508   838   838 I AppOps  : Pruning old package com.google.android.tts/com.android.server.AppOpsService<span class="variable">$UidState</span>@52519bd: new uid=10065</span><br><span class="line">01-01 12:12:39.508   838   838 I AppOps  : Pruning old package com.google.android.syncadapters.contacts/com.android.server.AppOpsService<span class="variable">$UidState</span>@3d1bbb2: new uid=10062</span><br><span class="line">01-01 12:12:39.508   838   838 I AppOps  : Pruning old package com.google.android.calendar/com.android.server.AppOpsService<span class="variable">$UidState</span>@5295703: new uid=10055</span><br><span class="line">01-01 12:12:39.508   838   838 I AppOps  : Pruning old package com.android.carrierdefaultapp/com.android.server.AppOpsService<span class="variable">$UidState</span>@a6f2680: new uid=10054</span><br><span class="line">01-01 12:12:39.508   838   838 I AppOps  : Pruning old package com.bootup.receiveimage/com.android.server.AppOpsService<span class="variable">$UidState</span>@60e94b9: new uid=10051</span><br></pre></td></tr></table></figure></p>
+<p>说明该服务的注册也是没问题的，所以问题应该就是PackageInstallerService的systemReady()没有执行引起的。而该方法是在PackageManagerService的systemReady()方法中调用的，所以可能是在该方法被调用之前出现了什么异常，导致后面的代码没有执行，PackageManagerService的systemReady()是在SystemServer的startOtherService()中调用的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">traceBeginAndSlog(<span class="string">"MakePackageManagerServiceReady"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    mPackageManagerService.systemReady();</span><br><span class="line">&#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">    reportWtf(<span class="string">"making Package Manager Service ready"</span>, e);</span><br><span class="line">&#125;</span><br><span class="line">traceEnd();</span><br></pre></td></tr></table></figure></p>
+<p>也就是说PackageManagerService的systemReady()时允许出现异常的，而且会有异常信息输出，在开机log中搜索“making Package Manager Service ready”（其实最开始搜索的是PackageManager,也找到了出错信息）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">01-01 12:12:39.489   838   838 W SystemServer: ***********************************************</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: BOOT FAILURE making Package Manager Service ready</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: java.lang.SecurityException: Permission android.permission.MANAGE_ACTIVITY_STACKS is not a changeable permission <span class="built_in">type</span></span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.PackageManagerService.enforceDeclaredAsUsedAndRuntimeOrDevelopmentPermission(PackageManagerService.java:5717)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.PackageManagerService.grantRuntimePermission(PackageManagerService.java:5761)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.PackageManagerService.grantRuntimePermission(PackageManagerService.java:5724)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.DefaultPermissionGrantPolicy.grantRuntimePermissionsLPw(DefaultPermissionGrantPolicy.java:1066)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.DefaultPermissionGrantPolicy.grantRuntimePermissionsLPw(DefaultPermissionGrantPolicy.java:1008)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.DefaultPermissionGrantPolicy.grantDefaultPermissionExceptions(DefaultPermissionGrantPolicy.java:1143)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.DefaultPermissionGrantPolicy.grantDefaultPermissions(DefaultPermissionGrantPolicy.java:224)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.pm.PackageManagerService.systemReady(PackageManagerService.java:22721)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.SystemServer.startOtherServices(SystemServer.java:1715)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.SystemServer.run(SystemServer.java:412)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.server.SystemServer.main(SystemServer.java:280)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at java.lang.reflect.Method.invoke(Native Method)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.internal.os.RuntimeInit<span class="variable">$MethodAndArgsCaller</span>.run(RuntimeInit.java:438)</span><br><span class="line">01-01 12:12:39.492   838   838 E SystemServer: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:837)</span><br></pre></td></tr></table></figure>
+<p>从log上看，问题出在PackageManagerService的enforceDeclaredAsUsedAndRuntimeOrDevelopmentPermission()方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">enforceDeclaredAsUsedAndRuntimeOrDevelopmentPermission</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        PackageParser.Package pkg, BasePermission bp)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> index = pkg.requestedPermissions.indexOf(bp.name);</span><br><span class="line">    <span class="keyword">if</span> (index == -<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException(<span class="string">"Package "</span> + pkg.packageName</span><br><span class="line">                + <span class="string">" has not requested permission "</span> + bp.name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!bp.isRuntime() &amp;&amp; !bp.isDevelopment()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException(<span class="string">"Permission "</span> + bp.name</span><br><span class="line">                + <span class="string">" is not a changeable permission type"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码上看，满足条件<code>!bp.isRuntime() &amp;&amp; !bp.isDevelopment()</code>时会抛出上面log中的异常。来看下isRuntime()和isDevelopment()是什么含义：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isRuntime</span><span class="params">()</span> </span>&#123;<span class="comment">//protectionLevel是dangerous</span></span><br><span class="line">    <span class="keyword">return</span> (protectionLevel &amp; PermissionInfo.PROTECTION_MASK_BASE)</span><br><span class="line">            == PermissionInfo.PROTECTION_DANGEROUS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isDevelopment</span><span class="params">()</span> </span>&#123;<span class="comment">//protectionLevel是PROTECTION_SIGNATURE | PROTECTION_FLAG_DEVELOPMENT</span></span><br><span class="line">    <span class="keyword">return</span> (protectionLevel &amp; PermissionInfo.PROTECTION_MASK_BASE)</span><br><span class="line">            == PermissionInfo.PROTECTION_SIGNATURE</span><br><span class="line">            &amp;&amp; (protectionLevel &amp; PermissionInfo.PROTECTION_FLAG_DEVELOPMENT) != <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从adb shell dumpsys package中可以看到android.permission.MANAGE_ACTIVITY_STACKS权限的信息如下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Permission [android.permission.MANAGE_ACTIVITY_STACKS] (c6783bc):</span><br><span class="line">  sourcePackage=android</span><br><span class="line">  uid=1000 gids=null <span class="built_in">type</span>=0 prot=signature|privileged</span><br><span class="line">  perm=Permission&#123;19e8f45 android.permission.MANAGE_ACTIVITY_STACKS&#125;</span><br><span class="line">  packageSetting=PackageSetting&#123;2fcec10 android/1000&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面的信息来看，这个权限是在包名为android的package，也就是framework-res.apk中定义的，其protectionLevel为signature|privileged，不是runtime也不是development，所以会出现异常。</p>
+<p>从dump信息中找到使用了该权限的应用一共有三个：</p>
+<ul>
+<li>android.uid.shell</li>
+<li>com.android.systemui</li>
+<li>com.emoji.keyboard.touchpal.go</li>
+</ul>
+<p>前两个应用都是原生就有的，未做修改，所以可以排除。第三个是项目中预置的应用，而且用到了MANAGE_ACTIVITY_STACKS权限。</p>
+<p>为什么用到这个权限会引起异常呢？继续看异常的调用栈，分析下出现异常时代码在干什么。从上面的调用栈可以看到，在PackageManagerService#systemReady()方法中调用了DefaultPermissionGrantPolicy#grantDefaultPermissions():<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If we upgraded grant all default permissions before kicking off.</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> userId : grantPermissionsUserIds) &#123;</span><br><span class="line">    mDefaultPermissionPolicy.grantDefaultPermissions(userId);<span class="comment">//用于授予应用默认权限</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而该代码正好在<code>mInstallerService.systemReady();</code>前面执行，所以该部分代码出异常后，mInstallerService的systemReady()方法未得到调用。继续看grantDefaultPermissions()代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">grantDefaultPermissions</span><span class="params">(<span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mService.hasSystemFeature(PackageManager.FEATURE_EMBEDDED, <span class="number">0</span>)) &#123;</span><br><span class="line">        grantAllRuntimePermissions(userId);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">//走这个分支</span></span><br><span class="line">        grantPermissionsToSysComponentsAndPrivApps(userId);<span class="comment">//授予priv-app默认运行时权限</span></span><br><span class="line">        grantDefaultSystemHandlerPermissions(userId);<span class="comment">//授予一些系统核心应用默认的运行时权限，比如拨号，联系人等</span></span><br><span class="line">        grantDefaultPermissionExceptions(userId);<span class="comment">//从xml中读取默认运行时权限，可fix，让用户无法修改，权限配置页面会看不到该权限</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题出在grantDefaultPermissionExceptions()这个方法中，该方法用于从/system/etc/default-permissions/下的xml文件中读取应用的默认运行时权限，并授予应用。其写法如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version='1.0' encoding='utf-8' standalone='yes' ?&gt;</span><br><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    This file contains permissions to be granted by default. Default</span></span><br><span class="line"><span class="comment">    permissions are granted to special platform components and to apps</span></span><br><span class="line"><span class="comment">    that are approved to get default grants. The special components</span></span><br><span class="line"><span class="comment">    are apps that are expected to work out-of-the-box as they provide</span></span><br><span class="line"><span class="comment">    core use cases such as default dialer, default email, etc. These</span></span><br><span class="line"><span class="comment">    grants are managed by the platform. The apps that are additionally</span></span><br><span class="line"><span class="comment">    approved for default grants are ones that provide carrier specific</span></span><br><span class="line"><span class="comment">    functionality, ones legally required at some location, ones providing</span></span><br><span class="line"><span class="comment">    alternative disclosure and opt-out UI, ones providing highlight features</span></span><br><span class="line"><span class="comment">    of a dedicated device, etc. This file contains only the latter exceptions.</span></span><br><span class="line"><span class="comment">    Fixed permissions cannot be controlled by the user and need a special</span></span><br><span class="line"><span class="comment">    approval. Typically these are to ensure either legally mandated functions</span></span><br><span class="line"><span class="comment">    or the app is considered a part of the OS.</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">exceptions</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">exception</span> <span class="attr">package</span>=<span class="string">"com.emoji.keyboard.touchpal.go"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">permission</span> <span class="attr">name</span>=<span class="string">"android.permission.MANAGE_ACTIVITY_STACKS"</span> <span class="attr">fixed</span>=<span class="string">"false"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">exception</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">exceptions</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>其中的注释很好的说明了该文件的作用：默认权限有两种，一种被授予特殊的平台组件，比如默认dialer，默认email等，这些权限的授予是平台控制的（上面的grantDefaultSystemHandlerPermissions()方法）；另一种是厂商指定的，也就是在项目中配置的。这个文件只包含后者。</p>
+<p>从代码上来看，授予默认权限指的都是运行时权限，/system/etc/default-permissions/的文件中也只能添加运行时权限或者development权限，否则就会出现异常，但是前面以及了解到android.permission.MANAGE_ACTIVITY_STACKS并不是运行时权限或者development权限，而com.emoji.keyboard.touchpal.go在/system/etc/default-permissions/下添加了该权限所以会出现异常。</p>
+<h2 id="4-问题修改"><a href="#4-问题修改" class="headerlink" title="4.问题修改"></a>4.问题修改</h2><p>只需要将/system/etc/default-permissions/中添加的android.permission.MANAGE_ACTIVITY_STACKS权限去掉即可，该权限需要在/system/etc/permissions/下进行配置，该目录下xml文件的作用在privapp-permissions-platform.xml文件中的注释有清楚的说明：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">This XML file declares which signature|privileged permissions should be granted to privileged</span></span><br><span class="line"><span class="comment">applications that come with the platform</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h2><p>关于默认权限目前已知有以下几种情况：</p>
+<ul>
+<li>priv-app 系统默认授予运行时权限；</li>
+<li>系统核心应用，系统默认授予运行时权限；</li>
+<li>项目预置应用的默认运行时权限在/system/etc/default-permissions进行配置；</li>
+<li>signature|privileged权限在/system/etc/permissions/下进行配置。</li>
+</ul>
+<p>另外。Android P中android.permission.MANAGE_ACTIVITY_STACKS的权限变成了下面这样：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Permission [android.permission.MANAGE_ACTIVITY_STACKS] (69ec6d4):</span><br><span class="line">    sourcePackage=android</span><br><span class="line">    uid=1000 gids=null <span class="built_in">type</span>=0 prot=signature|privileged|development</span><br><span class="line">    perm=Permission&#123;fbebcd2 android.permission.MANAGE_ACTIVITY_STACKS&#125;</span><br><span class="line">    packageSetting=PackageSetting&#123;5c62591 android/1000&#125;</span><br></pre></td></tr></table></figure></p>
+<p>多了个development，所以Android上不存在该问题。</p>
+<p>详细的应用权限授予过程还需要进一步了解……</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/16/SparseArray/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">SparseArray</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-问题现象"><span class="nav-number">1.</span> <span class="nav-text">1.问题现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-问题log"><span class="nav-number">2.</span> <span class="nav-text">2.问题log</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-问题分析"><span class="nav-number">3.</span> <span class="nav-text">3.问题分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-问题修改"><span class="nav-number">4.</span> <span class="nav-text">4.问题修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-总结"><span class="nav-number">5.</span> <span class="nav-text">5.总结</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            得一
+          </div>
+          <div class="panel-body">
+            Copyright © 2019 me All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
