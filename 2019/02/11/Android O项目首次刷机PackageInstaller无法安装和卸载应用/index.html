@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="1.问题现象   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。 2.问题log   应用安装的log：   12345678910111213141516171819202122232401-01 12:08:06.781  6599  6599 E AndroidRuntime: FA">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-11T07:34:06.975Z">
+<meta property="og:updated_time" content="2019-02-13T02:01:11.431Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android O项目首次刷机PackageInstaller无法安装和卸载应用">
 <meta name="twitter:description" content="1.问题现象   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。 2.问题log   应用安装的log：   12345678910111213141516171819202122232401-01 12:08:06.781  6599  6599 E AndroidRuntime: FA">
@@ -227,7 +227,7 @@
 <li>signature|privileged权限在/system/etc/permissions/下进行配置。</li>
 </ul>
 <p>另外。Android P中android.permission.MANAGE_ACTIVITY_STACKS的权限变成了下面这样：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Permission [android.permission.MANAGE_ACTIVITY_STACKS] (69ec6d4):</span><br><span class="line">    sourcePackage=android</span><br><span class="line">    uid=1000 gids=null <span class="built_in">type</span>=0 prot=signature|privileged|development</span><br><span class="line">    perm=Permission&#123;fbebcd2 android.permission.MANAGE_ACTIVITY_STACKS&#125;</span><br><span class="line">    packageSetting=PackageSetting&#123;5c62591 android/1000&#125;</span><br></pre></td></tr></table></figure></p>
-<p>多了个development，所以Android上不存在该问题。</p>
+<p>多了个development，所以Android P上不存在该问题。</p>
 <p>详细的应用权限授予过程还需要进一步了解……</p>
 
       
