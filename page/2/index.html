@@ -148,6 +148,59 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-ActivityManager启动过程" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/09/02/ActivityManager启动过程/">ActivityManagerService启动过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/02/ActivityManager启动过程/" class="article-date">
+	  <time datetime="2018-09-02T03:46:00.000Z" itemprop="datePublished">2018-09-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AMS/">AMS</a><a class="article-category-link" href="/categories/AMS/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          ActivityManagerService简称AMS，也就是通常说的组件管理器，是系统核心服务之一，用于对四大组件进行管理，包括创建四大组件，组件生命周期管理等。这里先先了解下AMS的创建过程。代码基于Android P。
+AMS的启动是在SystemServer中进行的。SystemServer中服务启动分为三个过程：
+123startBootstrapServices();startCoreServices();startOtherServices();
+AMS的启动贯穿了这三个过程...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/09/02/ActivityManager启动过程/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-应用安装-点击apk安装" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -516,61 +569,6 @@ HashMap中的树节点size是普通节点的两倍左右，所以在桶里的节
 
 
   
-    <article id="post-LeakCanary" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/LeakCanary/">LeakCanary原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/10/LeakCanary/" class="article-date">
-	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          LeakCanary参考：https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work
-​       https://blog.csdn.net/xinzhou201/article/details/78637700
-GitHub上关于LeakCanary的原理：
-
-RefWatcher.watch() creates a KeyedWeakReference to the watched object.
-Later, in...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/10/LeakCanary/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
     <article id="post-SharePreferences中commit与apply的区别" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -626,7 +624,7 @@ commit（）有返回值，apply（）没有返回值。apply（）失败了是�
 
 
   
-    <article id="post-Pixel折腾" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-LeakCanary" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
     
@@ -634,7 +632,7 @@ commit（）有返回值，apply（）没有返回值。apply（）失败了是�
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/03/Pixel折腾/">Pixel折腾</a>
+      <a class="article-title" href="/2018/07/10/LeakCanary/">LeakCanary原理</a>
     </h1>
   
 
@@ -642,25 +640,27 @@ commit（）有返回值，apply（）没有返回值。apply（）失败了是�
     
     <div class="article-meta">
       
-	<a href="/2018/07/03/Pixel折腾/" class="article-date">
-	  <time datetime="2018-07-03T07:25:08.000Z" itemprop="datePublished">2018-07-03</time>
+	<a href="/2018/07/10/LeakCanary/" class="article-date">
+	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/折腾/">折腾</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p class="article-excerpt-content">
-          拿到手里是Android 7.1的系统，忍不住翻了墙升级到了最新的8.1版本，然后就开始不停地踩坑了……
+          LeakCanary参考：https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work
+​       https://blog.csdn.net/xinzhou201/article/details/78637700
+GitHub上关于LeakCanary的原理：
 
-手机到手当然要先测试下，装了翻墙软件（Turbo），登陆了Google账号，下了下东西，运行没问题。然后试了指纹解锁，也没问题，然后就升级吧！接着悲剧就开始了，刚开始升级包时而能下载，时而下载不了，后来搜了下发现是因为升级了Google play 服务造成的（印象中是这个），卸载后下载正常，然后顺利更新。
-升级8.1最新版本后，开机，发现图案解锁错误，不清楚什么原因，可能是Googl...
+RefWatcher.watch() creates a KeyedWeakReference to the watched object.
+Later, in...
         </p>
         <p class="article-more-link">
-          <a href="/2018/07/03/Pixel折腾/#more">阅读全文</a>
+          <a href="/2018/07/10/LeakCanary/#more">阅读全文</a>
         </p>
       
     </div>
@@ -683,7 +683,7 @@ commit（）有返回值，apply（）没有返回值。apply（）失败了是�
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
   </nav>
 
 </section>

@@ -3,26 +3,19 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>leakcanary原理 | 得一</title>
+  <title>得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="弱引用LeakCanary性能内存泄露">
   
   
   
-  
-  <meta name="description" content="LeakCanary参考：https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work ​       https://blog.csdn.net/xinzhou201/article/details/78637700 GitHub上关于LeakCanary的原理：  RefWatcher.watch() creates a Keye">
-<meta name="keywords" content="弱引用,LeakCanary,性能,内存泄露">
-<meta property="og:type" content="article">
-<meta property="og:title" content="LeakCanary原理">
-<meta property="og:url" content="https://mouzishuo.github.io/2018/07/10/LeakCanary/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="得一">
+<meta property="og:url" content="https://mouzishuo.github.io/page/3/index.html">
 <meta property="og:site_name" content="得一">
-<meta property="og:description" content="LeakCanary参考：https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work ​       https://blog.csdn.net/xinzhou201/article/details/78637700 GitHub上关于LeakCanary的原理：  RefWatcher.watch() creates a Keye">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-16T01:14:47.492Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LeakCanary原理">
-<meta name="twitter:description" content="LeakCanary参考：https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work ​       https://blog.csdn.net/xinzhou201/article/details/78637700 GitHub上关于LeakCanary的原理：  RefWatcher.watch() creates a Keye">
+<meta name="twitter:title" content="得一">
   
 
   
@@ -49,7 +42,7 @@
   <link rel="stylesheet" href="/css/bootstrap.css">
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
+    <link rel="stylesheet" href="/css/home.css">
   
 
   
@@ -66,7 +59,7 @@
 </html>
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+  <body>
 
 
   
@@ -88,7 +81,7 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;">
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -153,7 +146,9 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-LeakCanary" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;">
+  
+    <article id="post-Pixel折腾" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
     
@@ -161,7 +156,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      LeakCanary原理
+      <a class="article-title" href="/2018/07/03/Pixel折腾/">Pixel折腾</a>
     </h1>
   
 
@@ -169,37 +164,26 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/10/LeakCanary/" class="article-date">
-	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
+	<a href="/2018/07/03/Pixel折腾/" class="article-date">
+	  <time datetime="2018-07-03T07:25:08.000Z" itemprop="datePublished">2018-07-03</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/折腾/">折腾</a>
 
       
-	<a class="article-views">
-	<span id="busuanzi_container_page_pv">
-		阅读量<span id="busuanzi_value_page_pv"></span>
-	</span>
-	</a>
-
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="LeakCanary"><a href="#LeakCanary" class="headerlink" title="LeakCanary"></a>LeakCanary</h1><p>参考：<a href="https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work" target="_blank" rel="noopener">https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work</a></p>
-<p>​       <a href="https://blog.csdn.net/xinzhou201/article/details/78637700" target="_blank" rel="noopener">https://blog.csdn.net/xinzhou201/article/details/78637700</a></p>
-<p>GitHub上关于LeakCanary的原理：</p>
-<ol>
-<li><code>RefWatcher.watch()</code> creates a <a href="https://github.com/square/leakcanary/blob/master/leakcanary-watcher/src/main/java/com/squareup/leakcanary/KeyedWeakReference.java" target="_blank" rel="noopener">KeyedWeakReference</a> to the watched object.</li>
-<li>Later, in a background thread, it checks if the reference has been cleared and if not it triggers a GC.</li>
-<li>If the reference is still not cleared, it then dumps the heap into a <code>.hprof</code> file stored on the file system.</li>
-<li><code>HeapAnalyzerService</code> is started in a separate process and <code>HeapAnalyzer</code> parses the heap dump using <a href="https://github.com/square/haha" target="_blank" rel="noopener">HAHA</a>.</li>
-<li><code>HeapAnalyzer</code> finds the <code>KeyedWeakReference</code> in the heap dump thanks to a unique reference key and locates the leaking reference.</li>
-<li><code>HeapAnalyzer</code> computes the <em>shortest strong reference path to the GC Roots</em> to determine if there is a leak, and then builds the chain of references causing the leak.</li>
-<li>The result is passed back to <code>DisplayLeakService</code> in the app process, and the leak notification is shown.</li>
-</ol>
-<p>这个涉及到弱引用的概念，可以参考<a href="https://blog.csdn.net/mazhimazh/article/details/19752475，" target="_blank" rel="noopener">https://blog.csdn.net/mazhimazh/article/details/19752475，</a> 其中关于四四种的概念和使用场景进行了清除的介绍。单拿弱引用来说，弱引用不管内存是否够用，在GC的是时候都会被回收，主要用于引用的对象有自己的生命周期，而我们又不想影响对象生命周期的情况下，用于检测Activity/Fragment的内存泄露再合适不过。</p>
+        <p class="article-excerpt-content">
+          拿到手里是Android 7.1的系统，忍不住翻了墙升级到了最新的8.1版本，然后就开始不停地踩坑了……
 
+手机到手当然要先测试下，装了翻墙软件（Turbo），登陆了Google账号，下了下东西，运行没问题。然后试了指纹解锁，也没问题，然后就升级吧！接着悲剧就开始了，刚开始升级包时而能下载，时而下载不了，后来搜了下发现是因为升级了Google play 服务造成的（印象中是这个），卸载后下载正常，然后顺利更新。
+升级8.1最新版本后，开机，发现图案解锁错误，不清楚什么原因，可能是Googl...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/07/03/Pixel折腾/#more">阅读全文</a>
+        </p>
       
     </div>
     <footer class="article-footer">
@@ -211,43 +195,24 @@
     </footer>
   </div>
   
-    
-<nav id="article-nav">
-  
-    <a href="/2018/07/10/SharePreferences中commit与apply的区别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          SharedPreferences中commit与apply的区别
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/07/03/Pixel折腾/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Pixel折腾</div>
-    </a>
-  
-</nav>
-
-  
 </article>
 
 <!-- Table of Contents -->
 
-  <aside id="toc-sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+
+  
+
+
+  <nav id="page-nav">
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#LeakCanary"><span class="nav-number">1.</span> <span class="nav-text">LeakCanary</span></a></li></ol>
-    
-    </div>
-  </aside>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </section>
         
       </div>
+      
+        <div align="center" style="margin-top: 30px;"><hr class="hr" style="margin:0px; height:3px;"></div>
       
       <footer id="footer">
   
@@ -341,8 +306,6 @@
 
 
 
-  <script src="/js/dialog.js"></script>
-
 
 
 
@@ -421,8 +384,6 @@
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
