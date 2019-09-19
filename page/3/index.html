@@ -148,6 +148,57 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-HashMap、LinkedHashMap、三级缓存" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/">HashMap、LinkedHashMap、三级缓存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/" class="article-date">
+	  <time datetime="2018-07-13T09:13:55.000Z" itemprop="datePublished">2018-07-13</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。
+HashMap中的树节点size是普通节点的两倍左右，所以在桶里的节点不多的时候（阈值为6，...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-SharePreferences中commit与apply的区别" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
