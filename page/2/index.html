@@ -148,6 +148,58 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-虚拟按键隐藏过程log" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/09/15/虚拟按键隐藏过程log/">虚拟按键隐藏过程log</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/15/虚拟按键隐藏过程log/" class="article-date">
+	  <time datetime="2018-09-15T05:22:30.000Z" itemprop="datePublished">2018-09-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。
+刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdebug版本。编译时间比较长，闲着也是闲着，就先在代码里看下有没有什么头绪吧。
+在SystemUI...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/09/15/虚拟按键隐藏过程log/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-ActivityManager启动过程" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -606,61 +658,6 @@ commit（）有返回值，apply（）没有返回值。apply（）失败了是�
         </p>
         <p class="article-more-link">
           <a href="/2018/07/10/SharePreferences中commit与apply的区别/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-LeakCanary" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/LeakCanary/">LeakCanary原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/10/LeakCanary/" class="article-date">
-	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          LeakCanary参考：https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work
-​       https://blog.csdn.net/xinzhou201/article/details/78637700
-GitHub上关于LeakCanary的原理：
-
-RefWatcher.watch() creates a KeyedWeakReference to the watched object.
-Later, in...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/10/LeakCanary/#more">阅读全文</a>
         </p>
       
     </div>
