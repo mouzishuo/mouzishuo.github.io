@@ -216,6 +216,60 @@ junit...
 
 
   
+    <article id="post-编译Android内核时找不到openssl的bio.sh " class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/06/24/编译Android内核时找不到openssl的bio.sh /">编译Android内核时找不到openssl/bio.h</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/06/24/编译Android内核时找不到openssl的bio.sh /" class="article-date">
+	  <time datetime="2019-06-24T09:13:55.000Z" itemprop="datePublished">2019-06-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/编译/">编译</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          参考：https://blog.csdn.net/qq_41533289/article/details/82985788
+环境：Ubuntu 16.04 + Android P
+最近重装了系统，从14.04换成了16.04，之后按照官网安装了Android的编译环境，但是在编译Android P的项目时内核部分出现了下面的错误：
+fatal error: openssl/bio.h: No such file or directory
+代码里找不到什么问题，上网搜索得知出现fatal e...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/06/24/编译Android内核时找不到openssl的bio.sh /#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-查找CVE对应的补丁" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -616,58 +670,6 @@ android:launcherMode的作用网上有很多介绍，也有大致的了解，但
         </p>
         <p class="article-more-link">
           <a href="/2018/11/16/Google Play Store无法搜索应用或提示应用不兼容 ，此类问题该如何定位及分析/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Ubuntu samba无法访问服务器" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/11/09/Ubuntu samba无法访问服务器/">Ubuntu samba无法访问服务器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/11/09/Ubuntu samba无法访问服务器/" class="article-date">
-	  <time datetime="2018-11-09T01:30:00.000Z" itemprop="datePublished">2018-11-09</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Tools/">Tools</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          Ubuntu samba无法访问服务器开始的时候Ubuntu上面是可以访问samba的，后来不知道进行了什么操作无法访问了。在nautilus中输入地址后提示“抱歉,无法显示“×××.×××.×××.××× (smb)”的全部内容:不支持指定位置”。
-之后找了很久解决方案，一直没找到。最近不小心把虚拟机给弄崩了，就想再弄下samba，Google了一下，找到了下面的解决方案：
-12#安装 gvfs-backends 应该允许Nautilus使用大多数常用协议（包括SMB，SSH等）。sud...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/11/09/Ubuntu samba无法访问服务器/#more">阅读全文</a>
         </p>
       
     </div>

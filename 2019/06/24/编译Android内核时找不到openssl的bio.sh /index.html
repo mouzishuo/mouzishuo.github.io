@@ -3,23 +3,26 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>查找cve对应的补丁信息 | 得一</title>
+  <title>编译android内核时找不到openssl/bio.h | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Android">
   
   
   
-  <meta name="description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
+  
+  <meta name="description" content="参考：https://blog.csdn.net/qq_41533289/article/details/82985788 环境：Ubuntu 16.04 + Android P 最近重装了系统，从14.04换成了16.04，之后按照官网安装了Android的编译环境，但是在编译Android P的项目时内核部分出现了下面的错误： fatal error: openssl/bio.h: No su">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="查找CVE对应的补丁信息">
-<meta property="og:url" content="https://mouzishuo.github.io/2019/06/24/查找CVE对应的补丁/index.html">
+<meta property="og:title" content="编译Android内核时找不到openssl&#x2F;bio.h">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/06/24/编译Android内核时找不到openssl的bio.sh /index.html">
 <meta property="og:site_name" content="得一">
-<meta property="og:description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
+<meta property="og:description" content="参考：https://blog.csdn.net/qq_41533289/article/details/82985788 环境：Ubuntu 16.04 + Android P 最近重装了系统，从14.04换成了16.04，之后按照官网安装了Android的编译环境，但是在编译Android P的项目时内核部分出现了下面的错误： fatal error: openssl/bio.h: No su">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-19T01:23:38.500Z">
+<meta property="og:updated_time" content="2019-09-19T01:27:45.283Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="查找CVE对应的补丁信息">
-<meta name="twitter:description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
+<meta name="twitter:title" content="编译Android内核时找不到openssl&#x2F;bio.h">
+<meta name="twitter:description" content="参考：https://blog.csdn.net/qq_41533289/article/details/82985788 环境：Ubuntu 16.04 + Android P 最近重装了系统，从14.04换成了16.04，之后按照官网安装了Android的编译环境，但是在编译Android P的项目时内核部分出现了下面的错误： fatal error: openssl/bio.h: No su">
   
 
   
@@ -150,7 +153,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-查找CVE对应的补丁" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-编译Android内核时找不到openssl的bio.sh " style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
     
@@ -158,7 +161,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      查找CVE对应的补丁信息
+      编译Android内核时找不到openssl/bio.h
     </h1>
   
 
@@ -166,12 +169,12 @@
     
     <div class="article-meta">
       
-	<a href="/2019/06/24/查找CVE对应的补丁/" class="article-date">
-	  <time datetime="2019-06-24T06:03:56.000Z" itemprop="datePublished">2019-06-24</time>
+	<a href="/2019/06/24/编译Android内核时找不到openssl的bio.sh /" class="article-date">
+	  <time datetime="2019-06-24T09:13:55.000Z" itemprop="datePublished">2019-06-24</time>
 	</a>
 
       
-    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/GMS/">GMS</a>
+    <a class="article-category-link" href="/categories/编译/">编译</a>
 
       
 	<a class="article-views">
@@ -183,12 +186,13 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如<a href="http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：" target="_blank" rel="noopener">http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：</a></p>
-<blockquote>
-<p>The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allows attackers to gain privileges via a crafted application, aka Android internal bug 28868303 and Qualcomm internal bug CR1032820.    </p>
-</blockquote>
-<p>接着查找patch修改的内容有两个方法；一个是在Googlepatch中的code_snippets下根据内部bug号进行查找，首先需要直到Google对应的修改是在哪个月的，在上面的网站查到：<br><a href="http://source.android.com/security/bulletin/2016-09-01.html，也就是说是在2016年9月的补丁，实际上查找后发现是在8月的补丁里。对应ANDROID-28868303这个文件；" target="_blank" rel="noopener">http://source.android.com/security/bulletin/2016-09-01.html，也就是说是在2016年9月的补丁，实际上查找后发现是在8月的补丁里。对应ANDROID-28868303这个文件；</a><br>第二个方法是从高通<a href="https://createpoint.qti.qualcomm.com" target="_blank" rel="noopener">https://createpoint.qti.qualcomm.com</a> 查找CR1032820，下载一个pdf文件，上面有下载补丁的命令。如果直接从里面的链接下载的话，得到的patch文件打不开，得用文档里的命令，用openssl下载。比如，patch的地址为<a href="https://source.codeaurora.org/patches/quic/la/.PATCH_157942_security_patches_QPSIIR_261_2" target="_blank" rel="noopener">https://source.codeaurora.org/patches/quic/la/.PATCH_157942_security_patches_QPSIIR_261_2</a><br>0160712.tar.gz， 下载命令为：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl enc -d -aes-256-cbc -<span class="keyword">in</span> msm-3.18.git-139bc41ece02500c87feef60f14934c719588528.patch -out msm-3.18.git139bc41ece02500c87feef60f14934c719588528.patch.txt -pass <span class="string">'pass:QV&#125;]-z[NlJAXj!5xm(A0'</span></span><br></pre></td></tr></table></figure></p>
-<p>按照文档上得来就行，注意文件名别错了。</p>
+        <p>参考：<a href="https://blog.csdn.net/qq_41533289/article/details/82985788" target="_blank" rel="noopener">https://blog.csdn.net/qq_41533289/article/details/82985788</a></p>
+<p>环境：Ubuntu 16.04 + Android P</p>
+<p>最近重装了系统，从14.04换成了16.04，之后按照官网安装了Android的编译环境，但是在编译Android P的项目时内核部分出现了下面的错误：</p>
+<p><code>fatal error: openssl/bio.h: No such file or directory</code></p>
+<p>代码里找不到什么问题，上网搜索得知出现fatal error: openssl/×××.h: No such file or directory。是因为没有安装libssl-dev，libssl-dev包含libraries, header files and manpages，他是openssl的一部分，而openssl对ssl进行了实现～</p>
+<p>解决方案：</p>
+<p>使用sudo apt-get install libssl-dev来安装libssl-dev即可</p>
 
       
     </div>
@@ -204,19 +208,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/06/24/编译Android内核时找不到openssl的bio.sh /" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/25/高通ramdump抓取及解析/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          编译Android内核时找不到openssl/bio.h
+          高通ramdump抓取及解析
         
       </div>
     </a>
   
   
-    <a href="/2019/02/11/Android O项目首次刷机PackageInstaller无法安装和卸载应用/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/06/24/查找CVE对应的补丁/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Android O项目首次刷机PackageInstaller无法安装和卸载应用</div>
+      <div class="article-nav-title">查找CVE对应的补丁信息</div>
     </a>
   
 </nav>
