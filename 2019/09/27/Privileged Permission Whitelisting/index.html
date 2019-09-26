@@ -3,19 +3,26 @@
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
-  <title>得一</title>
+  <title>privileged permission whitelisting | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
+  <meta name="keywords" content="Android权限">
   
   
   
-  <meta property="og:type" content="website">
-<meta property="og:title" content="得一">
-<meta property="og:url" content="https://mouzishuo.github.io/page/3/index.html">
+  
+  <meta name="description" content="原文地址：https://source.android.com/devices/tech/config/perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- /system Android 9及以上-/system/, product, /vendor  在过去，设备开发人员几乎无法控制可">
+<meta name="keywords" content="Android,权限">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Privileged Permission Whitelisting">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/09/27/Privileged Permission Whitelisting/index.html">
 <meta property="og:site_name" content="得一">
+<meta property="og:description" content="原文地址：https://source.android.com/devices/tech/config/perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- /system Android 9及以上-/system/, product, /vendor  在过去，设备开发人员几乎无法控制可">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-26T09:19:24.151Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="得一">
+<meta name="twitter:title" content="Privileged Permission Whitelisting">
+<meta name="twitter:description" content="原文地址：https://source.android.com/devices/tech/config/perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- /system Android 9及以上-/system/, product, /vendor  在过去，设备开发人员几乎无法控制可">
   
 
   
@@ -42,7 +49,7 @@
   <link rel="stylesheet" href="/css/bootstrap.css">
 
   
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/dialog.css">
   
 
   
@@ -59,7 +66,7 @@
 </html>
 
 
-  <body>
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
 
 
   
@@ -81,7 +88,7 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;">
+                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -146,9 +153,7 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;">
-  
-    <article id="post-应用安装-开机安装应用" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-Privileged Permission Whitelisting" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
     
@@ -156,7 +161,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/22/应用安装-开机安装应用/">应用安装-开机安装应用</a>
+      Privileged Permission Whitelisting
     </h1>
   
 
@@ -164,134 +169,53 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/22/应用安装-开机安装应用/" class="article-date">
-	  <time datetime="2018-07-22T07:25:08.000Z" itemprop="datePublished">2018-07-22</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/应用安装/">应用安装</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          一、应用安装类型1. 安装方式：
-
-安装系统APK和预制APK时，通过PMS的构造函数中安装，即第一次开机时安装应用，没有安装界面。
-网络下载安装，通过应用商店等，即调用PackageManager.installPackage()，有安装界面。
-通过adb工具安装，没有安装界面，它通过启动pm脚本的形式，然后调用com.android.commands.pm.Pm类，之后调用到PMS.installStage()完成安装。
-安装本地apk，有安装界面，由PackageInstaller系...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/22/应用安装-开机安装应用/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-HashMap、LinkedHashMap、三级缓存" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/">HashMap、LinkedHashMap、三级缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/" class="article-date">
-	  <time datetime="2018-07-13T09:13:55.000Z" itemprop="datePublished">2018-07-13</time>
+	<a href="/2019/09/27/Privileged Permission Whitelisting/" class="article-date">
+	  <time datetime="2019-09-26T16:59:23.000Z" itemprop="datePublished">2019-09-27</time>
 	</a>
 
       
     <a class="article-category-link" href="/categories/Android/">Android</a>
 
       
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。
-HashMap中的树节点size是普通节点的两倍左右，所以在桶里的节点不多的时候（阈值为6，...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-SharePreferences中commit与apply的区别" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/SharePreferences中commit与apply的区别/">SharedPreferences中commit与apply的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/10/SharePreferences中commit与apply的区别/" class="article-date">
-	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
 	</a>
 
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p class="article-excerpt-content">
-          SharedPreferences中commit与apply的区别
-apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。
-commit（）有返回值，apply（）没有返回值。apply（）失败了是不会报错的。 
+        <p>原文地址：<a href="https://source.android.com/devices/tech/config/perms-whitelist" target="_blank" rel="noopener">https://source.android.com/devices/tech/config/perms-whitelist</a></p>
+<h3 id="特权白名单"><a href="#特权白名单" class="headerlink" title="特权白名单"></a>特权白名单</h3><p>Android特权应用指的是位于系统分区的<code>priv-app</code>目录下的应用，这个分区包括：</p>
+<ul>
+<li>Android 8.1及以下- <code>/system</code></li>
+<li>Android 9及以上-<code>/system/, product, /vendor</code></li>
+</ul>
+<p>在过去，设备开发人员几乎无法控制可以向特权应用授予哪些signature|privileged权限。从Android 8.0开始，必须在/partition/etc/permissions下的XML文件中显式的指定授予特权应用的权限，否则不会授给应用对应权限。而在Android 9中，必须显式grant或者deny所有的privileged权限，否则设备无法启动,此时会输出类似下面的log：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">09</span>-<span class="number">21</span> <span class="number">11</span>:<span class="number">19</span>:<span class="number">46</span><span class="variable">.394</span>  <span class="number">5490</span>  <span class="number">5490</span> E System  : **************</span><br><span class="line"><span class="number">09</span>-<span class="number">21</span> <span class="number">11</span>:<span class="number">19</span>:<span class="number">46</span><span class="variable">.395</span>  <span class="number">5490</span>  <span class="number">5490</span> E System  : **** Failure starting system services</span><br><span class="line"><span class="number">09</span>-<span class="number">25</span> <span class="number">22</span>:<span class="number">04</span>:<span class="number">37</span><span class="variable">.731</span> <span class="number">19857</span> <span class="number">19857</span> E System  : java<span class="variable">.lang</span><span class="variable">.IllegalStateException</span>: Signature|privileged permissions <span class="keyword">not</span> in privapp-permissions whitelist: &#123;com<span class="variable">.android</span><span class="variable">.phone</span>: android<span class="variable">.permission</span><span class="variable">.FORCE_STOP_PACKAGES</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><code>privapp-permissions.xml</code>文件只能grant或者deny相同分区下特权应用的权限。比如，vendor分区下的特权应用权限必须在/vendor/etc/permissions下的XML中定义。</p>
+<blockquote>
+<p>只用在‘’android“，也就是framework-res.apk中定义的权限才需要添加黑名单。设备制造商定义的privileged权限任然会被默认授给应用。privapp-permissions.xml中的应用如果不存在对应的分区，则对应的项会被忽略。</p>
+</blockquote>
+<h3 id="添加白名单"><a href="#添加白名单" class="headerlink" title="添加白名单"></a>添加白名单</h3><p>系统原本的特权白名单定义在framework/base/data/etc/下，<code>privapp-permissions-platform.xml</code>中添加的是AOSP中应用的权限。其他应用的权限可以在项目中进行配置，只要保证最后拷贝到应用所在分区的etc/permissions目录下即可。</p>
+<h3 id="生成白名单"><a href="#生成白名单" class="headerlink" title="生成白名单"></a>生成白名单</h3><p>可以使用AOSP中的命令行工具<code>development/tools/privapp_permissions/privapp_permissions.py</code>自动生成应用的白名单。</p>
+<ol>
+<li><p>编译系统映像：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">. build/envsetup.sh</span><br><span class="line">lunch PRODUCT_NAME</span><br><span class="line">make -j</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行<code>privapp_permissions.py</code>脚本，生成<code>privapp_permissions.py</code>文件，如果设备的<code>/partition/etc/permissions</code>中已经包含白名单，则该工具只会打印出差异内容，也就是说只会打印缺少的signature|privileged权限。</p>
+</li>
+<li>将生成的文件复制到<code>/partition/etc/permissions</code>中，系统启动过程中会读取这些文件。</li>
+</ol>
+<h3 id="自定义白名单"><a href="#自定义白名单" class="headerlink" title="自定义白名单"></a>自定义白名单</h3><p>AOSP中应用的权限已经定义在<code>/partition/etc/permissions/privapp-permissions-platform.xml</code> 如果需要可以自定义。</p>
+<p><code>privapp_permissions.py</code>生成的结果会默认授予所用应用申请的权限，如果有的权限需要拒绝，可以在生成的结果中用<code>deny-permission</code>这个tag进行配置。</p>
+<h3 id="查找缺少的权限"><a href="#查找缺少的权限" class="headerlink" title="查找缺少的权限"></a>查找缺少的权限</h3><p>可以通过配置<code>ro.control_privapp_permissions=log</code>属性来查找确实的权限。此时违规行为会在日志中进行报告，但是仍然会授予权限，这样可以在查找违规行为的同时保证设备能正常工作。</p>
+<p>错误消息格式如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PackageManager: Privileged permission &#123;PERMISSION_NAME&#125; <span class="keyword">for</span> package &#123;PACKAGE_NAME&#125; - not <span class="keyword">in</span> privapp-permissions whitelist</span><br></pre></td></tr></table></figure>
+<p>所有违规行为必须加入白名单，如果未加入，即使这些应用位于priv-app中也不会被授予对应的权限，设备会无法启动。</p>
+<h3 id="强制执行白名单"><a href="#强制执行白名单" class="headerlink" title="强制执行白名单"></a>强制执行白名单</h3><p>白名单设好后，可以通过设置属性<code>ro.control_privapp_permissions=enforce</code>来启用白名单。</p>
 
-另外：
-1、如果先后apply（）了几次，那么会以最后一次apply（）的为准...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/10/SharePreferences中commit与apply的区别/#more">阅读全文</a>
-        </p>
       
     </div>
     <footer class="article-footer">
@@ -303,132 +227,34 @@ commit（）有返回值，apply（）没有返回值。apply（）失败了是�
     </footer>
   </div>
   
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-LeakCanary" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
     
-    
-      <header class="article-header">
-        
+<nav id="article-nav">
   
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/LeakCanary/">LeakCanary原理</a>
-    </h1>
   
+    <a href="/2019/06/25/高通ramdump抓取及解析/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">高通ramdump抓取及解析</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/10/LeakCanary/" class="article-date">
-	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          LeakCanary参考：https://github.com/square/leakcanary/wiki/FAQ#how-does-it-work
-​       https://blog.csdn.net/xinzhou201/article/details/78637700
-GitHub上关于LeakCanary的原理：
-
-RefWatcher.watch() creates a KeyedWeakReference to the watched object.
-Later, in...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/10/LeakCanary/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
   
 </article>
 
 <!-- Table of Contents -->
 
-
-  
-    <article id="post-Pixel折腾" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
     
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#特权白名单"><span class="nav-number">1.</span> <span class="nav-text">特权白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加白名单"><span class="nav-number">2.</span> <span class="nav-text">添加白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成白名单"><span class="nav-number">3.</span> <span class="nav-text">生成白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义白名单"><span class="nav-number">4.</span> <span class="nav-text">自定义白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找缺少的权限"><span class="nav-number">5.</span> <span class="nav-text">查找缺少的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强制执行白名单"><span class="nav-number">6.</span> <span class="nav-text">强制执行白名单</span></a></li></ol>
     
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/03/Pixel折腾/">Pixel折腾</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/03/Pixel折腾/" class="article-date">
-	  <time datetime="2018-07-03T07:25:08.000Z" itemprop="datePublished">2018-07-03</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/折腾/">折腾</a>
-
-      
     </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          拿到手里是Android 7.1的系统，忍不住翻了墙升级到了最新的8.1版本，然后就开始不停地踩坑了……
-
-手机到手当然要先测试下，装了翻墙软件（Turbo），登陆了Google账号，下了下东西，运行没问题。然后试了指纹解锁，也没问题，然后就升级吧！接着悲剧就开始了，刚开始升级包时而能下载，时而下载不了，后来搜了下发现是因为升级了Google play 服务造成的（印象中是这个），卸载后下载正常，然后顺利更新。
-升级8.1最新版本后，开机，发现图案解锁错误，不清楚什么原因，可能是Googl...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/03/Pixel折腾/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-  </nav>
+  </aside>
 
 </section>
         
       </div>
-      
-        <div align="center" style="margin-top: 30px;"><hr class="hr" style="margin:0px; height:3px;"></div>
       
       <footer id="footer">
   
@@ -522,6 +348,8 @@ Later, in...
 
 
 
+  <script src="/js/dialog.js"></script>
+
 
 
 
@@ -600,6 +428,8 @@ Later, in...
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>
