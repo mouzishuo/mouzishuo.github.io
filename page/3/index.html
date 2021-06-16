@@ -254,61 +254,6 @@ HashMap中的树节点size是普通节点的两倍左右，所以在桶里的节
 
 
   
-    <article id="post-SharePreferences中commit与apply的区别" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/SharePreferences中commit与apply的区别/">SharedPreferences中commit与apply的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/10/SharePreferences中commit与apply的区别/" class="article-date">
-	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          SharedPreferences中commit与apply的区别
-apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。
-commit（）有返回值，apply（）没有返回值。apply（）失败了是不会报错的。 
-
-另外：
-1、如果先后apply（）了几次，那么会以最后一次apply（）的为准...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/10/SharePreferences中commit与apply的区别/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
     <article id="post-LeakCanary" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -346,6 +291,61 @@ Later, in...
         </p>
         <p class="article-more-link">
           <a href="/2018/07/10/LeakCanary/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-SharePreferences中commit与apply的区别" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/07/10/SharePreferences中commit与apply的区别/">SharedPreferences中commit与apply的区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/10/SharePreferences中commit与apply的区别/" class="article-date">
+	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          SharedPreferences中commit与apply的区别
+apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。
+commit（）有返回值，apply（）没有返回值。apply（）失败了是不会报错的。 
+
+另外：
+1、如果先后apply（）了几次，那么会以最后一次apply（）的为准...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/07/10/SharePreferences中commit与apply的区别/#more">阅读全文</a>
         </p>
       
     </div>
@@ -436,7 +436,7 @@ Later, in...
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -583,7 +583,7 @@ Later, in...
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2019 me All Rights Reserved.
+            Copyright © 2021 me All Rights Reserved.
           </div>
         </div>
       </div>

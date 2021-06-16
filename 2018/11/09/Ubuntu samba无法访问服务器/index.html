@@ -188,7 +188,7 @@
       
         <h2 id="Ubuntu-samba无法访问服务器"><a href="#Ubuntu-samba无法访问服务器" class="headerlink" title="Ubuntu samba无法访问服务器"></a>Ubuntu samba无法访问服务器</h2><p>开始的时候Ubuntu上面是可以访问samba的，后来不知道进行了什么操作无法访问了。在nautilus中输入地址后提示“抱歉,无法显示“×××.×××.×××.××× (smb)”的全部内容:不支持指定位置”。</p>
 <p>之后找了很久解决方案，一直没找到。最近不小心把虚拟机给弄崩了，就想再弄下samba，Google了一下，找到了下面的解决方案：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>安装 gvfs-backends 应该允许Nautilus使用大多数常用协议（包括SMB，SSH等）。</span><br><span class="line">sudo apt-get install gvfs-backends</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">安装 gvfs-backends 应该允许Nautilus使用大多数常用协议（包括SMB，SSH等）。</span></span><br><span class="line">sudo apt-get install gvfs-backends</span><br></pre></td></tr></table></figure>
 <p>原文地址：<a href="https://chubuntu.com/questions/38013/cant-browse-network-from-nautilus.html" target="_blank" rel="noopener">https://chubuntu.com/questions/38013/cant-browse-network-from-nautilus.html</a></p>
 
       
@@ -246,7 +246,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -395,7 +395,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2019 me All Rights Reserved.
+            Copyright © 2021 me All Rights Reserved.
           </div>
         </div>
       </div>

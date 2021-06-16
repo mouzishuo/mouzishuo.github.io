@@ -6,13 +6,13 @@
   <title>abi确定过程 | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="AndroidPackageManagerServicePKMSABI">
+  <meta name="keywords" content="PackageManagerServicePKMSAndroidABI">
   
   
   
   
   <meta name="description" content="ABI确定过程之所以了解这块内容，是因为在项目中出现了一个奇怪的问题：64位的代码编译刷机后，多个app无法运行，点击后直接闪退，log提示是找不到dex文件。问题非必现，但是第一次启动后如果存在该问题，之后就会一直存在该问题。但是恢复出厂设置和重新刷机后问题可能会消失。 经人提示是32和62位相关的东西引起的，看log发现出问题的apk都是64位的，但是查找的路径是32位的，所以找不到。 问题的">
-<meta name="keywords" content="Android,PackageManagerService,PKMS,ABI">
+<meta name="keywords" content="PackageManagerService,PKMS,Android,ABI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ABI确定过程">
 <meta property="og:url" content="https://mouzishuo.github.io/2018/07/28/ABI确定过程/index.html">
@@ -274,19 +274,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/08/01/PKMS启动过程/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/07/28/adb安装应用/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          PKMS启动过程
+          应用安装-adb方式进行安装
         
       </div>
     </a>
   
   
-    <a href="/2018/07/28/adb安装应用/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/07/26/Android “original-package” 机制解析/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">应用安装-adb方式进行安装</div>
+      <div class="article-nav-title">Android “original-package” 机制解析</div>
     </a>
   
 </nav>
@@ -315,7 +315,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -464,7 +464,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2019 me All Rights Reserved.
+            Copyright © 2021 me All Rights Reserved.
           </div>
         </div>
       </div>

@@ -517,6 +517,58 @@ PackageManagerService，是Android系统中核心服务之一，管理着所有�
 
 
   
+    <article id="post-adb安装应用" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/07/28/adb安装应用/">应用安装-adb方式进行安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/28/adb安装应用/" class="article-date">
+	  <time datetime="2018-07-28T06:21:08.000Z" itemprop="datePublished">2018-07-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/应用安装/">应用安装</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          adb方式进行安装adb 相关代码在system/core/adb/中，入口在/system/core/adb/client/main.cpp的main方法中：
+1234int main(int argc, char** argv) &#123;    adb_trace_init(argv);    return adb_commandline(argc - 1, const_cast&lt;const char**&gt;(argv + 1));&#125;
+命令的处理在system/...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/07/28/adb安装应用/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-ABI确定过程" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div id="articleInner" class="article-inner">
     
@@ -552,58 +604,6 @@ PackageManagerService，是Android系统中核心服务之一，管理着所有�
         </p>
         <p class="article-more-link">
           <a href="/2018/07/28/ABI确定过程/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-adb安装应用" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/28/adb安装应用/">应用安装-adb方式进行安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/28/adb安装应用/" class="article-date">
-	  <time datetime="2018-07-28T06:21:08.000Z" itemprop="datePublished">2018-07-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/应用安装/">应用安装</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          adb方式进行安装adb 相关代码在system/core/adb/中，入口在/system/core/adb/client/main.cpp的main方法中：
-1234int main(int argc, char** argv) &#123;    adb_trace_init(argv);    return adb_commandline(argc - 1, const_cast&lt;const char**&gt;(argv + 1));&#125;
-命令的处理在system/...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/28/adb安装应用/#more">阅读全文</a>
         </p>
       
     </div>
@@ -695,7 +695,7 @@ PackageManagerService，是Android系统中核心服务之一，管理着所有�
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -842,7 +842,7 @@ PackageManagerService，是Android系统中核心服务之一，管理着所有�
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2019 me All Rights Reserved.
+            Copyright © 2021 me All Rights Reserved.
           </div>
         </div>
       </div>

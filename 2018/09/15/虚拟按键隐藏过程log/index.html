@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-28T08:12:23.723Z">
+<meta property="og:updated_time" content="2021-06-16T02:56:48.337Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="虚拟按键隐藏过程log">
 <meta name="twitter:description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
@@ -195,7 +195,7 @@
 <p>其中mDisabled1和mDisabled2表示之前的disable状态，state1和state2表示新的状态，diff1和diff2表示发生改变的标志位。状态的改变会记录在flagdbg中从代码中来看，如果新的state中包含某个disable标志位，则log中用一个大写字母表示，否则用小写表示；如果某个标志位发生改变，则字母后面会加上一个“!”。三个虚拟按键分别对应B(b),H(b),R(r).</p>
 <p>在刷机后抓取了开机向导过程中的log，从其中找到了以下信息:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">09-21 14:21:36.096  1432  1432 D StatusBar: disable1: 0x00000000 -&gt; 0x03a50000 (diff1: 0x03a50000)</span><br><span class="line">09-21 14:21:36.097  1432  1432 D StatusBar: disable2: 0x00000000 -&gt; 0x00000010 (diff2: 0x00000010)</span><br><span class="line">09-21 14:21:36.097  1432  1432 D StatusBar: disable&lt;E!i A!s b H!R!C!S!&gt; disable2&lt;q i n &gt;</span><br></pre></td></tr></table></figure>
-<p>该条记录表示E，I，A，H，R，C，S等标志为发生了变化。这里只关心三个虚拟按键，b表示back按键还是可用的而且没有发生变化；H!表示home键状态从enable变为disable了;R!表示recents按键也从enable变为了disable。</p>
+<p>该条记录表示E，A，H，R，C，S等标志位发生了变化。这里只关心三个虚拟按键，b表示back按键还是可用的而且没有发生变化；H!表示home键状态从enable变为disable了;R!表示recents按键也从enable变为了disable。</p>
 <p>上面这些内容比较好理解，仅作记录。关于最开始提到的问题，最后发现别人添加功能改出来的，这里就不关心了。</p>
 
       
@@ -253,7 +253,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2019 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -402,7 +402,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2019 me All Rights Reserved.
+            Copyright © 2021 me All Rights Reserved.
           </div>
         </div>
       </div>
