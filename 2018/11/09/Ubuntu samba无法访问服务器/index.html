@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>ubuntu samba无法访问服务器 | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Ubuntu Samba">
+  <meta name="keywords" content="Ubuntu Samba" />
   
   
   
   
   <meta name="description" content="Ubuntu samba无法访问服务器开始的时候Ubuntu上面是可以访问samba的，后来不知道进行了什么操作无法访问了。在nautilus中输入地址后提示“抱歉,无法显示“×××.×××.×××.××× (smb)”的全部内容:不支持指定位置”。 之后找了很久解决方案，一直没找到。最近不小心把虚拟机给弄崩了，就想再弄下samba，Google了一下，找到了下面的解决方案： 12#安装 gvfs">
-<meta name="keywords" content="Ubuntu Samba">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu samba无法访问服务器">
-<meta property="og:url" content="https://mouzishuo.github.io/2018/11/09/Ubuntu samba无法访问服务器/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/11/09/Ubuntu%20samba%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="Ubuntu samba无法访问服务器开始的时候Ubuntu上面是可以访问samba的，后来不知道进行了什么操作无法访问了。在nautilus中输入地址后提示“抱歉,无法显示“×××.×××.×××.××× (smb)”的全部内容:不支持指定位置”。 之后找了很久解决方案，一直没找到。最近不小心把虚拟机给弄崩了，就想再弄下samba，Google了一下，找到了下面的解决方案： 12#安装 gvfs">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-11-09T01:30:44.151Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-11-09T01:30:00.000Z">
+<meta property="article:modified_time" content="2018-11-09T01:30:44.151Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="Ubuntu Samba">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu samba无法访问服务器">
-<meta name="twitter:description" content="Ubuntu samba无法访问服务器开始的时候Ubuntu上面是可以访问samba的，后来不知道进行了什么操作无法访问了。在nautilus中输入地址后提示“抱歉,无法显示“×××.×××.×××.××× (smb)”的全部内容:不支持指定位置”。 之后找了很久解决方案，一直没找到。最近不小心把虚拟机给弄崩了，就想再弄下samba，Google了一下，找到了下面的解决方案： 12#安装 gvfs">
   
 
   
@@ -40,30 +40,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -88,7 +96,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -107,14 +116,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -136,10 +145,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -153,14 +164,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Ubuntu samba无法访问服务器" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-Ubuntu samba无法访问服务器" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       Ubuntu samba无法访问服务器
     </h1>
   
@@ -169,7 +180,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/11/09/Ubuntu samba无法访问服务器/" class="article-date">
+	<a href="/2018/11/09/Ubuntu%20samba%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="article-date">
 	  <time datetime="2018-11-09T01:30:00.000Z" itemprop="datePublished">2018-11-09</time>
 	</a>
 
@@ -188,8 +199,9 @@
       
         <h2 id="Ubuntu-samba无法访问服务器"><a href="#Ubuntu-samba无法访问服务器" class="headerlink" title="Ubuntu samba无法访问服务器"></a>Ubuntu samba无法访问服务器</h2><p>开始的时候Ubuntu上面是可以访问samba的，后来不知道进行了什么操作无法访问了。在nautilus中输入地址后提示“抱歉,无法显示“×××.×××.×××.××× (smb)”的全部内容:不支持指定位置”。</p>
 <p>之后找了很久解决方案，一直没找到。最近不小心把虚拟机给弄崩了，就想再弄下samba，Google了一下，找到了下面的解决方案：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">安装 gvfs-backends 应该允许Nautilus使用大多数常用协议（包括SMB，SSH等）。</span></span><br><span class="line">sudo apt-get install gvfs-backends</span><br></pre></td></tr></table></figure>
-<p>原文地址：<a href="https://chubuntu.com/questions/38013/cant-browse-network-from-nautilus.html" target="_blank" rel="noopener">https://chubuntu.com/questions/38013/cant-browse-network-from-nautilus.html</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">安装 gvfs-backends 应该允许Nautilus使用大多数常用协议（包括SMB，SSH等）。</span></span><br><span class="line">sudo apt-get install gvfs-backends</span><br></pre></td></tr></table></figure>
+
+<p>原文地址：<a target="_blank" rel="noopener" href="https://chubuntu.com/questions/38013/cant-browse-network-from-nautilus.html">https://chubuntu.com/questions/38013/cant-browse-network-from-nautilus.html</a></p>
 
       
     </div>
@@ -205,7 +217,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/11/16/Google Play Store无法搜索应用或提示应用不兼容 ，此类问题该如何定位及分析/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/11/16/Google%20Play%20Store%E6%97%A0%E6%B3%95%E6%90%9C%E7%B4%A2%E5%BA%94%E7%94%A8%E6%88%96%E6%8F%90%E7%A4%BA%E5%BA%94%E7%94%A8%E4%B8%8D%E5%85%BC%E5%AE%B9%20%EF%BC%8C%E6%AD%A4%E7%B1%BB%E9%97%AE%E9%A2%98%E8%AF%A5%E5%A6%82%E4%BD%95%E5%AE%9A%E4%BD%8D%E5%8F%8A%E5%88%86%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -215,7 +227,7 @@
     </a>
   
   
-    <a href="/2018/09/26/手机存在多个PackageInstaller导致开不了机/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/09/26/%E6%89%8B%E6%9C%BA%E5%AD%98%E5%9C%A8%E5%A4%9A%E4%B8%AAPackageInstaller%E5%AF%BC%E8%87%B4%E5%BC%80%E4%B8%8D%E4%BA%86%E6%9C%BA/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">多个PackageInstaller导致无法开机</div>
     </a>
@@ -231,7 +243,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu-samba无法访问服务器"><span class="nav-number">1.</span> <span class="nav-text">Ubuntu samba无法访问服务器</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu-samba%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">Ubuntu samba无法访问服务器</span></a></li></ol>
     
     </div>
   </aside>
@@ -246,7 +258,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -321,18 +333,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -395,7 +417,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>

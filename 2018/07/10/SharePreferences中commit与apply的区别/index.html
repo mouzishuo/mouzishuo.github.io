@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>sharedpreferences中commit与apply的区别 | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="SharedPreferences">
+  <meta name="keywords" content="SharedPreferences" />
   
   
   
   
   <meta name="description" content="SharedPreferences中commit与apply的区别 apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。 commit（）有返回值，apply（）没有返回值。apply（）失败了是不">
-<meta name="keywords" content="SharedPreferences">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SharedPreferences中commit与apply的区别">
-<meta property="og:url" content="https://mouzishuo.github.io/2018/07/10/SharePreferences中commit与apply的区别/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/07/10/SharePreferences%E4%B8%ADcommit%E4%B8%8Eapply%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="SharedPreferences中commit与apply的区别 apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。 commit（）有返回值，apply（）没有返回值。apply（）失败了是不">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-16T01:14:47.540Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-10T02:13:55.000Z">
+<meta property="article:modified_time" content="2019-01-16T01:14:47.540Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="SharedPreferences">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SharedPreferences中commit与apply的区别">
-<meta name="twitter:description" content="SharedPreferences中commit与apply的区别 apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。 commit（）有返回值，apply（）没有返回值。apply（）失败了是不">
   
 
   
@@ -40,30 +40,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -88,7 +96,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -107,14 +116,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -136,10 +145,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -153,14 +164,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-SharePreferences中commit与apply的区别" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-SharePreferences中commit与apply的区别" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       SharedPreferences中commit与apply的区别
     </h1>
   
@@ -169,7 +180,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/10/SharePreferences中commit与apply的区别/" class="article-date">
+	<a href="/2018/07/10/SharePreferences%E4%B8%ADcommit%E4%B8%8Eapply%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
 	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
 	</a>
 
@@ -188,7 +199,7 @@
       
         <h1 id="SharedPreferences中commit与apply的区别"><a href="#SharedPreferences中commit与apply的区别" class="headerlink" title="SharedPreferences中commit与apply的区别"></a>SharedPreferences中commit与apply的区别</h1><ol>
 <li>apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。</li>
-<li>commit（）有返回值，apply（）没有返回值。apply（）失败了是不会报错的。 </li>
+<li>commit（）有返回值，apply（）没有返回值。apply（）失败了是不会报错的。</li>
 </ol>
 <p>另外：</p>
 <p>1、如果先后apply（）了几次，那么会以最后一次apply（）的为准。<br>2、commit（）是把内容同步提交到硬盘的。而apply（）先立即把修改提交到内存，然后开启一个异步的线程提交到硬盘，并且如果提交失败，你不会收到任何通知。<br>3、如果当一个apply（）的异步提交还在进行的时候，执行commit（）操作，那么commit（）是会阻塞的。而如果commit（）的时候，前面的commit（）还未结束，这个commit（）还是会阻塞的。（所以引起commit阻塞会有这两种原因）<br>4、由于SharePreferences在一个程序中的实例一般都是单例的，所以如果你不是很在意返回值的话，你使用apply（）代替commit（）是无所谓的。</p>
@@ -217,7 +228,7 @@
     </a>
   
   
-    <a href="/2018/07/03/Pixel折腾/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/07/03/Pixel%E6%8A%98%E8%85%BE/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">Pixel折腾</div>
     </a>
@@ -233,7 +244,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SharedPreferences中commit与apply的区别"><span class="nav-number">1.</span> <span class="nav-text">SharedPreferences中commit与apply的区别</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SharedPreferences%E4%B8%ADcommit%E4%B8%8Eapply%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.</span> <span class="nav-text">SharedPreferences中commit与apply的区别</span></a></li></ol>
     
     </div>
   </aside>
@@ -248,7 +259,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -323,18 +334,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -397,7 +418,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>

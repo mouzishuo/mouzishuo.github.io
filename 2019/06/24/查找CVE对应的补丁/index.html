@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>查找cve对应的补丁信息 | 得一</title>
@@ -9,17 +9,17 @@
   
   
   
-  <meta name="description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
+  <meta name="description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http:&#x2F;&#x2F;www3.cvedetails.com&#x2F;index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="查找CVE对应的补丁信息">
-<meta property="og:url" content="https://mouzishuo.github.io/2019/06/24/查找CVE对应的补丁/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/index.html">
 <meta property="og:site_name" content="得一">
-<meta property="og:description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-19T01:23:38.500Z">
+<meta property="og:description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http:&#x2F;&#x2F;www3.cvedetails.com&#x2F;index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-24T06:03:56.000Z">
+<meta property="article:modified_time" content="2019-09-19T01:23:38.500Z">
+<meta property="article:author" content="me">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="查找CVE对应的补丁信息">
-<meta name="twitter:description" content="首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：  The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allow">
   
 
   
@@ -37,30 +37,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -85,7 +93,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -104,14 +113,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -133,10 +142,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -150,14 +161,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-查找CVE对应的补丁" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-查找CVE对应的补丁" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       查找CVE对应的补丁信息
     </h1>
   
@@ -166,7 +177,7 @@
     
     <div class="article-meta">
       
-	<a href="/2019/06/24/查找CVE对应的补丁/" class="article-date">
+	<a href="/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/" class="article-date">
 	  <time datetime="2019-06-24T06:03:56.000Z" itemprop="datePublished">2019-06-24</time>
 	</a>
 
@@ -183,11 +194,12 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如<a href="http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：" target="_blank" rel="noopener">http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：</a></p>
+        <p>首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如<a target="_blank" rel="noopener" href="http://www3.cvedetails.com/index.php%E3%80%82%E6%9F%A5%E6%89%BECVE-2016-3866%E5%AF%B9%E5%BA%94%E7%9A%84Google%E5%92%8C%E9%AB%98%E9%80%9A%E7%9A%84%E5%86%85%E9%83%A8bug%E5%8F%B7%E5%A6%82%E4%B8%8B%EF%BC%9A">http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：</a></p>
 <blockquote>
-<p>The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allows attackers to gain privileges via a crafted application, aka Android internal bug 28868303 and Qualcomm internal bug CR1032820.    </p>
+<p>The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allows attackers to gain privileges via a crafted application, aka Android internal bug 28868303 and Qualcomm internal bug CR1032820.	</p>
 </blockquote>
-<p>接着查找patch修改的内容有两个方法；一个是在Googlepatch中的code_snippets下根据内部bug号进行查找，首先需要直到Google对应的修改是在哪个月的，在上面的网站查到：<br><a href="http://source.android.com/security/bulletin/2016-09-01.html，也就是说是在2016年9月的补丁，实际上查找后发现是在8月的补丁里。对应ANDROID-28868303这个文件；" target="_blank" rel="noopener">http://source.android.com/security/bulletin/2016-09-01.html，也就是说是在2016年9月的补丁，实际上查找后发现是在8月的补丁里。对应ANDROID-28868303这个文件；</a><br>第二个方法是从高通<a href="https://createpoint.qti.qualcomm.com" target="_blank" rel="noopener">https://createpoint.qti.qualcomm.com</a> 查找CR1032820，下载一个pdf文件，上面有下载补丁的命令。如果直接从里面的链接下载的话，得到的patch文件打不开，得用文档里的命令，用openssl下载。比如，patch的地址为<a href="https://source.codeaurora.org/patches/quic/la/.PATCH_157942_security_patches_QPSIIR_261_2" target="_blank" rel="noopener">https://source.codeaurora.org/patches/quic/la/.PATCH_157942_security_patches_QPSIIR_261_2</a><br>0160712.tar.gz， 下载命令为：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl enc -d -aes-256-cbc -<span class="keyword">in</span> msm-3.18.git-139bc41ece02500c87feef60f14934c719588528.patch -out msm-3.18.git139bc41ece02500c87feef60f14934c719588528.patch.txt -pass <span class="string">'pass:QV&#125;]-z[NlJAXj!5xm(A0'</span></span><br></pre></td></tr></table></figure></p>
+<p>接着查找patch修改的内容有两个方法；一个是在Googlepatch中的code_snippets下根据内部bug号进行查找，首先需要直到Google对应的修改是在哪个月的，在上面的网站查到：<br><a target="_blank" rel="noopener" href="http://source.android.com/security/bulletin/2016-09-01.html%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E8%AF%B4%E6%98%AF%E5%9C%A82016%E5%B9%B49%E6%9C%88%E7%9A%84%E8%A1%A5%E4%B8%81%EF%BC%8C%E5%AE%9E%E9%99%85%E4%B8%8A%E6%9F%A5%E6%89%BE%E5%90%8E%E5%8F%91%E7%8E%B0%E6%98%AF%E5%9C%A88%E6%9C%88%E7%9A%84%E8%A1%A5%E4%B8%81%E9%87%8C%E3%80%82%E5%AF%B9%E5%BA%94ANDROID-28868303%E8%BF%99%E4%B8%AA%E6%96%87%E4%BB%B6%EF%BC%9B">http://source.android.com/security/bulletin/2016-09-01.html，也就是说是在2016年9月的补丁，实际上查找后发现是在8月的补丁里。对应ANDROID-28868303这个文件；</a><br>第二个方法是从高通<a target="_blank" rel="noopener" href="https://createpoint.qti.qualcomm.com/">https://createpoint.qti.qualcomm.com</a> 查找CR1032820，下载一个pdf文件，上面有下载补丁的命令。如果直接从里面的链接下载的话，得到的patch文件打不开，得用文档里的命令，用openssl下载。比如，patch的地址为<a target="_blank" rel="noopener" href="https://source.codeaurora.org/patches/quic/la/.PATCH_157942_security_patches_QPSIIR_261_2">https://source.codeaurora.org/patches/quic/la/.PATCH_157942_security_patches_QPSIIR_261_2</a><br>0160712.tar.gz， 下载命令为：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl enc -d -aes-256-cbc -<span class="keyword">in</span> msm-3.18.git-139bc41ece02500c87feef60f14934c719588528.patch -out msm-3.18.git139bc41ece02500c87feef60f14934c719588528.patch.txt -pass <span class="string">&#x27;pass:QV&#125;]-z[NlJAXj!5xm(A0&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>按照文档上得来就行，注意文件名别错了。</p>
 
       
@@ -204,7 +216,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/06/24/编译Android内核时找不到openssl的bio.sh /" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -214,7 +226,7 @@
     </a>
   
   
-    <a href="/2019/02/11/Android O项目首次刷机PackageInstaller无法安装和卸载应用/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/02/11/Android%20O%E9%A1%B9%E7%9B%AE%E9%A6%96%E6%AC%A1%E5%88%B7%E6%9C%BAPackageInstaller%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">Android O项目首次刷机PackageInstaller无法安装和卸载应用</div>
     </a>
@@ -245,7 +257,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -320,18 +332,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -394,7 +416,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>

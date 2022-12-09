@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>hashmap、linkedhashmap、三级缓存 | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="数据结构缓存LruCacheDiskLruCacheHashMapLinkedHashMap">
+  <meta name="keywords" content="数据结构缓存LruCacheDiskLruCacheHashMapLinkedHashMap" />
   
   
   
   
   <meta name="description" content="HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。">
-<meta name="keywords" content="数据结构,缓存,LruCache,DiskLruCache,HashMap,LinkedHashMap">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HashMap、LinkedHashMap、三级缓存">
-<meta property="og:url" content="https://mouzishuo.github.io/2018/07/13/HashMap、LinkedHashMap、三级缓存/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/07/13/HashMap%E3%80%81LinkedHashMap%E3%80%81%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/index.html">
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-16T01:14:47.488Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-13T09:13:55.000Z">
+<meta property="article:modified_time" content="2019-01-16T01:14:47.488Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="缓存">
+<meta property="article:tag" content="LruCache">
+<meta property="article:tag" content="DiskLruCache">
+<meta property="article:tag" content="HashMap">
+<meta property="article:tag" content="LinkedHashMap">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HashMap、LinkedHashMap、三级缓存">
-<meta name="twitter:description" content="HashMapHashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出ConcurrentModificationException异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。">
   
 
   
@@ -40,30 +45,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -88,7 +101,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -107,14 +121,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -136,10 +150,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -153,14 +169,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-HashMap、LinkedHashMap、三级缓存" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-HashMap、LinkedHashMap、三级缓存" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       HashMap、LinkedHashMap、三级缓存
     </h1>
   
@@ -169,7 +185,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/13/HashMap、LinkedHashMap、三级缓存/" class="article-date">
+	<a href="/2018/07/13/HashMap%E3%80%81LinkedHashMap%E3%80%81%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/" class="article-date">
 	  <time datetime="2018-07-13T09:13:55.000Z" itemprop="datePublished">2018-07-13</time>
 	</a>
 
@@ -187,16 +203,16 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p>HashMap在迭代器创建后，通过iterator的remove()方法之外的其他方式改变HashMap结构（增加或删除元素），都会抛出<strong>ConcurrentModificationException</strong>异常（fail-fast），因为HashMap不支持并发操作，预期在将来产生无法预料的后果，不如马上抛出错误。这种fail-fast的行为并不一定总是有效，因此在程序中不应该依赖这种行为。</p>
-<p>HashMap中的树节点size是普通节点的两倍左右，所以在桶里的节点不多的时候（阈值为6，转换成树节点的阈值为8），会把树节点重新转换成普通节点。因为红黑树的平均查找长度是log（n），长度为8的时候，平均查找长度为3。。如果继续使用链表，平均查找长度为8/2=4。这才有转换为树的必要。。链表长度如果是6以内，6/2=3，速度也很快的。转化为树还有生成树的时间，并不明智。</p>
-<p>红黑树和HashMap可以参考<a href="https://www.cnblogs.com/liwei2222/p/8013367.html，其实和算法这本书上说的差不多。" target="_blank" rel="noopener">https://www.cnblogs.com/liwei2222/p/8013367.html，其实和算法这本书上说的差不多。</a></p>
-<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>关于LinkedHashMap可以参考：<a href="https://www.cnblogs.com/xiaoxi/p/6170590.html。LinkedHashMap相当于HashMap和LinkedList（循环双向链表）的结合，可以选择按照插入顺序或者访问顺序记录节点顺序。" target="_blank" rel="noopener">https://www.cnblogs.com/xiaoxi/p/6170590.html。LinkedHashMap相当于HashMap和LinkedList（循环双向链表）的结合，可以选择按照插入顺序或者访问顺序记录节点顺序。</a></p>
+<p>HashMap中的树节点size是普通节点的两倍左右，所以在桶里的节点不多的时候（阈值为6，转换成树节点的阈值为8），会把树节点重新转换成普通节点。因为红黑树的平均查找长度是log（n），长度为8的时候，平均查找长度为3。。如果继续使用链表，平均查找长度为8&#x2F;2&#x3D;4。这才有转换为树的必要。。链表长度如果是6以内，6&#x2F;2&#x3D;3，速度也很快的。转化为树还有生成树的时间，并不明智。</p>
+<p>红黑树和HashMap可以参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liwei2222/p/8013367.html%EF%BC%8C%E5%85%B6%E5%AE%9E%E5%92%8C%E7%AE%97%E6%B3%95%E8%BF%99%E6%9C%AC%E4%B9%A6%E4%B8%8A%E8%AF%B4%E7%9A%84%E5%B7%AE%E4%B8%8D%E5%A4%9A%E3%80%82">https://www.cnblogs.com/liwei2222/p/8013367.html，其实和算法这本书上说的差不多。</a></p>
+<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>关于LinkedHashMap可以参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoxi/p/6170590.html%E3%80%82LinkedHashMap%E7%9B%B8%E5%BD%93%E4%BA%8EHashMap%E5%92%8CLinkedList%EF%BC%88%E5%BE%AA%E7%8E%AF%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8%EF%BC%89%E7%9A%84%E7%BB%93%E5%90%88%EF%BC%8C%E5%8F%AF%E4%BB%A5%E9%80%89%E6%8B%A9%E6%8C%89%E7%85%A7%E6%8F%92%E5%85%A5%E9%A1%BA%E5%BA%8F%E6%88%96%E8%80%85%E8%AE%BF%E9%97%AE%E9%A1%BA%E5%BA%8F%E8%AE%B0%E5%BD%95%E8%8A%82%E7%82%B9%E9%A1%BA%E5%BA%8F%E3%80%82">https://www.cnblogs.com/xiaoxi/p/6170590.html。LinkedHashMap相当于HashMap和LinkedList（循环双向链表）的结合，可以选择按照插入顺序或者访问顺序记录节点顺序。</a></p>
 <h2 id="三级缓存"><a href="#三级缓存" class="headerlink" title="三级缓存"></a>三级缓存</h2><p>使用缓存的好处：</p>
 <ul>
 <li>加快数据的获取速度，降低开销；</li>
 <li>减轻服务器的负担（访问网络地情况）；</li>
 <li>在没网络的情况下获取数据；</li>
 </ul>
-<p>关于LruCache参考：<a href="https://www.jianshu.com/p/b49a111147ee。LruCache采用LinkedHashMap实现，最新访问的节点放到尾部，头部的就是上次访问离现在最久的，缓存满的话删除头部的节点。" target="_blank" rel="noopener">https://www.jianshu.com/p/b49a111147ee。LruCache采用LinkedHashMap实现，最新访问的节点放到尾部，头部的就是上次访问离现在最久的，缓存满的话删除头部的节点。</a></p>
+<p>关于LruCache参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b49a111147ee%E3%80%82LruCache%E9%87%87%E7%94%A8LinkedHashMap%E5%AE%9E%E7%8E%B0%EF%BC%8C%E6%9C%80%E6%96%B0%E8%AE%BF%E9%97%AE%E7%9A%84%E8%8A%82%E7%82%B9%E6%94%BE%E5%88%B0%E5%B0%BE%E9%83%A8%EF%BC%8C%E5%A4%B4%E9%83%A8%E7%9A%84%E5%B0%B1%E6%98%AF%E4%B8%8A%E6%AC%A1%E8%AE%BF%E9%97%AE%E7%A6%BB%E7%8E%B0%E5%9C%A8%E6%9C%80%E4%B9%85%E7%9A%84%EF%BC%8C%E7%BC%93%E5%AD%98%E6%BB%A1%E7%9A%84%E8%AF%9D%E5%88%A0%E9%99%A4%E5%A4%B4%E9%83%A8%E7%9A%84%E8%8A%82%E7%82%B9%E3%80%82">https://www.jianshu.com/p/b49a111147ee。LruCache采用LinkedHashMap实现，最新访问的节点放到尾部，头部的就是上次访问离现在最久的，缓存满的话删除头部的节点。</a></p>
 <p>LinkedHashMap可以用来实现LruCache的关键两点：</p>
 <ul>
 <li>LinkedHashMap是按Key-Value存储内容的，和Cache一致；</li>
@@ -210,10 +226,12 @@
 </ul>
 <p>最重要的是后面两种。</p>
 <h2 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h2><p>LruCache基本用法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cacheSize = <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span>; <span class="comment">// 4MiB</span></span><br><span class="line">LruCache&lt;String, Bitmap&gt; bitmapCache = <span class="keyword">new</span> LruCache&lt;String, Bitmap&gt;(cacheSize) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(String key, Bitmap value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value.getByteCount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">cacheSize</span> <span class="operator">=</span> <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span>; <span class="comment">// 4MiB</span></span><br><span class="line">LruCache&lt;String, Bitmap&gt; bitmapCache = <span class="keyword">new</span> <span class="title class_">LruCache</span>&lt;String, Bitmap&gt;(cacheSize) &#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="type">int</span> <span class="title function_">sizeOf</span><span class="params">(String key, Bitmap value)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> value.getByteCount();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure>
+
 <p>cacheSize和sizeOf的单位要一致。</p>
 <p>LruCache是线程安全的，比如get()方法中：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">            mapValue = map.get(key);</span><br><span class="line">            <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">                hitCount++;</span><br><span class="line">                <span class="keyword">return</span> mapValue;</span><br><span class="line">            &#125;</span><br><span class="line">            missCount++;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">            mapValue = map.get(key);</span><br><span class="line">            <span class="keyword">if</span> (mapValue != <span class="literal">null</span>) &#123;</span><br><span class="line">                hitCount++;</span><br><span class="line">                <span class="keyword">return</span> mapValue;</span><br><span class="line">            &#125;</span><br><span class="line">            missCount++;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
 <p>另外，该类不允许null作为key和value。get,put和remove方法返回null均表示不存在该元素。</p>
 <p>LruCache的size属性表示的值和单位有关不一定时元素的个数，比如图片的缓存size表示的可能是多少M。</p>
 <blockquote>
@@ -230,12 +248,14 @@
 <h2 id="DiskLruCache"><a href="#DiskLruCache" class="headerlink" title="DiskLruCache"></a>DiskLruCache</h2><p>DiskLruCache用于实现磁盘缓存，通过将缓存对象写入磁盘实现缓存的效果。DiskLruCache的使用过程如下。</p>
 <ol>
 <li><p>创建</p>
-<p>DiskLruCache不能通过LruCache创建。它提供了open方法创建自身。这一点在AOSP源码的external/glide/third_party/disklrucache/src/main/java/com/bumptech/glide/disklrucache/DiskLruCache.java中确实是这样，但是在external/okhttp/okhttp/src/main/java/com/squareup/okhttp/internal/DiskLruCache.java中未找到该方法，暂时就按glide中的来。open方法的声明如下：</p>
+<p>DiskLruCache不能通过LruCache创建。它提供了open方法创建自身。这一点在AOSP源码的external&#x2F;glide&#x2F;third_party&#x2F;disklrucache&#x2F;src&#x2F;main&#x2F;java&#x2F;com&#x2F;bumptech&#x2F;glide&#x2F;disklrucache&#x2F;DiskLruCache.java中确实是这样，但是在external&#x2F;okhttp&#x2F;okhttp&#x2F;src&#x2F;main&#x2F;java&#x2F;com&#x2F;squareup&#x2F;okhttp&#x2F;internal&#x2F;DiskLruCache.java中未找到该方法，暂时就按glide中的来。open方法的声明如下：</p>
 </li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Opens the cache in &#123;<span class="doctag">@code</span> directory&#125;, creating a cache if none exists</span></span><br><span class="line"><span class="comment">   * there.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> directory 应用的缓存目录，或者其他指定的目录，区别在于应用卸载后缓存会不会清空</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> appVersion 应用的版本，如前后版本改变，缓存会被清空，一般为1即可</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> valueCount 每个entry中value的个数，一般为1</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> maxSize 缓存总大下，比如50M</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> IOException if reading or writing the cache directory fails</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DiskLruCache <span class="title">open</span><span class="params">(File directory, <span class="keyword">int</span> appVersion, <span class="keyword">int</span> valueCount, <span class="keyword">long</span> maxSize)</span></span></span><br><span class="line"><span class="function">      <span class="keyword">throws</span> IOException</span></span><br></pre></td></tr></table></figure>
-<p>​    典型的缓存创建过程如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">privata <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> DISK_CACHE_SIZE = <span class="number">1024</span> * <span class="number">0124</span>  * <span class="number">50</span>;<span class="comment">//50M</span></span><br><span class="line">File diskCahceDir = getDiskCacheDir(mContext, <span class="string">"bitmap"</span>);</span><br><span class="line"><span class="keyword">if</span> (!diskCacheDir.exists())&#123;</span><br><span class="line">	diskCacheDir.mkdirs();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache = DiskLruCache.open(diskCacheDir, <span class="number">1</span>, <span class="number">1</span>, DISK_CACHE_SIZE);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Opens the cache in &#123;<span class="doctag">@code</span> directory&#125;, creating a cache if none exists</span></span><br><span class="line"><span class="comment">   * there.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> directory 应用的缓存目录，或者其他指定的目录，区别在于应用卸载后缓存会不会清空</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> appVersion 应用的版本，如前后版本改变，缓存会被清空，一般为1即可</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> valueCount 每个entry中value的个数，一般为1</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> maxSize 缓存总大下，比如50M</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@throws</span> IOException if reading or writing the cache directory fails</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> DiskLruCache <span class="title function_">open</span><span class="params">(File directory, <span class="type">int</span> appVersion, <span class="type">int</span> valueCount, <span class="type">long</span> maxSize)</span></span><br><span class="line">      <span class="keyword">throws</span> IOException</span><br></pre></td></tr></table></figure>
+
+<p>​	典型的缓存创建过程如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">privata <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">DISK_CACHE_SIZE</span> <span class="operator">=</span> <span class="number">1024</span> * <span class="number">0124</span>  * <span class="number">50</span>;<span class="comment">//50M</span></span><br><span class="line"><span class="type">File</span> <span class="variable">diskCahceDir</span> <span class="operator">=</span> getDiskCacheDir(mContext, <span class="string">&quot;bitmap&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (!diskCacheDir.exists())&#123;</span><br><span class="line">	diskCacheDir.mkdirs();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache = DiskLruCache.open(diskCacheDir, <span class="number">1</span>, <span class="number">1</span>, DISK_CACHE_SIZE);</span><br></pre></td></tr></table></figure>
+
 <ol start="2">
 <li><p>缓存添加</p>
 <p>DiskLruCache的缓存添加是通过Editor完成的，Editor是一个缓存对象的编辑器对象（类似于SharedPreferences值得editor）。仍然以图片为例，添加缓存要经过以下步骤：</p>
@@ -243,13 +263,12 @@
 <li><p>url转化成key，因为url中可能存在一些特殊字符，可能会影响url的使用，一般采用url的md5值；</p>
 </li>
 <li><p>获取Editor对象，如下所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String key = hashKeyFromUrl(url);</span><br><span class="line">DiskLruCache.Editor editor = mDiskLruCache.edit(key);</span><br><span class="line"><span class="keyword">if</span> (editir != <span class="keyword">null</span>) &#123;</span><br><span class="line">  <span class="comment">//之前设置了一个节点只有一个数据，所以DISK_CACHE_INDEX为0即可</span></span><br><span class="line">  OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> hashKeyFromUrl(url);</span><br><span class="line">DiskLruCache.<span class="type">Editor</span> <span class="variable">editor</span> <span class="operator">=</span> mDiskLruCache.edit(key);</span><br><span class="line"><span class="keyword">if</span> (editir != <span class="literal">null</span>) &#123;</span><br><span class="line">  <span class="comment">//之前设置了一个节点只有一个数据，所以DISK_CACHE_INDEX为0即可</span></span><br><span class="line">  <span class="type">OutputStream</span> <span class="variable">outputStream</span> <span class="operator">=</span> editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>将数据写入editor的输出流；</p>
 </li>
 <li><p>使用editor的commit()方法提交数据，或者在出现问题时用abort()方法回退整个操作：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line"><span class="keyword">if</span>(downloadUrlToStream(url, outputStream))&#123;</span><br><span class="line">  editor.commit();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  editor.abort();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache.flush;</span><br></pre></td></tr></table></figure>
-</li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">OutputStream</span> <span class="variable">outputStream</span> <span class="operator">=</span> editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line"><span class="keyword">if</span>(downloadUrlToStream(url, outputStream))&#123;</span><br><span class="line">  editor.commit();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  editor.abort();</span><br><span class="line">&#125;</span><br><span class="line">mDiskLruCache.flush;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p>缓存查找</p>
@@ -272,7 +291,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/07/22/应用安装-开机安装应用/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/07/22/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E5%BC%80%E6%9C%BA%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -298,7 +317,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap"><span class="nav-number">1.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedHashMap"><span class="nav-number">2.</span> <span class="nav-text">LinkedHashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三级缓存"><span class="nav-number">3.</span> <span class="nav-text">三级缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LruCache"><span class="nav-number">4.</span> <span class="nav-text">LruCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DiskLruCache"><span class="nav-number">5.</span> <span class="nav-text">DiskLruCache</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap"><span class="nav-number">1.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedHashMap"><span class="nav-number">2.</span> <span class="nav-text">LinkedHashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text">三级缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LruCache"><span class="nav-number">4.</span> <span class="nav-text">LruCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DiskLruCache"><span class="nav-number">5.</span> <span class="nav-text">DiskLruCache</span></a></li></ol>
     
     </div>
   </aside>
@@ -313,7 +332,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -388,18 +407,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -462,7 +491,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>

@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>android “original-package” 机制解析 | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="PackageManagerServicePKMSAndroidoriginal-package">
+  <meta name="keywords" content="PackageManagerServicePKMSoriginal-packageAndroid" />
   
   
   
   
-  <meta name="description" content="Android “original-package” 机制解析原文：https://blog.csdn.net/hwy584624785/article/details/51774580 问题 之前项目上遇到一个问题：手机系统从版本 A 通过 FOTA 升级到版本 B 后，系统源码中的输入法（LatinIME.apk，下面称 LatinIME）不见了！也就是设置中语言和输入法选项没有 Androi">
-<meta name="keywords" content="PackageManagerService,PKMS,Android,original-package">
+  <meta name="description" content="Android “original-package” 机制解析原文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;hwy584624785&#x2F;article&#x2F;details&#x2F;51774580 问题 之前项目上遇到一个问题：手机系统从版本 A 通过 FOTA 升级到版本 B 后，系统源码中的输入法（LatinIME.apk，下面称 LatinIME）不见了！也就是设置中语言和输入法选项没有 Androi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android “original-package” 机制解析">
-<meta property="og:url" content="https://mouzishuo.github.io/2018/07/26/Android “original-package” 机制解析/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/07/26/Android%20%E2%80%9Coriginal-package%E2%80%9D%20%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="得一">
-<meta property="og:description" content="Android “original-package” 机制解析原文：https://blog.csdn.net/hwy584624785/article/details/51774580 问题 之前项目上遇到一个问题：手机系统从版本 A 通过 FOTA 升级到版本 B 后，系统源码中的输入法（LatinIME.apk，下面称 LatinIME）不见了！也就是设置中语言和输入法选项没有 Androi">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-16T01:17:52.834Z">
+<meta property="og:description" content="Android “original-package” 机制解析原文：https:&#x2F;&#x2F;blog.csdn.net&#x2F;hwy584624785&#x2F;article&#x2F;details&#x2F;51774580 问题 之前项目上遇到一个问题：手机系统从版本 A 通过 FOTA 升级到版本 B 后，系统源码中的输入法（LatinIME.apk，下面称 LatinIME）不见了！也就是设置中语言和输入法选项没有 Androi">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-26T09:13:55.000Z">
+<meta property="article:modified_time" content="2019-01-16T01:17:52.834Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="PackageManagerService">
+<meta property="article:tag" content="PKMS">
+<meta property="article:tag" content="original-package">
+<meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android “original-package” 机制解析">
-<meta name="twitter:description" content="Android “original-package” 机制解析原文：https://blog.csdn.net/hwy584624785/article/details/51774580 问题 之前项目上遇到一个问题：手机系统从版本 A 通过 FOTA 升级到版本 B 后，系统源码中的输入法（LatinIME.apk，下面称 LatinIME）不见了！也就是设置中语言和输入法选项没有 Androi">
   
 
   
@@ -40,30 +43,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -88,7 +99,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -107,14 +119,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -136,10 +148,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -153,14 +167,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Android “original-package” 机制解析" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-Android “original-package” 机制解析" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       Android “original-package” 机制解析
     </h1>
   
@@ -169,7 +183,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/07/26/Android “original-package” 机制解析/" class="article-date">
+	<a href="/2018/07/26/Android%20%E2%80%9Coriginal-package%E2%80%9D%20%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90/" class="article-date">
 	  <time datetime="2018-07-26T09:13:55.000Z" itemprop="datePublished">2018-07-26</time>
 	</a>
 
@@ -186,7 +200,7 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Android-“original-package”-机制解析"><a href="#Android-“original-package”-机制解析" class="headerlink" title="Android “original-package” 机制解析"></a>Android “original-package” 机制解析</h1><p>原文：<a href="https://blog.csdn.net/hwy584624785/article/details/51774580" target="_blank" rel="noopener">https://blog.csdn.net/hwy584624785/article/details/51774580</a></p>
+        <h1 id="Android-“original-package”-机制解析"><a href="#Android-“original-package”-机制解析" class="headerlink" title="Android “original-package” 机制解析"></a>Android “original-package” 机制解析</h1><p>原文：<a target="_blank" rel="noopener" href="https://blog.csdn.net/hwy584624785/article/details/51774580">https://blog.csdn.net/hwy584624785/article/details/51774580</a></p>
 <p>问题</p>
 <p>之前项目上遇到一个问题：手机系统从版本 A 通过 FOTA 升级到版本 B 后，系统源码中的输入法（LatinIME.apk，下面称 LatinIME）不见了！也就是设置中语言和输入法选项没有 Android Keyboard 这一项，并且设置中的应用选项中也找不到。</p>
 <p>问题情况</p>
@@ -198,17 +212,22 @@
 <p>直接 download B 版本，两个 App 是同时存在的。<br>不管是 A 版本还是 B 版本通过 adb install 或 adb push 安装两个输入法应用，两个 App 都是同时存在的。<br>通过 pm list package 命令查看</p>
 <p>版本 A 信息如下</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">package:/system/app/LatinImeGoogle.apk=com.google.android.inputmethod.latin</span><br><span class="line">package:/system/app/LatinIME.apk=com.android.inputmethod.latin</span><br></pre></td></tr></table></figure>
+
 <p>版本 B 的信息如下</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">package:/system/app/LatinImeGoogle.apk=com.android.inputmethod.latin</span><br></pre></td></tr></table></figure>
+
 <p>版本 B 的输入法包名是变了的，而且是变成了 LatinIME 的包名了！</p>
 <p>反编译应用，在 LatinImeGoogle 的 manifest 文件中发现有 orignial-package 属性：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">original-package</span> <span class="attr">android:name</span>=<span class="string">"com.android.inputmethod.latin"</span> /&gt;</span>1</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">original-package</span> <span class="attr">android:name</span>=<span class="string">&quot;com.android.inputmethod.latin&quot;</span> /&gt;</span>1</span><br></pre></td></tr></table></figure>
+
 <p>看，与步骤 3 已经联系上了。所以这个属性应该就是问题所在。</p>
 <p>接下来分析 original-package 属性。</p>
 <p>源码中搜 original-package, PackageParser.java 中的 parsePackage() 方法对属性的处理：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (tagName.equals(<span class="string">"original-package"</span>)) &#123;</span><br><span class="line">    sa = res.obtainAttributes(attrs,</span><br><span class="line">        com.android.internal.R.styleable.AndroidManifestOriginalPackage);</span><br><span class="line"></span><br><span class="line">    String orig =sa.getNonConfigurationString(</span><br><span class="line">        com.android.internal.R.styleable.AndroidManifestOriginalPackage_name, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (!pkg.packageName.equals(orig)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pkg.mOriginalPackages == <span class="keyword">null</span>) &#123;</span><br><span class="line">            pkg.mOriginalPackages = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">            pkg.mRealPackage = pkg.packageName;</span><br><span class="line">        &#125;</span><br><span class="line">        pkg.mOriginalPackages.add(orig);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sa.recycle();</span><br><span class="line"></span><br><span class="line">    XmlUtils.skipCurrentTag(parser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (tagName.equals(<span class="string">&quot;original-package&quot;</span>)) &#123;</span><br><span class="line">    sa = res.obtainAttributes(attrs,</span><br><span class="line">        com.android.internal.R.styleable.AndroidManifestOriginalPackage);</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">orig</span> <span class="operator">=</span>sa.getNonConfigurationString(</span><br><span class="line">        com.android.internal.R.styleable.AndroidManifestOriginalPackage_name, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (!pkg.packageName.equals(orig)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (pkg.mOriginalPackages == <span class="literal">null</span>) &#123;</span><br><span class="line">            pkg.mOriginalPackages = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;();</span><br><span class="line">            pkg.mRealPackage = pkg.packageName;</span><br><span class="line">        &#125;</span><br><span class="line">        pkg.mOriginalPackages.add(orig);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sa.recycle();</span><br><span class="line"></span><br><span class="line">    XmlUtils.skipCurrentTag(parser);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>查 AndroidManifestOriginalPackage 的定义，在 attrs_manifest.xml 文件中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Private tag to declare the original package name that this package is</span><br><span class="line"> based on.  Only used for packages installed in the system image.  If given, and different than the actual package name, and the given</span><br><span class="line"> original package was previously installed on the device but the new one was not, then the data for the old one will be renamed to be for the new package.</span><br><span class="line"> &lt;p&gt;This appears as a child tag of the root</span><br><span class="line"> &#123;@link #AndroidManifest manifest&#125; tag. --&gt;</span><br><span class="line"></span><br><span class="line">&lt;declare-styleable name=&quot;AndroidManifestOriginalPackage&quot; parent=&quot;AndroidManifest&quot;&gt;</span><br><span class="line">    &lt;attr name=&quot;name&quot; /&gt;</span><br><span class="line">&lt;/declare-styleable&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Private tag to declare the original package name that this package is</span><br><span class="line"> based on.  Only used for packages installed in the system image.  If given, and different than the actual package name, and the given</span><br><span class="line"> original package was previously installed on the device but the new one was not, then the data for the old one will be renamed to be for the new package.</span><br><span class="line"> &lt;p&gt;This appears as a child tag of the root</span><br><span class="line"> &#123;@link #AndroidManifest manifest&#125; tag. --&gt;</span><br><span class="line"></span><br><span class="line">&lt;declare-styleable name=&quot;AndroidManifestOriginalPackage&quot; parent=&quot;AndroidManifest&quot;&gt;</span><br><span class="line">    &lt;attr name=&quot;name&quot; /&gt;</span><br><span class="line">&lt;/declare-styleable&gt;</span><br></pre></td></tr></table></figure>
+
 <p>官方的解释很清楚了：之前安装的应用是系统应用，并且包名不同，之前应用的数据就会以新安装应用的名字保留下来。</p>
 <p>这已经可以解释 LatinIME 消失的原因了。但是仅仅通过这个说明是不能完全解释步骤2中的现象的.为什么 adb push 和 adb install LatinImeGoogle 后的现象是两个应用并存呢？</p>
 <p>深入分析 original-package 机制</p>
@@ -216,16 +235,19 @@
 <p>上面 parsePackage() 方法中的 mOriginalPackages，查源码可知对 mOriginalPackages 的其余处理只在 PackageManagerServerice 中了。mOriginalPackages 在 PackageManagerService 中出现的次数并不多，但要搞清流程，简单有效的方法就是打 log。 打 log 这里有个小技巧。当时因为是 FOTA 升级上来的，总不可能添加一些 log 就去做一次升级抓 log 吧，很麻烦并且不能保证有用的 log 没有被冲刷掉。所以当时直接拿版本 B 的手机做 dumpsys 操作，查找有没有相关 package 信息。果然是有的：</p>
 <p>Package warning messages:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1/1/14 12:08 AM: No settings file; creating initial state</span><br><span class="line">1/1/14 12:06 AM: New package com.google.android.inputmethod.latin renamed to replace old package com.android.inputmethod.latin</span><br><span class="line">1/1/14 12:47 AM: System package com.android.inputmethod.latin signature changed; retaining data.</span><br><span class="line">1/1/14 12:51 AM: System package com.android.inputmethod.latin signature changed; retaining data.</span><br></pre></td></tr></table></figure>
+
 <p>对应源码 scanPackageLI(pkg,…) 的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// File a report about this.</span></span><br><span class="line">String msg = <span class="string">"New package "</span> + pkgSetting.realName</span><br><span class="line">        + <span class="string">" renamed to replace old package "</span> + pkgSetting.name;</span><br><span class="line">reportSettingsProblem(Log.WARN, msg);</span><br></pre></td></tr></table></figure>
-<p>reportSettingsProblem() 方法是既可以在 dumpsys 又可以在 logcat 中打印出来的，用此方法添加 log 发现 FOTA 升级上来走的流程是 if (pkg.mOriginalPackages.contains(renamed)) ,而 adb install 和 adb push 走的流程是它的 else 流程，是因为 renamed 为空，也就是 mSettings.mRenamedPackages 不包含 com.google.android.inputmethod.latin 。<br>mRenamedPackages 的值添加是在 Settings.java (/frameworks/base/services/java/com/android/server/pm/Settings.java) 中，最终处理（具体调用过程不写了）在两个地方：上面提到的 if 语句下面调用的 getPackageLPw() 方法，这个显然不是原因。另一个是在 PackageManagerService 的构造函数调用 readLPw() 方法处理。<br>我们知道 PackageManagerService 是 SystemServer 调用启动，SystemServer 又是 Zygote 启动，这就是原因：采用adb push 和 adb install时在PKMS的构造函数中会先清除已经不存在的应用，然后再扫描该应用 ，所以这样安装应用 “original-package” 机制是不起作用的，FOTA 当然是会走构造函数的，所以“original-package” 机制是有效的。到此问题已经解决，更详细的内容可以查看 PackageManagerService 源码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// File a report about this.</span></span><br><span class="line"><span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> <span class="string">&quot;New package &quot;</span> + pkgSetting.realName</span><br><span class="line">        + <span class="string">&quot; renamed to replace old package &quot;</span> + pkgSetting.name;</span><br><span class="line">reportSettingsProblem(Log.WARN, msg);</span><br></pre></td></tr></table></figure>
+
+<p>reportSettingsProblem() 方法是既可以在 dumpsys 又可以在 logcat 中打印出来的，用此方法添加 log 发现 FOTA 升级上来走的流程是 if (pkg.mOriginalPackages.contains(renamed)) ,而 adb install 和 adb push 走的流程是它的 else 流程，是因为 renamed 为空，也就是 mSettings.mRenamedPackages 不包含 com.google.android.inputmethod.latin 。<br>mRenamedPackages 的值添加是在 Settings.java (&#x2F;frameworks&#x2F;base&#x2F;services&#x2F;java&#x2F;com&#x2F;android&#x2F;server&#x2F;pm&#x2F;Settings.java) 中，最终处理（具体调用过程不写了）在两个地方：上面提到的 if 语句下面调用的 getPackageLPw() 方法，这个显然不是原因。另一个是在 PackageManagerService 的构造函数调用 readLPw() 方法处理。<br>我们知道 PackageManagerService 是 SystemServer 调用启动，SystemServer 又是 Zygote 启动，这就是原因：采用adb push 和 adb install时在PKMS的构造函数中会先清除已经不存在的应用，然后再扫描该应用 ，所以这样安装应用 “original-package” 机制是不起作用的，FOTA 当然是会走构造函数的，所以“original-package” 机制是有效的。到此问题已经解决，更详细的内容可以查看 PackageManagerService 源码。</p>
 <p><strong>总结</strong></p>
 <p>Android 的 “original-package” 运行机制：</p>
-<p>之前已安装的应用是系统应用，并且新安装的应用与之前包名不同，那么定义有 original-package 属性的新应用就可以在走 PackageManagerService 构造函数的流程下（例如 FOTA 升级）实现应用替换，保持原有应用数据不变，但是以新安装应用的形式展现给用户。查看源码 /packages/apps/ 下的应用，会发现很多都有此属性，就是为了以后升级时应用数据共享。这一属性从 Android 的 Froyo 版本就有，可以看出主要是针对 Google 自己和 ROM 厂商而设置的，一般的开发者使用不到。</p>
+<p>之前已安装的应用是系统应用，并且新安装的应用与之前包名不同，那么定义有 original-package 属性的新应用就可以在走 PackageManagerService 构造函数的流程下（例如 FOTA 升级）实现应用替换，保持原有应用数据不变，但是以新安装应用的形式展现给用户。查看源码 &#x2F;packages&#x2F;apps&#x2F; 下的应用，会发现很多都有此属性，就是为了以后升级时应用数据共享。这一属性从 Android 的 Froyo 版本就有，可以看出主要是针对 Google 自己和 ROM 厂商而设置的，一般的开发者使用不到。</p>
 <hr>
 <p>Android O PKMS中关于origin-package中的处理：</p>
 <p><code>scanPackageDirtyLI</code>:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Check if we are renaming from an original package name.</span></span><br><span class="line">   PackageSetting origPackage = <span class="keyword">null</span>;</span><br><span class="line">   String realName = <span class="keyword">null</span>;</span><br><span class="line">   <span class="keyword">if</span> (pkg.mOriginalPackages != <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="comment">// This package may need to be renamed to a previously</span></span><br><span class="line">       <span class="comment">// installed name.  Let's check on that...</span></span><br><span class="line">       <span class="keyword">final</span> String renamed = mSettings.getRenamedPackageLPr(pkg.mRealPackage);</span><br><span class="line">       <span class="keyword">if</span> (pkg.mOriginalPackages.contains(renamed)) &#123;</span><br><span class="line">           <span class="comment">// This package had originally been installed as the</span></span><br><span class="line">           <span class="comment">// original name, and we have already taken care of</span></span><br><span class="line">           <span class="comment">// transitioning to the new one.  Just update the new</span></span><br><span class="line">           <span class="comment">// one to continue using the old name.</span></span><br><span class="line">           realName = pkg.mRealPackage;</span><br><span class="line">           <span class="keyword">if</span> (!pkg.packageName.equals(renamed)) &#123;</span><br><span class="line">               <span class="comment">// Callers into this function may have already taken</span></span><br><span class="line">               <span class="comment">// care of renaming the package; only do it here if</span></span><br><span class="line">               <span class="comment">// it is not already done.</span></span><br><span class="line">               pkg.setPackageName(renamed);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> i=pkg.mOriginalPackages.size()-<span class="number">1</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">               <span class="keyword">if</span> ((origPackage = mSettings.getPackageLPr(</span><br><span class="line">                       pkg.mOriginalPackages.get(i))) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                   <span class="comment">// We do have the package already installed under its</span></span><br><span class="line">                   <span class="comment">// original name...  should we use it?</span></span><br><span class="line">                   <span class="keyword">if</span> (!verifyPackageUpdateLPr(origPackage, pkg)) &#123;</span><br><span class="line">                       <span class="comment">// New package is not compatible with original.</span></span><br><span class="line">                       origPackage = <span class="keyword">null</span>;</span><br><span class="line">                       <span class="keyword">continue</span>;</span><br><span class="line">                   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (origPackage.sharedUser != <span class="keyword">null</span>) &#123;</span><br><span class="line">                       <span class="comment">// Make sure uid is compatible between packages.</span></span><br><span class="line">                       <span class="keyword">if</span> (!origPackage.sharedUser.name.equals(pkg.mSharedUserId)) &#123;</span><br><span class="line">                           Slog.w(TAG, <span class="string">"Unable to migrate data from "</span> + origPackage.name</span><br><span class="line">                                   + <span class="string">" to "</span> + pkg.packageName + <span class="string">": old uid "</span></span><br><span class="line">                                   + origPackage.sharedUser.name</span><br><span class="line">                                   + <span class="string">" differs from "</span> + pkg.mSharedUserId);</span><br><span class="line">                           origPackage = <span class="keyword">null</span>;</span><br><span class="line">                           <span class="keyword">continue</span>;</span><br><span class="line">                       &#125;</span><br><span class="line">                       <span class="comment">// <span class="doctag">TODO:</span> Add case when shared user id is added [b/28144775]</span></span><br><span class="line">                   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="keyword">if</span> (DEBUG_UPGRADE) Log.v(TAG, <span class="string">"Renaming new package "</span></span><br><span class="line">                               + pkg.packageName + <span class="string">" to old name "</span> + origPackage.name);</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Check if we are renaming from an original package name.</span></span><br><span class="line">   <span class="type">PackageSetting</span> <span class="variable">origPackage</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">   <span class="type">String</span> <span class="variable">realName</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">   <span class="keyword">if</span> (pkg.mOriginalPackages != <span class="literal">null</span>) &#123;</span><br><span class="line">       <span class="comment">// This package may need to be renamed to a previously</span></span><br><span class="line">       <span class="comment">// installed name.  Let&#x27;s check on that...</span></span><br><span class="line">       <span class="keyword">final</span> <span class="type">String</span> <span class="variable">renamed</span> <span class="operator">=</span> mSettings.getRenamedPackageLPr(pkg.mRealPackage);</span><br><span class="line">       <span class="keyword">if</span> (pkg.mOriginalPackages.contains(renamed)) &#123;</span><br><span class="line">           <span class="comment">// This package had originally been installed as the</span></span><br><span class="line">           <span class="comment">// original name, and we have already taken care of</span></span><br><span class="line">           <span class="comment">// transitioning to the new one.  Just update the new</span></span><br><span class="line">           <span class="comment">// one to continue using the old name.</span></span><br><span class="line">           realName = pkg.mRealPackage;</span><br><span class="line">           <span class="keyword">if</span> (!pkg.packageName.equals(renamed)) &#123;</span><br><span class="line">               <span class="comment">// Callers into this function may have already taken</span></span><br><span class="line">               <span class="comment">// care of renaming the package; only do it here if</span></span><br><span class="line">               <span class="comment">// it is not already done.</span></span><br><span class="line">               pkg.setPackageName(renamed);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="keyword">for</span> (<span class="type">int</span> i=pkg.mOriginalPackages.size()-<span class="number">1</span>; i&gt;=<span class="number">0</span>; i--) &#123;</span><br><span class="line">               <span class="keyword">if</span> ((origPackage = mSettings.getPackageLPr(</span><br><span class="line">                       pkg.mOriginalPackages.get(i))) != <span class="literal">null</span>) &#123;</span><br><span class="line">                   <span class="comment">// We do have the package already installed under its</span></span><br><span class="line">                   <span class="comment">// original name...  should we use it?</span></span><br><span class="line">                   <span class="keyword">if</span> (!verifyPackageUpdateLPr(origPackage, pkg)) &#123;</span><br><span class="line">                       <span class="comment">// New package is not compatible with original.</span></span><br><span class="line">                       origPackage = <span class="literal">null</span>;</span><br><span class="line">                       <span class="keyword">continue</span>;</span><br><span class="line">                   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (origPackage.sharedUser != <span class="literal">null</span>) &#123;</span><br><span class="line">                       <span class="comment">// Make sure uid is compatible between packages.</span></span><br><span class="line">                       <span class="keyword">if</span> (!origPackage.sharedUser.name.equals(pkg.mSharedUserId)) &#123;</span><br><span class="line">                           Slog.w(TAG, <span class="string">&quot;Unable to migrate data from &quot;</span> + origPackage.name</span><br><span class="line">                                   + <span class="string">&quot; to &quot;</span> + pkg.packageName + <span class="string">&quot;: old uid &quot;</span></span><br><span class="line">                                   + origPackage.sharedUser.name</span><br><span class="line">                                   + <span class="string">&quot; differs from &quot;</span> + pkg.mSharedUserId);</span><br><span class="line">                           origPackage = <span class="literal">null</span>;</span><br><span class="line">                           <span class="keyword">continue</span>;</span><br><span class="line">                       &#125;</span><br><span class="line">                       <span class="comment">// <span class="doctag">TODO:</span> Add case when shared user id is added [b/28144775]</span></span><br><span class="line">                   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="keyword">if</span> (DEBUG_UPGRADE) Log.v(TAG, <span class="string">&quot;Renaming new package &quot;</span></span><br><span class="line">                               + pkg.packageName + <span class="string">&quot; to old name &quot;</span> + origPackage.name);</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">break</span>;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -241,17 +263,17 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/07/28/ABI确定过程/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/07/28/adb%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          ABI确定过程
+          应用安装-adb方式进行安装
         
       </div>
     </a>
   
   
-    <a href="/2018/07/22/应用安装-开机安装应用/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/07/22/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E5%BC%80%E6%9C%BA%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">应用安装-开机安装应用</div>
     </a>
@@ -267,7 +289,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-“original-package”-机制解析"><span class="nav-number">1.</span> <span class="nav-text">Android “original-package” 机制解析</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-%E2%80%9Coriginal-package%E2%80%9D-%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">Android “original-package” 机制解析</span></a></li></ol>
     
     </div>
   </aside>
@@ -282,7 +304,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -357,18 +379,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -431,7 +463,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>

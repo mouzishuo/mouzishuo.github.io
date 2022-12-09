@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>privileged permission whitelisting | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Android权限">
+  <meta name="keywords" content="Android权限" />
   
   
   
   
-  <meta name="description" content="原文地址：https://source.android.com/devices/tech/config/perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- /system Android 9及以上-/system/, product, /vendor  在过去，设备开发人员几乎无法控制可">
-<meta name="keywords" content="Android,权限">
+  <meta name="description" content="原文地址：https:&#x2F;&#x2F;source.android.com&#x2F;devices&#x2F;tech&#x2F;config&#x2F;perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- &#x2F;system Android 9及以上- &#x2F;system&#x2F;, product, &#x2F;vendor  在过去，设备开发人员几乎无法控制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Privileged Permission Whitelisting">
-<meta property="og:url" content="https://mouzishuo.github.io/2019/09/27/Privileged Permission Whitelisting/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/09/27/Privileged%20Permission%20Whitelisting/index.html">
 <meta property="og:site_name" content="得一">
-<meta property="og:description" content="原文地址：https://source.android.com/devices/tech/config/perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- /system Android 9及以上-/system/, product, /vendor  在过去，设备开发人员几乎无法控制可">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-26T09:19:24.151Z">
+<meta property="og:description" content="原文地址：https:&#x2F;&#x2F;source.android.com&#x2F;devices&#x2F;tech&#x2F;config&#x2F;perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- &#x2F;system Android 9及以上- &#x2F;system&#x2F;, product, &#x2F;vendor  在过去，设备开发人员几乎无法控制">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-09-26T16:59:23.000Z">
+<meta property="article:modified_time" content="2019-09-26T09:19:24.151Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="权限">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Privileged Permission Whitelisting">
-<meta name="twitter:description" content="原文地址：https://source.android.com/devices/tech/config/perms-whitelist 特权白名单Android特权应用指的是位于系统分区的priv-app目录下的应用，这个分区包括：  Android 8.1及以下- /system Android 9及以上-/system/, product, /vendor  在过去，设备开发人员几乎无法控制可">
   
 
   
@@ -40,30 +41,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -88,7 +97,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -107,14 +117,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -136,10 +146,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -153,14 +165,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-Privileged Permission Whitelisting" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-Privileged Permission Whitelisting" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       Privileged Permission Whitelisting
     </h1>
   
@@ -169,7 +181,7 @@
     
     <div class="article-meta">
       
-	<a href="/2019/09/27/Privileged Permission Whitelisting/" class="article-date">
+	<a href="/2019/09/27/Privileged%20Permission%20Whitelisting/" class="article-date">
 	  <time datetime="2019-09-26T16:59:23.000Z" itemprop="datePublished">2019-09-27</time>
 	</a>
 
@@ -186,19 +198,20 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原文地址：<a href="https://source.android.com/devices/tech/config/perms-whitelist" target="_blank" rel="noopener">https://source.android.com/devices/tech/config/perms-whitelist</a></p>
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://source.android.com/devices/tech/config/perms-whitelist">https://source.android.com/devices/tech/config/perms-whitelist</a></p>
 <h3 id="特权白名单"><a href="#特权白名单" class="headerlink" title="特权白名单"></a>特权白名单</h3><p>Android特权应用指的是位于系统分区的<code>priv-app</code>目录下的应用，这个分区包括：</p>
 <ul>
 <li>Android 8.1及以下- <code>/system</code></li>
-<li>Android 9及以上-<code>/system/, product, /vendor</code></li>
+<li>Android 9及以上-<code> /system/, product, /vendor</code></li>
 </ul>
-<p>在过去，设备开发人员几乎无法控制可以向特权应用授予哪些signature|privileged权限。从Android 8.0开始，必须在/partition/etc/permissions下的XML文件中显式的指定授予特权应用的权限，否则不会授给应用对应权限。而在Android 9中，必须显式grant或者deny所有的privileged权限，否则设备无法启动,此时会输出类似下面的log：</p>
+<p>在过去，设备开发人员几乎无法控制可以向特权应用授予哪些signature|privileged权限。从Android 8.0开始，必须在&#x2F;partition&#x2F;etc&#x2F;permissions下的XML文件中显式的指定授予特权应用的权限，否则不会授给应用对应权限。而在Android 9中，必须显式grant或者deny所有的privileged权限，否则设备无法启动,此时会输出类似下面的log：</p>
 <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">09</span>-<span class="number">21</span> <span class="number">11</span>:<span class="number">19</span>:<span class="number">46</span><span class="variable">.394</span>  <span class="number">5490</span>  <span class="number">5490</span> E System  : **************</span><br><span class="line"><span class="number">09</span>-<span class="number">21</span> <span class="number">11</span>:<span class="number">19</span>:<span class="number">46</span><span class="variable">.395</span>  <span class="number">5490</span>  <span class="number">5490</span> E System  : **** Failure starting system services</span><br><span class="line"><span class="number">09</span>-<span class="number">25</span> <span class="number">22</span>:<span class="number">04</span>:<span class="number">37</span><span class="variable">.731</span> <span class="number">19857</span> <span class="number">19857</span> E System  : java<span class="variable">.lang</span><span class="variable">.IllegalStateException</span>: Signature|privileged permissions <span class="keyword">not</span> in privapp-permissions whitelist: &#123;com<span class="variable">.android</span><span class="variable">.phone</span>: android<span class="variable">.permission</span><span class="variable">.FORCE_STOP_PACKAGES</span>&#125;</span><br></pre></td></tr></table></figure>
-<p><code>privapp-permissions.xml</code>文件只能grant或者deny相同分区下特权应用的权限。比如，vendor分区下的特权应用权限必须在/vendor/etc/permissions下的XML中定义。</p>
+
+<p><code>privapp-permissions.xml</code>文件只能grant或者deny相同分区下特权应用的权限。比如，vendor分区下的特权应用权限必须在&#x2F;vendor&#x2F;etc&#x2F;permissions下的XML中定义。</p>
 <blockquote>
 <p>只用在‘’android“，也就是framework-res.apk中定义的权限才需要添加黑名单。设备制造商定义的privileged权限任然会被默认授给应用。privapp-permissions.xml中的应用如果不存在对应的分区，则对应的项会被忽略。</p>
 </blockquote>
-<h3 id="添加白名单"><a href="#添加白名单" class="headerlink" title="添加白名单"></a>添加白名单</h3><p>系统原本的特权白名单定义在framework/base/data/etc/下，<code>privapp-permissions-platform.xml</code>中添加的是AOSP中应用的权限。其他应用的权限可以在项目中进行配置，只要保证最后拷贝到应用所在分区的etc/permissions目录下即可。</p>
+<h3 id="添加白名单"><a href="#添加白名单" class="headerlink" title="添加白名单"></a>添加白名单</h3><p>系统原本的特权白名单定义在framework&#x2F;base&#x2F;data&#x2F;etc&#x2F;下，<code>privapp-permissions-platform.xml</code>中添加的是AOSP中应用的权限。其他应用的权限可以在项目中进行配置，只要保证最后拷贝到应用所在分区的etc&#x2F;permissions目录下即可。</p>
 <h3 id="生成白名单"><a href="#生成白名单" class="headerlink" title="生成白名单"></a>生成白名单</h3><p>可以使用AOSP中的命令行工具<code>development/tools/privapp_permissions/privapp_permissions.py</code>自动生成应用的白名单。</p>
 <ol>
 <li><p>编译系统映像：</p>
@@ -206,13 +219,15 @@
 </li>
 <li><p>运行<code>privapp_permissions.py</code>脚本，生成<code>privapp_permissions.py</code>文件，如果设备的<code>/partition/etc/permissions</code>中已经包含白名单，则该工具只会打印出差异内容，也就是说只会打印缺少的signature|privileged权限。</p>
 </li>
-<li>将生成的文件复制到<code>/partition/etc/permissions</code>中，系统启动过程中会读取这些文件。</li>
+<li><p>将生成的文件复制到<code>/partition/etc/permissions</code>中，系统启动过程中会读取这些文件。</p>
+</li>
 </ol>
 <h3 id="自定义白名单"><a href="#自定义白名单" class="headerlink" title="自定义白名单"></a>自定义白名单</h3><p>AOSP中应用的权限已经定义在<code>/partition/etc/permissions/privapp-permissions-platform.xml</code> 如果需要可以自定义。</p>
 <p><code>privapp_permissions.py</code>生成的结果会默认授予所用应用申请的权限，如果有的权限需要拒绝，可以在生成的结果中用<code>deny-permission</code>这个tag进行配置。</p>
 <h3 id="查找缺少的权限"><a href="#查找缺少的权限" class="headerlink" title="查找缺少的权限"></a>查找缺少的权限</h3><p>可以通过配置<code>ro.control_privapp_permissions=log</code>属性来查找确实的权限。此时违规行为会在日志中进行报告，但是仍然会授予权限，这样可以在查找违规行为的同时保证设备能正常工作。</p>
 <p>错误消息格式如下：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PackageManager: Privileged permission &#123;PERMISSION_NAME&#125; <span class="keyword">for</span> package &#123;PACKAGE_NAME&#125; - not <span class="keyword">in</span> privapp-permissions whitelist</span><br></pre></td></tr></table></figure>
+
 <p>所有违规行为必须加入白名单，如果未加入，即使这些应用位于priv-app中也不会被授予对应的权限，设备会无法启动。</p>
 <h3 id="强制执行白名单"><a href="#强制执行白名单" class="headerlink" title="强制执行白名单"></a>强制执行白名单</h3><p>白名单设好后，可以通过设置属性<code>ro.control_privapp_permissions=enforce</code>来启用白名单。</p>
 
@@ -230,7 +245,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/09/27/Android消息机制/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/09/27/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -240,7 +255,7 @@
     </a>
   
   
-    <a href="/2019/06/25/高通ramdump抓取及解析/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">高通ramdump抓取及解析</div>
     </a>
@@ -256,7 +271,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#特权白名单"><span class="nav-number">1.</span> <span class="nav-text">特权白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加白名单"><span class="nav-number">2.</span> <span class="nav-text">添加白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成白名单"><span class="nav-number">3.</span> <span class="nav-text">生成白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义白名单"><span class="nav-number">4.</span> <span class="nav-text">自定义白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找缺少的权限"><span class="nav-number">5.</span> <span class="nav-text">查找缺少的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强制执行白名单"><span class="nav-number">6.</span> <span class="nav-text">强制执行白名单</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%9D%83%E7%99%BD%E5%90%8D%E5%8D%95"><span class="nav-number">1.</span> <span class="nav-text">特权白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%99%BD%E5%90%8D%E5%8D%95"><span class="nav-number">2.</span> <span class="nav-text">添加白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E7%99%BD%E5%90%8D%E5%8D%95"><span class="nav-number">3.</span> <span class="nav-text">生成白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%99%BD%E5%90%8D%E5%8D%95"><span class="nav-number">4.</span> <span class="nav-text">自定义白名单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E7%BC%BA%E5%B0%91%E7%9A%84%E6%9D%83%E9%99%90"><span class="nav-number">5.</span> <span class="nav-text">查找缺少的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E6%89%A7%E8%A1%8C%E7%99%BD%E5%90%8D%E5%8D%95"><span class="nav-number">6.</span> <span class="nav-text">强制执行白名单</span></a></li></ol>
     
     </div>
   </aside>
@@ -271,7 +286,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -346,18 +361,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -420,7 +445,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>

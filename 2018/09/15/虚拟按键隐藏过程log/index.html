@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>虚拟按键隐藏过程log | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="SystemUI">
+  <meta name="keywords" content="SystemUI" />
   
   
   
   
   <meta name="description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
-<meta name="keywords" content="SystemUI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="虚拟按键隐藏过程log">
-<meta property="og:url" content="https://mouzishuo.github.io/2018/09/15/虚拟按键隐藏过程log/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/index.html">
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-06-16T02:56:48.337Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-09-15T05:22:30.000Z">
+<meta property="article:modified_time" content="2021-06-16T02:56:48.337Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="SystemUI">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="虚拟按键隐藏过程log">
-<meta name="twitter:description" content="公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。 刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdeb">
   
 
   
@@ -40,30 +40,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -88,7 +96,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -107,14 +116,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -136,10 +145,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -153,14 +164,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-虚拟按键隐藏过程log" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-虚拟按键隐藏过程log" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       虚拟按键隐藏过程log
     </h1>
   
@@ -169,7 +180,7 @@
     
     <div class="article-meta">
       
-	<a href="/2018/09/15/虚拟按键隐藏过程log/" class="article-date">
+	<a href="/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/" class="article-date">
 	  <time datetime="2018-09-15T05:22:30.000Z" itemprop="datePublished">2018-09-15</time>
 	</a>
 
@@ -189,12 +200,15 @@
         <p>公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。</p>
 <p>刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdebug版本。编译时间比较长，闲着也是闲着，就先在代码里看下有没有什么头绪吧。</p>
 <p>在SystemUI的代码里搜索关键字“recent”，“disable”，“hide”，最终在StatusBar.java里发现了一个“DISABLE_RECENT”进而找到了framework里的StatusBarManager.java中的以下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_EXPAND = View.STATUS_BAR_DISABLE_EXPAND;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NOTIFICATION_ICONS = View.STATUS_BAR_DISABLE_NOTIFICATION_ICONS;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NOTIFICATION_ALERTS</span><br><span class="line">        = View.STATUS_BAR_DISABLE_NOTIFICATION_ALERTS;</span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NOTIFICATION_TICKER</span><br><span class="line">        = View.STATUS_BAR_DISABLE_NOTIFICATION_TICKER;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_SYSTEM_INFO = View.STATUS_BAR_DISABLE_SYSTEM_INFO;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_HOME = View.STATUS_BAR_DISABLE_HOME;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_RECENT = View.STATUS_BAR_DISABLE_RECENT;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_BACK = View.STATUS_BAR_DISABLE_BACK;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_CLOCK = View.STATUS_BAR_DISABLE_CLOCK;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_SEARCH = View.STATUS_BAR_DISABLE_SEARCH;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NAVIGATION = </span><br><span class="line">        View.STATUS_BAR_DISABLE_HOME | View.STATUS_BAR_DISABLE_RECENT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_NONE = <span class="number">0x00000000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISABLE_MASK = DISABLE_EXPAND | DISABLE_NOTIFICATION_ICONS</span><br><span class="line">        | DISABLE_NOTIFICATION_ALERTS | DISABLE_NOTIFICATION_TICKER</span><br><span class="line">        | DISABLE_SYSTEM_INFO | DISABLE_RECENT | DISABLE_HOME | DISABLE_BACK | DISABLE_CLOCK</span><br><span class="line">        | DISABLE_SEARCH;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_EXPAND</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_EXPAND;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_NOTIFICATION_ICONS</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_NOTIFICATION_ICONS;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_NOTIFICATION_ALERTS</span></span><br><span class="line">        <span class="operator">=</span> View.STATUS_BAR_DISABLE_NOTIFICATION_ALERTS;</span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_NOTIFICATION_TICKER</span></span><br><span class="line">        <span class="operator">=</span> View.STATUS_BAR_DISABLE_NOTIFICATION_TICKER;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_SYSTEM_INFO</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_SYSTEM_INFO;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_HOME</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_HOME;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_RECENT</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_RECENT;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_BACK</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_BACK;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_CLOCK</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_CLOCK;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_SEARCH</span> <span class="operator">=</span> View.STATUS_BAR_DISABLE_SEARCH;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_NAVIGATION</span> <span class="operator">=</span> </span><br><span class="line">        View.STATUS_BAR_DISABLE_HOME | View.STATUS_BAR_DISABLE_RECENT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_NONE</span> <span class="operator">=</span> <span class="number">0x00000000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">DISABLE_MASK</span> <span class="operator">=</span> DISABLE_EXPAND | DISABLE_NOTIFICATION_ICONS</span><br><span class="line">        | DISABLE_NOTIFICATION_ALERTS | DISABLE_NOTIFICATION_TICKER</span><br><span class="line">        | DISABLE_SYSTEM_INFO | DISABLE_RECENT | DISABLE_HOME | DISABLE_BACK | DISABLE_CLOCK</span><br><span class="line">        | DISABLE_SEARCH;</span><br></pre></td></tr></table></figure>
+
 <p>各种各样的disable，而这些disable都在StatusBar的disable()方法中出现了：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * State is one or more of the DISABLE constants from StatusBarManager.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">disable</span><span class="params">(<span class="keyword">int</span> state1, <span class="keyword">int</span> state2, <span class="keyword">boolean</span> animate)</span> </span>&#123;</span><br><span class="line">     state2 = mRemoteInputQuickSettingsDisabler.adjustDisableFlags(state2);</span><br><span class="line"></span><br><span class="line">     animate &amp;= mStatusBarWindowState != WINDOW_STATE_HIDDEN;</span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> old1 = mDisabled1;</span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> diff1 = state1 ^ old1;</span><br><span class="line">     mDisabled1 = state1;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> old2 = mDisabled2;</span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> diff2 = state2 ^ old2;</span><br><span class="line">     mDisabled2 = state2;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">         Log.d(TAG, String.format(<span class="string">"disable1: 0x%08x -&gt; 0x%08x (diff1: 0x%08x)"</span>,</span><br><span class="line">             old1, state1, diff1));</span><br><span class="line">         Log.d(TAG, String.format(<span class="string">"disable2: 0x%08x -&gt; 0x%08x (diff2: 0x%08x)"</span>,</span><br><span class="line">             old2, state2, diff2));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     StringBuilder flagdbg = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">     flagdbg.append(<span class="string">"disable&lt;"</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_EXPAND))                ? <span class="string">'E'</span> : <span class="string">'e'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_EXPAND))                ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ICONS))    ? <span class="string">'I'</span> : <span class="string">'i'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_NOTIFICATION_ICONS))    ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS))   ? <span class="string">'A'</span> : <span class="string">'a'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS))   ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_SYSTEM_INFO))           ? <span class="string">'S'</span> : <span class="string">'s'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_SYSTEM_INFO))           ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_BACK))                  ? <span class="string">'B'</span> : <span class="string">'b'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_BACK))                  ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_HOME))                  ? <span class="string">'H'</span> : <span class="string">'h'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_HOME))                  ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_RECENT))                ? <span class="string">'R'</span> : <span class="string">'r'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_RECENT))                ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_CLOCK))                 ? <span class="string">'C'</span> : <span class="string">'c'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_CLOCK))                 ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_SEARCH))                ? <span class="string">'S'</span> : <span class="string">'s'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_SEARCH))                ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="string">"&gt; disable2&lt;"</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS))       ? <span class="string">'Q'</span> : <span class="string">'q'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS))       ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_SYSTEM_ICONS))         ? <span class="string">'I'</span> : <span class="string">'i'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_SYSTEM_ICONS))         ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE))   ? <span class="string">'N'</span> : <span class="string">'n'</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE))   ? <span class="string">'!'</span> : <span class="string">' '</span>);</span><br><span class="line">     flagdbg.append(<span class="string">'&gt;'</span>);</span><br><span class="line">     Log.d(TAG, flagdbg.toString());</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_EXPAND) != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE_EXPAND) != <span class="number">0</span>) &#123;</span><br><span class="line">             animateCollapsePanels();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_RECENT) != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE_RECENT) != <span class="number">0</span>) &#123;</span><br><span class="line">             <span class="comment">// close recents if it's visible</span></span><br><span class="line">             mHandler.removeMessages(MSG_HIDE_RECENT_APPS);</span><br><span class="line">             mHandler.sendEmptyMessage(MSG_HIDE_RECENT_APPS);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS) != <span class="number">0</span>) &#123;</span><br><span class="line">         mEntryManager.setDisableNotificationAlerts(</span><br><span class="line">                 (state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS) != <span class="number">0</span>);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff2 &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS) != <span class="number">0</span>) &#123;</span><br><span class="line">         updateQsExpansionEnabled();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff2 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE) != <span class="number">0</span>) &#123;</span><br><span class="line">         updateQsExpansionEnabled();</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE) != <span class="number">0</span>) &#123;</span><br><span class="line">             animateCollapsePanels();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * State is one or more of the DISABLE constants from StatusBarManager.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">disable</span><span class="params">(<span class="type">int</span> state1, <span class="type">int</span> state2, <span class="type">boolean</span> animate)</span> &#123;</span><br><span class="line">     state2 = mRemoteInputQuickSettingsDisabler.adjustDisableFlags(state2);</span><br><span class="line"></span><br><span class="line">     animate &amp;= mStatusBarWindowState != WINDOW_STATE_HIDDEN;</span><br><span class="line">     <span class="keyword">final</span> <span class="type">int</span> <span class="variable">old1</span> <span class="operator">=</span> mDisabled1;</span><br><span class="line">     <span class="keyword">final</span> <span class="type">int</span> <span class="variable">diff1</span> <span class="operator">=</span> state1 ^ old1;</span><br><span class="line">     mDisabled1 = state1;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">final</span> <span class="type">int</span> <span class="variable">old2</span> <span class="operator">=</span> mDisabled2;</span><br><span class="line">     <span class="keyword">final</span> <span class="type">int</span> <span class="variable">diff2</span> <span class="operator">=</span> state2 ^ old2;</span><br><span class="line">     mDisabled2 = state2;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">         Log.d(TAG, String.format(<span class="string">&quot;disable1: 0x%08x -&gt; 0x%08x (diff1: 0x%08x)&quot;</span>,</span><br><span class="line">             old1, state1, diff1));</span><br><span class="line">         Log.d(TAG, String.format(<span class="string">&quot;disable2: 0x%08x -&gt; 0x%08x (diff2: 0x%08x)&quot;</span>,</span><br><span class="line">             old2, state2, diff2));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="type">StringBuilder</span> <span class="variable">flagdbg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">     flagdbg.append(<span class="string">&quot;disable&lt;&quot;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_EXPAND))                ? <span class="string">&#x27;E&#x27;</span> : <span class="string">&#x27;e&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_EXPAND))                ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ICONS))    ? <span class="string">&#x27;I&#x27;</span> : <span class="string">&#x27;i&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_NOTIFICATION_ICONS))    ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS))   ? <span class="string">&#x27;A&#x27;</span> : <span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS))   ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_SYSTEM_INFO))           ? <span class="string">&#x27;S&#x27;</span> : <span class="string">&#x27;s&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_SYSTEM_INFO))           ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_BACK))                  ? <span class="string">&#x27;B&#x27;</span> : <span class="string">&#x27;b&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_BACK))                  ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_HOME))                  ? <span class="string">&#x27;H&#x27;</span> : <span class="string">&#x27;h&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_HOME))                  ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_RECENT))                ? <span class="string">&#x27;R&#x27;</span> : <span class="string">&#x27;r&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_RECENT))                ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_CLOCK))                 ? <span class="string">&#x27;C&#x27;</span> : <span class="string">&#x27;c&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_CLOCK))                 ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state1 &amp; StatusBarManager.DISABLE_SEARCH))                ? <span class="string">&#x27;S&#x27;</span> : <span class="string">&#x27;s&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff1  &amp; StatusBarManager.DISABLE_SEARCH))                ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="string">&quot;&gt; disable2&lt;&quot;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS))       ? <span class="string">&#x27;Q&#x27;</span> : <span class="string">&#x27;q&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS))       ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_SYSTEM_ICONS))         ? <span class="string">&#x27;I&#x27;</span> : <span class="string">&#x27;i&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_SYSTEM_ICONS))         ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((state2 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE))   ? <span class="string">&#x27;N&#x27;</span> : <span class="string">&#x27;n&#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="number">0</span> != ((diff2  &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE))   ? <span class="string">&#x27;!&#x27;</span> : <span class="string">&#x27; &#x27;</span>);</span><br><span class="line">     flagdbg.append(<span class="string">&#x27;&gt;&#x27;</span>);</span><br><span class="line">     Log.d(TAG, flagdbg.toString());</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_EXPAND) != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE_EXPAND) != <span class="number">0</span>) &#123;</span><br><span class="line">             animateCollapsePanels();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_RECENT) != <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE_RECENT) != <span class="number">0</span>) &#123;</span><br><span class="line">             <span class="comment">// close recents if it&#x27;s visible</span></span><br><span class="line">             mHandler.removeMessages(MSG_HIDE_RECENT_APPS);</span><br><span class="line">             mHandler.sendEmptyMessage(MSG_HIDE_RECENT_APPS);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS) != <span class="number">0</span>) &#123;</span><br><span class="line">         mEntryManager.setDisableNotificationAlerts(</span><br><span class="line">                 (state1 &amp; StatusBarManager.DISABLE_NOTIFICATION_ALERTS) != <span class="number">0</span>);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff2 &amp; StatusBarManager.DISABLE2_QUICK_SETTINGS) != <span class="number">0</span>) &#123;</span><br><span class="line">         updateQsExpansionEnabled();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> ((diff2 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE) != <span class="number">0</span>) &#123;</span><br><span class="line">         updateQsExpansionEnabled();</span><br><span class="line">         <span class="keyword">if</span> ((state1 &amp; StatusBarManager.DISABLE2_NOTIFICATION_SHADE) != <span class="number">0</span>) &#123;</span><br><span class="line">             animateCollapsePanels();</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
 <p>其中mDisabled1和mDisabled2表示之前的disable状态，state1和state2表示新的状态，diff1和diff2表示发生改变的标志位。状态的改变会记录在flagdbg中从代码中来看，如果新的state中包含某个disable标志位，则log中用一个大写字母表示，否则用小写表示；如果某个标志位发生改变，则字母后面会加上一个“!”。三个虚拟按键分别对应B(b),H(b),R(r).</p>
 <p>在刷机后抓取了开机向导过程中的log，从其中找到了以下信息:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">09-21 14:21:36.096  1432  1432 D StatusBar: disable1: 0x00000000 -&gt; 0x03a50000 (diff1: 0x03a50000)</span><br><span class="line">09-21 14:21:36.097  1432  1432 D StatusBar: disable2: 0x00000000 -&gt; 0x00000010 (diff2: 0x00000010)</span><br><span class="line">09-21 14:21:36.097  1432  1432 D StatusBar: disable&lt;E!i A!s b H!R!C!S!&gt; disable2&lt;q i n &gt;</span><br></pre></td></tr></table></figure>
+
 <p>该条记录表示E，A，H，R，C，S等标志位发生了变化。这里只关心三个虚拟按键，b表示back按键还是可用的而且没有发生变化；H!表示home键状态从enable变为disable了;R!表示recents按键也从enable变为了disable。</p>
 <p>上面这些内容比较好理解，仅作记录。关于最开始提到的问题，最后发现别人添加功能改出来的，这里就不关心了。</p>
 
@@ -212,7 +226,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/09/26/手机存在多个PackageInstaller导致开不了机/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/09/26/%E6%89%8B%E6%9C%BA%E5%AD%98%E5%9C%A8%E5%A4%9A%E4%B8%AAPackageInstaller%E5%AF%BC%E8%87%B4%E5%BC%80%E4%B8%8D%E4%BA%86%E6%9C%BA/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -222,7 +236,7 @@
     </a>
   
   
-    <a href="/2018/09/02/ActivityManager启动过程/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/09/02/ActivityManager%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">ActivityManagerService启动过程</div>
     </a>
@@ -253,7 +267,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -328,18 +342,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -402,7 +426,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>

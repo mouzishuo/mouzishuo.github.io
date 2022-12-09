@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <title>高通ramdump抓取及解析 | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="高通">
+  <meta name="keywords" content="高通" />
   
   
   
   
-  <meta name="description" content="问题场景在做一个高通7.1的SMR版本时，发现了STS中有三个失败项：    Test Result Details     android.security.sts.Poc16_08#testPocCVE_2014_9904 fail junit.framework.AssertionFailedError: Phone has had a hard reset   android.securi">
-<meta name="keywords" content="高通">
+  <meta name="description" content="问题场景在做一个高通7.1的SMR版本时，发现了STS中有三个失败项：    Test Result Details    android.security.sts.Poc16_08#testPocCVE_2014_9904 fail junit.framework.AssertionFailedError: Phone has had a hard reset   android.securit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高通ramdump抓取及解析">
-<meta property="og:url" content="https://mouzishuo.github.io/2019/06/25/高通ramdump抓取及解析/index.html">
+<meta property="og:url" content="https://mouzishuo.github.io/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="得一">
-<meta property="og:description" content="问题场景在做一个高通7.1的SMR版本时，发现了STS中有三个失败项：    Test Result Details     android.security.sts.Poc16_08#testPocCVE_2014_9904 fail junit.framework.AssertionFailedError: Phone has had a hard reset   android.securi">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-25T08:30:19.342Z">
+<meta property="og:description" content="问题场景在做一个高通7.1的SMR版本时，发现了STS中有三个失败项：    Test Result Details    android.security.sts.Poc16_08#testPocCVE_2014_9904 fail junit.framework.AssertionFailedError: Phone has had a hard reset   android.securit">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-25T08:29:08.000Z">
+<meta property="article:modified_time" content="2019-06-25T08:30:19.342Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="高通">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="高通ramdump抓取及解析">
-<meta name="twitter:description" content="问题场景在做一个高通7.1的SMR版本时，发现了STS中有三个失败项：    Test Result Details     android.security.sts.Poc16_08#testPocCVE_2014_9904 fail junit.framework.AssertionFailedError: Phone has had a hard reset   android.securi">
   
 
   
@@ -40,30 +40,38 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
-  <link rel="stylesheet" href="/css/style.css">
+  
+<link rel="stylesheet" href="/css/style.css">
 
-  <script src="/js/jquery-3.1.1.min.js"></script>
-  <script src="/js/bootstrap.js"></script>
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/bootstrap.css" >
 
   
-    <link rel="stylesheet" href="/css/dialog.css">
-  
+    
+<link rel="stylesheet" href="/css/dialog.css">
 
-  
-
-  
-    <link rel="stylesheet" href="/css/header-post.css">
   
 
   
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
   
   
 
-</head>
-</html>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
 
 
   <body data-spy="scroll" data-target="#toc" data-offset="50">
@@ -88,7 +96,8 @@
 
             
               <a class="brand" style="
-                 margin-top: 5px;" href="#" data-toggle="modal" data-target="#myModal">
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -107,14 +116,14 @@
                   <li><div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词...">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -136,10 +145,12 @@
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
+
 <script src="/js/insight.js"></script>
 
+
 </div></li>
-            </ul></div>
+            </div>
           </div>
                 
       </div>
@@ -153,14 +164,14 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-高通ramdump抓取及解析" style="width: 75%; float:left;" class="article article-type-post" itemscope="" itemprop="blogPost">
+          <section id="main" style="float:none;"><article id="post-高通ramdump抓取及解析" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
     
       <header class="article-header">
         
   
-    <h1 class="thumb" itemprop="name">
+    <h1 class="thumb" class="article-title" itemprop="name">
       高通ramdump抓取及解析
     </h1>
   
@@ -169,7 +180,7 @@
     
     <div class="article-meta">
       
-	<a href="/2019/06/25/高通ramdump抓取及解析/" class="article-date">
+	<a href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/" class="article-date">
 	  <time datetime="2019-06-25T08:29:08.000Z" itemprop="datePublished">2019-06-25</time>
 	</a>
 
@@ -195,8 +206,7 @@
 <th>Details</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>android.security.sts.Poc16_08#testPocCVE_2014_9904</td>
 <td>fail</td>
 <td>junit.framework.AssertionFailedError: Phone has had a hard reset</td>
@@ -211,20 +221,23 @@
 <td>fail</td>
 <td>junit.framework.AssertionFailedError</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>其中PocCVE_2017_0747这项，经过查找对比发现是之前的补丁有遗漏，打上就好，补丁的查找在“查找CVE对应的补丁”中有说明。CVE_2014_9904这一项在JIRA中搜到了解决方法，另外还知道了失败的原因是Audio模块出现了panic，导致手机进入ramdump模式，当时手机的表现是黑屏、adb连接不上，但是用lsusb查看，手机的端口和开机时是一样的。</p>
 <p>PocCVE_2016_3866这一失败项和CVE_2014_9904类似，也是Audio模块的panic造成的。在JIRA上没有找到解决方案，只能自己抓取dump信息，看是哪里出了问题。</p>
-<h3 id="抓取ramdump"><a href="#抓取ramdump" class="headerlink" title="抓取ramdump"></a>抓取ramdump</h3><p>参考<a href="https://blog.csdn.net/forever_2015/article/details/77434580" target="_blank" rel="noopener">https://blog.csdn.net/forever_2015/article/details/77434580</a></p>
-<h3 id="ramdump解析"><a href="#ramdump解析" class="headerlink" title="ramdump解析"></a>ramdump解析</h3><p>参考：<a href="https://blog.csdn.net/forever_2015/article/details/70185313" target="_blank" rel="noopener">https://blog.csdn.net/forever_2015/article/details/70185313</a> , 在解析的时候，工具的路径最好用sdk里的，或者是Android项目里的，系统自带的可能解析会失败。</p>
+<h3 id="抓取ramdump"><a href="#抓取ramdump" class="headerlink" title="抓取ramdump"></a>抓取ramdump</h3><p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/forever_2015/article/details/77434580">https://blog.csdn.net/forever_2015/article/details/77434580</a></p>
+<h3 id="ramdump解析"><a href="#ramdump解析" class="headerlink" title="ramdump解析"></a>ramdump解析</h3><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/forever_2015/article/details/70185313">https://blog.csdn.net/forever_2015/article/details/70185313</a> , 在解析的时候，工具的路径最好用sdk里的，或者是Android项目里的，系统自带的可能解析会失败。</p>
 <h3 id="分析问题原因"><a href="#分析问题原因" class="headerlink" title="分析问题原因"></a>分析问题原因</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">[   90.203334] Unable to handle kernel NULL pointer dereference at virtual address 000000e4</span><br><span class="line">[   90.203352] pgd = ffffffc09fcf4000</span><br><span class="line">[   90.203359] [000000e4] *pgd=0000000000000000, *pud=0000000000000000</span><br><span class="line">[   90.203375] Internal error: Oops: 96000005 [<span class="comment">#1] PREEMPT SMP</span></span><br><span class="line">[   90.203382] Modules linked <span class="keyword">in</span>: wlan(O)</span><br><span class="line">[   90.203400] CPU: 7 PID: 5029 Comm: CVE-2016-3866 Tainted: G        W  O   3.18.31 <span class="comment">#1</span></span><br><span class="line">[   90.203406] Hardware name: Qualcomm Technologies, Inc. MSM8937-PMI8950 MTP (DT)</span><br><span class="line">[   90.203414] task: ffffffc0a04f6040 ti: ffffffc054e64000 task.ti: ffffffc054e64000</span><br><span class="line">[   90.203431] PC is at is_connected_output_ep+0x20/0x258</span><br><span class="line">[   90.203442] LR is at snd_soc_dapm_dai_get_connected_widgets+0x4c/0x13c</span><br><span class="line">[   90.203449] pc : [&lt;ffffffc000ae522c&gt;] lr : [&lt;ffffffc000ae8978&gt;] pstate: 60000145</span><br><span class="line">[   90.203454] sp : ffffffc054e677e0</span><br><span class="line">[   90.203460] x29: ffffffc054e677e0 x28: 0000000000000000 </span><br><span class="line">[   90.203470] x27: 0000000000000001 x26: ffffffc09bfb0b00 </span><br><span class="line">[   90.203481] x25: ffffffc00196a000 x24: ffffffc0a3978f00 </span><br><span class="line">[   90.203491] x23: ffffffc09b028810 x22: 0000000000000000 </span><br><span class="line">[   90.203501] x21: ffffffc00188c468 x20: 0000000000000000 </span><br><span class="line">[   90.203511] x19: ffffffc00188c640 x18: 00000000ffffffff </span><br><span class="line">[   90.203520] x17: 0000007f7ea97cb4 x16: ffffffc0001b9704 </span><br><span class="line">[   90.203531] x15: 0000007f7eb1adac x14: 00000000000f4240 </span><br><span class="line">[   90.203540] x13: 0000000000000000 x12: ffffffff0000000b </span><br><span class="line">[   90.203550] x11: 0000001000000011 x10: ffffffc000abac20 </span><br><span class="line">[   90.203560] x9 : 0000000000000000 x8 : ffffffc00d4d3480 </span><br><span class="line">[   90.203570] x7 : 0000000000000000 x6 : 000000000000003f </span><br><span class="line">[   90.203580] x5 : 0000000000000040 x4 : 000000000000000c </span><br><span class="line">[   90.203589] x3 : 00000000ffffffff x2 : ffffffc00188c600 </span><br><span class="line">[   90.203599] x1 : ffffffc054e678d0 x0 : 0000000000000000 </span><br><span class="line">[   90.203610] </span><br><span class="line">[   90.203610] PC: 0xffffffc000ae512c:</span><br><span class="line">[   90.203617] 512c  4b030021 36f80081 91030000 f9406481 14000007 f9406084 d1030084 17ffffdb</span><br><span class="line">[   90.203645] 514c  f94004a1 91030000 aa0503e2 97e18302 a8c17bfd d65f03c0 a9be7bfd 910003fd</span><br><span class="line">[   90.203671] 516c  f9000bf3 aa0003f3 b9400000 35000200 b940b260 340001c0 f9404e60 b4000060</span><br><span class="line">[   90.203698] 518c  52800081 97ea756f aa1303e0 52800021 97fffac3 2a0003e2 340000a0 f0004c61</span><br><span class="line">[   90.203725] 51ac  f9404e60 912b2821 97ea44e0 b940b260 71000c1f b9400260 54000081 71000c1f</span><br><span class="line">[   90.203751] 51cc  54000081 1400000c 71000c1f 54000141 aa1303e0 52800041 97fffab1 2a0003e2</span><br><span class="line">[   90.203778] 51ec  340000a0 f0004c61 f9404e60 912bb021 97ea44ce f9400bf3 a8c27bfd d65f03c0</span><br><span class="line">[   90.203804] 520c  a9ba7bfd 910003fd a90153f3 a9025bf5 a90363f7 a9046bf9 a90573fb aa0003f4</span><br><span class="line">[   90.203831] 522c  b940e400 36f810c0 f9401a80 f9405402 b9433440 11000400 b9033440 b9400293</span><br><span class="line">[   90.203857] 524c  51004a75 710026bf 540000e8 d2800036 d28040e2 9ad522d5 52800000 ea0202bf</span><br><span class="line">[   90.203884] 526c  54000ee1 aa0103f7 51001e61 7100483f 540001a8 d2800020 9ac12000 d2900021</span><br><span class="line">[   90.203910] 528c  f2a00081 ea01001f 540000e0 39419280 360800a0 aa1403e0 97fffa65 b900e680</span><br><span class="line">[   90.203937] 52ac  14000067 39419280 361001a0 7100067f 54000041 3627ff00 51002e60 7100041f</span><br><span class="line">[   90.203963] 52cc  54fffea9 7100367f 540000a1 f9405281 91028280 eb00003f 54fffde1 aa1403f9</span><br><span class="line">[   90.203990] 52ec  910003e0 52800015 f0006efa 9272c416 5280081b f84b0f33 9000175c d100a273</span><br><span class="line">[   90.204017] 530c  9100a260 eb19001f 54000780 f9401a80 f9405401 b9433820 11000400 b9033820</span><br><span class="line">[   90.204045] </span><br><span class="line">[   90.204045] LR: 0xffffffc000ae8878:</span><br><span class="line">[   90.204052] 8878  6b1f02ff 1a9f07e1 5280003c 33000020 39006260 f9400660 97fff123 f9400a60</span><br><span class="line">[   90.204078] 8898  97fff121 f9402673 d1012273 17ffffef 3400009c aa1503e0 52800001 97fffb1e</span><br><span class="line">[   90.204105] 88b8  f901a2bf aa1b03e0 940b6475 3400007c aa1503e0 940019e9 f94047a2 2a1603e0</span><br><span class="line">[   90.204131] 88d8  f9406b21 eb01005f 54000180 97d6e9e1 f9404f80 90004c61 91358421 91008282</span><br><span class="line">[   90.204157] 88f8  f90033a4 f90037a3 97ea3752 f94037a3 f94033a4 17ffffa4 a94153f3 a9425bf5</span><br><span class="line">[   90.204184] 8918  a94363f7 a9446bf9 a94573fb a8c97bfd d65f03c0 a9bb7bfd 910003fd a9025bf5</span><br><span class="line">[   90.204210] 8938  a90153f3 f9001bf7 aa0003f4 2a0103f6 f90027a2 f9404413 9101e275 aa1503e0</span><br><span class="line">[   90.204237] 8958  940b6553 aa1303e0 91094273 97ffec9f f94027a1 35000136 f9401e80 97fff226</span><br><span class="line">[   90.204263] 8978  2a0003f7 f9401e81 aa1303e0 9102c021 97ffec5a 14000008 f9402280 97fff2b4</span><br><span class="line">[   90.204290] 8998  2a0003f7 f9402281 aa1303e0 91028021 97ffec6b 90006ee1 9120a021 b9400820</span><br><span class="line">[   90.204317] 89b8  6b1f001f 5400046d 910003e0 b0001724 9272c402 52800800 f9425084 b9405443</span><br><span class="line">[   90.204344] 89d8  1ac00c60 937d7c00 f8606880 9ac32400 36000300 b9405040 11000400 b9005040</span><br><span class="line">[   90.204370] 89f8  f9401033 b5000113 910003e0 9272c401 b9405020 51000400 b9005020 34000140</span><br><span class="line">[   90.204397] 8a18  1400000c f9400263 2a1703e1 f9400660 2a1603e2 d63f0060 f8410e60 b5ffff40</span><br><span class="line">[   90.204423] 8a38  17fffff2 f9400020 36080040 940b5ac6 aa1503e0 940b6412 2a1703e0 f9401bf7</span><br><span class="line">[   90.204450] 8a58  a94153f3 a9425bf5 a8c57bfd d65f03c0 a9be7bfd 910003fd f9000bf3 aa0003f3</span><br><span class="line">[   90.204477] </span><br><span class="line">[   90.204477] SP: 0xffffffc054e676e0:</span><br><span class="line">[   90.204484] 76e0  0000000c 00000000 00000040 00000000 0000003f 00000000 00000000 00000000</span><br><span class="line">[   90.204510] 7700  0d4d3480 ffffffc0 00000000 00000000 00abac20 ffffffc0 00000011 00000010</span><br><span class="line">[   90.204537] 7720  0000000b ffffffff 00000000 00000000 000f4240 00000000 7eb1adac 0000007f</span><br><span class="line">[   90.204563] 7740  001b9704 ffffffc0 7ea97cb4 0000007f ffffffff 00000000 0188c640 ffffffc0</span><br><span class="line">[   90.204589] 7760  00000000 00000000 0188c468 ffffffc0 00000000 00000000 9b028810 ffffffc0</span><br><span class="line">[   90.204616] 7780  a3978f00 ffffffc0 0196a000 ffffffc0 9bfb0b00 ffffffc0 00000001 00000000</span><br><span class="line">[   90.204642] 77a0  00000000 00000000 54e677e0 ffffffc0 00ae8978 ffffffc0 54e677e0 ffffffc0</span><br><span class="line">[   90.204669] 77c0  00ae522c ffffffc0 60000145 00000000 0196a000 ffffffc0 9bfb0b00 ffffffc0</span><br><span class="line">[   90.204695] 77e0  54e67840 ffffffc0 00ae8978 ffffffc0 0188c640 ffffffc0 a3978f00 ffffffc0</span><br><span class="line">[   90.204721] 7800  0188c468 ffffffc0 00000000 00000000 9b028810 ffffffc0 a3978f00 ffffffc0</span><br><span class="line">[   90.204748] 7820  0196a000 ffffffc0 9bfb0b00 ffffffc0 00000001 00000000 00000000 00000000</span><br><span class="line">[   90.204774] 7840  54e67890 ffffffc0 00aed4b8 ffffffc0 00000000 00000000 0196a000 ffffffc0</span><br><span class="line">[   90.204801] 7860  54e67970 ffffffc0 00000000 00000000 9b028810 ffffffc0 9bfb0b00 ffffffc0</span><br><span class="line">[   90.204827] 7880  00000001 00000000 54e678d0 ffffffc0 54e678e0 ffffffc0 00aed914 ffffffc0</span><br><span class="line">[   90.204854] 78a0  00000000 00000000 9b028810 ffffffc0 9b028810 ffffffc0 54e67a28 ffffffc0</span><br><span class="line">[   90.204881] 78c0  00000000 00000000 000002a0 00000000 0d4d3400 ffffffc0 dc8cb01f cb88537f</span><br><span class="line">[   90.204907] </span><br><span class="line">[   90.204915] Process CVE-2016-3866 (pid: 5029, stack <span class="built_in">limit</span> = 0xffffffc054e64058)</span><br><span class="line">[   90.204921] Call trace:</span><br><span class="line">[   90.204932] [&lt;ffffffc000ae522c&gt;] is_connected_output_ep+0x20/0x258</span><br><span class="line">[   90.204941] [&lt;ffffffc000ae8978&gt;] snd_soc_dapm_dai_get_connected_widgets+0x4c/0x13c</span><br><span class="line">[   90.204952] [&lt;ffffffc000aed4b8&gt;] dpcm_path_get+0x64/0xe4</span><br><span class="line">[   90.204961] [&lt;ffffffc000aed914&gt;] dpcm_fe_dai_open+0x68/0x3d0</span><br><span class="line">[   90.204972] [&lt;ffffffc000ac0bac&gt;] snd_pcm_open_substream+0x88/0x118</span><br><span class="line">[   90.204982] [&lt;ffffffc000ac0cfc&gt;] snd_pcm_open+0xc0/0x1f0</span><br><span class="line">[   90.204991] [&lt;ffffffc000ac0ed8&gt;] snd_pcm_playback_open+0x44/0x68</span><br><span class="line">[   90.205002] [&lt;ffffffc000aad6dc&gt;] snd_open+0x134/0x14c</span><br><span class="line">[   90.205013] [&lt;ffffffc0001be6e0&gt;] chrdev_open+0x140/0x188</span><br><span class="line">[   90.205024] [&lt;ffffffc0001b7fb0&gt;] do_dentry_open+0x260/0x2d8</span><br><span class="line">[   90.205034] [&lt;ffffffc0001b9270&gt;] vfs_open+0x60/0x6c</span><br><span class="line">[   90.205044] [&lt;ffffffc0001c7b44&gt;] do_last+0x870/0xb58</span><br><span class="line">[   90.205054] [&lt;ffffffc0001c806c&gt;] path_openat+0x240/0x5f0</span><br><span class="line">[   90.205062] [&lt;ffffffc0001c8d48&gt;] do_filp_open+0x40/0xa8</span><br><span class="line">[   90.205071] [&lt;ffffffc0001b962c&gt;] do_sys_open+0x174/0x224</span><br><span class="line">[   90.205080] [&lt;ffffffc0001b9714&gt;] SyS_openat+0x10/0x18</span><br><span class="line">[   90.205090] Code: a90363f7 a9046bf9 a90573fb aa0003f4 (b940e400) </span><br><span class="line">[   90.205100] ---[ end trace 51c768fafb5d0cc0 ]---</span><br><span class="line">[   90.205115] Kernel panic - not syncing: Fatal exception</span><br></pre></td></tr></table></figure>
+
 <p>从上面的log中可以看到出问题的类型是空指针造成的kernel panic，当前执行的函数是<code>[   90.203431] PC is at is_connected_output_ep+0x20/0x258</code>，其中0x20是函数内部的偏移量。</p>
 <p>之后要做的就是确认is_connected_output_ep+0x20对应的是哪一行代码。首先有个gdb加载vmlinux:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb vmlinux</span><br></pre></td></tr></table></figure>
+
 <p>然后可以使用print查看is_connected_output_ep方法的信息：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">print</span> is_connected_output_ep</span><br><span class="line"><span class="variable">$1</span> = &#123;int (struct snd_soc_dapm_widget *, </span><br><span class="line">    struct snd_soc_dapm_widget_list **)&#125; 0xffffffc000ae520c &lt;is_connected_output_ep&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">print</span> is_connected_output_ep</span><br><span class="line"><span class="variable">$1</span> = &#123;int (struct snd_soc_dapm_widget *, </span><br><span class="line">    struct snd_soc_dapm_widget_list **)&#125; 0xffffffc000ae520c &lt;is_connected_output_ep&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>从上面的结果可以看到该方法的起始地址是0xffffffc000ae520c，加上0x20的偏移量就是0xffffffc000ae522c，最后再来看一下这个地址对应的是哪一行代码：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(gdb) list *0xffffffc000ae524c</span><br><span class="line">0xffffffc000ae524c is <span class="keyword">in</span> is_connected_output_ep (/home/android/workdir/p7601/LA.UM.5.6/LINUX/android/kernel/msm-3.18/sound/soc/soc-dapm.c:857).</span><br><span class="line">warning: Source file is more recent than executable.</span><br><span class="line">857		<span class="keyword">if</span> (widget-&gt;outputs &gt;= 0)</span><br><span class="line">858			<span class="built_in">return</span> widget-&gt;outputs;</span><br><span class="line">859	</span><br><span class="line">860		DAPM_UPDATE_STAT(widget, path_checks);</span><br><span class="line">861	</span><br><span class="line">862		switch (widget-&gt;id) &#123;</span><br><span class="line">863		<span class="keyword">case</span> snd_soc_dapm_supply:</span><br><span class="line">864		<span class="keyword">case</span> snd_soc_dapm_regulator_supply:</span><br><span class="line">865		<span class="keyword">case</span> snd_soc_dapm_clock_supply:</span><br><span class="line">866		<span class="keyword">case</span> snd_soc_dapm_kcontrol:</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(gdb) list *0xffffffc000ae524c</span><br><span class="line">0xffffffc000ae524c is <span class="keyword">in</span> is_connected_output_ep (/home/android/workdir/p7601/LA.UM.5.6/LINUX/android/kernel/msm-3.18/sound/soc/soc-dapm.c:857).</span><br><span class="line">warning: Source file is more recent than executable.</span><br><span class="line">857		<span class="keyword">if</span> (widget-&gt;outputs &gt;= 0)</span><br><span class="line">858			<span class="built_in">return</span> widget-&gt;outputs;</span><br><span class="line">859	</span><br><span class="line">860		DAPM_UPDATE_STAT(widget, path_checks);</span><br><span class="line">861	</span><br><span class="line">862		switch (widget-&gt;<span class="built_in">id</span>) &#123;</span><br><span class="line">863		<span class="keyword">case</span> snd_soc_dapm_supply:</span><br><span class="line">864		<span class="keyword">case</span> snd_soc_dapm_regulator_supply:</span><br><span class="line">865		<span class="keyword">case</span> snd_soc_dapm_clock_supply:</span><br><span class="line">866		<span class="keyword">case</span> snd_soc_dapm_kcontrol:</span><br></pre></td></tr></table></figure>
+
 <p>从上面的内容来看，是soc-dapm.c的857行出了问题，也就是widget为NULL。</p>
 <p>确认了出问题的代码，再根据调用栈及上下文做修改即可，调用栈可以在上面的log里看到。</p>
 
@@ -242,7 +255,7 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/09/27/Privileged Permission Whitelisting/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/09/27/Privileged%20Permission%20Whitelisting/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
@@ -252,7 +265,7 @@
     </a>
   
   
-    <a href="/2019/06/24/编译Android内核时找不到openssl的bio.sh /" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">编译Android内核时找不到openssl/bio.h</div>
     </a>
@@ -268,7 +281,7 @@
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
     
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题场景"><span class="nav-number">1.</span> <span class="nav-text">问题场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抓取ramdump"><span class="nav-number">2.</span> <span class="nav-text">抓取ramdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ramdump解析"><span class="nav-number">3.</span> <span class="nav-text">ramdump解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析问题原因"><span class="nav-number">4.</span> <span class="nav-text">分析问题原因</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%9C%BA%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">问题场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%93%E5%8F%96ramdump"><span class="nav-number">2.</span> <span class="nav-text">抓取ramdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ramdump%E8%A7%A3%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">ramdump解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0"><span class="nav-number">4.</span> <span class="nav-text">分析问题原因</span></a></li></ol>
     
     </div>
   </aside>
@@ -283,7 +296,7 @@
   <div class="container">
       	<div class="row">
 	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
-	      <p id="copyRightEn">Copyright &copy; 2018 - 2021 得一 All Rights Reserved.</p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
 	      
 	      
     		<p class="busuanzi_uv">
@@ -358,18 +371,28 @@
 </script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
 
 
 <script src="/js/scripts.js"></script>
 
 
-  <script src="/js/home.js"></script>
+
+  
+<script src="/js/home.js"></script>
 
 
 
-  <script src="/js/dialog.js"></script>
+
+  
+<script src="/js/dialog.js"></script>
+
 
 
 
@@ -432,7 +455,7 @@
             得一
           </div>
           <div class="panel-body">
-            Copyright © 2021 me All Rights Reserved.
+            Copyright © 2022 me All Rights Reserved.
           </div>
         </div>
       </div>
