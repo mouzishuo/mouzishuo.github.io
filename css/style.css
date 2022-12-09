@@ -124,7 +124,7 @@ body,
 }
 body {
   background: #fff;
-  font: 15px Arial, "open sans", "Helvetica Neue", Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft Yahei, sans-serif;
+  font: 15px Arial,"Helvetica Neue", Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft Yahei, sans-serif;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizelegibility;
 }
@@ -683,7 +683,7 @@ body {
   line-height: 1.6em;
   outline: none !important;
   background: none !important;
-  font: 15px -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font: 15px -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   border: 0px;
 }
 .search-form-input:focus,
@@ -978,7 +978,7 @@ a.article-title:hover {
 }
 .article-entry blockquote {
   padding: 0.1px 20px;
-  font-family: Arial, "open sans", "Helvetica Neue", Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft Yahei, sans-serif;
+  font-family: Arial, "Helvetica Neue", Helvetica Neue, Helvetica, Hiragino Sans GB, Microsoft Yahei, sans-serif;
   font-size: 1.1em;
   color: rgba(44,44,44,0.6);
   margin: 1.4em 0px;
@@ -992,7 +992,7 @@ a.article-title:hover {
 .article-entry blockquote footer {
   font-size: 15px;
   margin: 1.6em 0;
-  font-family: -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI","Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 .article-entry blockquote footer cite:before {
   content: "—";
@@ -1239,7 +1239,7 @@ a.article-title:hover {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  font: 14px -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font: 14px -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI","Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   padding: 0 15px;
   color: #444;
   outline: none;
@@ -1734,7 +1734,7 @@ figure.highlight::-webkit-scrollbar-track {
 }
 .article-entry pre,
 .article-entry code {
-  font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+  font-family: Consolas, Monaco, Menlo, Consolas, monospace;
 }
 .article-entry code {
   background: rgba(208,211,248,0.2);
@@ -1807,7 +1807,7 @@ figure.highlight::-webkit-scrollbar-track {
 }
 .article-entry .gist .gist-file {
   border: none;
-  font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+  font-family: Consolas, Monaco, Menlo, Consolas, monospace;
   margin: 0;
 }
 .article-entry .gist .gist-file .gist-data {
@@ -1830,7 +1830,7 @@ figure.highlight::-webkit-scrollbar-track {
 .article-entry .gist .gist-file .gist-meta {
   background: #f8f8f8;
   color: $highlight-comment;
-  font: 0.85em -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font: 0.85em -apple-system, "Arial", BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   text-shadow: 0 0;
   padding: 0;
   margin-top: 1em;
