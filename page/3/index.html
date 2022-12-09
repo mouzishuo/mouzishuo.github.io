@@ -152,6 +152,161 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-PKMS启动过程"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/01/PKMS%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">PKMS启动过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/01/PKMS%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" class="article-date">
+	  <time datetime="2018-08-01T06:23:08.000Z" itemprop="datePublished">2018-08-01</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          PKMS启动过程参考：https://blog.csdn.net/u012124438/article/details/54882771
+PackageManagerService，是Android系统中核心服务之一，管理着所有跟package相关的工作。Android是基于mashup（混搭）的风格设计的，程序是由一个个的组件拼凑起来的，而PackageManagerService的任务就是解析package，然后把其中的组件信息一个个的拆解出来把相关信息放到内存里，当然还要处理pack...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/08/01/PKMS%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-ABI确定过程"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/07/28/ABI%E7%A1%AE%E5%AE%9A%E8%BF%87%E7%A8%8B/">ABI确定过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/28/ABI%E7%A1%AE%E5%AE%9A%E8%BF%87%E7%A8%8B/" class="article-date">
+	  <time datetime="2018-07-28T06:21:08.000Z" itemprop="datePublished">2018-07-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85/">应用安装</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          ABI确定过程之所以了解这块内容，是因为在项目中出现了一个奇怪的问题：64位的代码编译刷机后，多个app无法运行，点击后直接闪退，log提示是找不到dex文件。问题非必现，但是第一次启动后如果存在该问题，之后就会一直存在该问题。但是恢复出厂设置和重新刷机后问题可能会消失。
+经人提示是32和62位相关的东西引起的，看log发现出问题的apk都是64位的，但是查找的路径是32位的，所以找不到。
+问题的log如下：
+1234567891011121314151617181920212223242...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/07/28/ABI%E7%A1%AE%E5%AE%9A%E8%BF%87%E7%A8%8B/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-adb安装应用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/07/28/adb%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/">应用安装-adb方式进行安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/28/adb%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/" class="article-date">
+	  <time datetime="2018-07-28T06:21:08.000Z" itemprop="datePublished">2018-07-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85/">应用安装</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          adb方式进行安装adb 相关代码在system&#x2F;core&#x2F;adb&#x2F;中，入口在&#x2F;system&#x2F;core&#x2F;adb&#x2F;client&#x2F;main.cpp的main方法中：
+1234int main(int argc, char** argv) &#123;    adb_trace_init(argv);    return adb_commandline(argc - 1, const_cast&lt;const ch...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/07/28/adb%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Android “original-package” 机制解析"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     

@@ -152,6 +152,159 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-SparseArray"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/16/SparseArray/">SparseArray</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/16/SparseArray/" class="article-date">
+	  <time datetime="2019-01-16T03:17:15.840Z" itemprop="datePublished">2019-01-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android%E5%9F%BA%E7%A1%80/">Android基础</a><a class="article-category-link" href="/categories/Android%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          SparseArray稀疏数组，是Android内部特有的api,标准的jdk是没有这个类的.
+SparseArray保存的是Integer到Object的映射。和普通Array不同，SparseArray允许索引之间存在间隔，在Android中用来替代HashMap&lt;Integer, Object&gt;这种形式，目的是节省内存：一方面，SparseArray不会进行自动装箱的操作；另一方面，SparseArray不依赖于额外的Entry数据结构。
+SparseArray的map关...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/16/SparseArray/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-FLAG_ACTIVITY_TASK_ON_HOME"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/15/FLAG_ACTIVITY_TASK_ON_HOME/">FLAG_ACTIVITY_TASK_ON_HOME作用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/15/FLAG_ACTIVITY_TASK_ON_HOME/" class="article-date">
+	  <time datetime="2019-01-15T08:49:00.000Z" itemprop="datePublished">2019-01-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          最近做项目时测试提了个问题：查看联系人时，收到新短信，查看短信后，按返回键，回到了launcher而不是联系人（其实不一定要是联系人，其他应用也一样）。看到这个问题第一感觉是“这个问题和应用的启动模式和Flag有关”，然后觉得这不是问题。测试备注了这个”问题“Google对比机上也存在，本来想直接关掉的，但是想想具体原因自己也不清楚，还是看下吧。
+这种问题一般看下启动时的flag就能大概找到问题的原因，想看启动时的flag可以通过Android studio调试，也可以直接看log，一般直...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/15/FLAG_ACTIVITY_TASK_ON_HOME/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-OTA升级后，多个应用启动时crash"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/01/10/OTA%E5%8D%87%E7%BA%A7%E5%90%8E%EF%BC%8C%E5%A4%9A%E4%B8%AA%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%97%B6crash/">OTA升级后多个应用crash</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/01/10/OTA%E5%8D%87%E7%BA%A7%E5%90%8E%EF%BC%8C%E5%A4%9A%E4%B8%AA%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%97%B6crash/" class="article-date">
+	  <time datetime="2019-01-10T04:00:00.000Z" itemprop="datePublished">2019-01-10</time>
+	</a>
+
+      
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          问题描述Android P的项目，进行OTA升级。升级后多个应用出现异常：启动时crash，切换系统语言后应用名称和图标混乱。恢复出厂设置后正常。
+问题场景OTA高版本主要是进行了GMS包的升级，也就是对GMS包中的应用进行了升级，而出现问题的应用也都是GMS包中的应用。
+问题分析过程首先当然是收集log。好在问题是必现的，所以就先抓了下有问题的应用的启动log，结果发现各种各样的错误都有：类找不到的、资源找不到的、AndroidManifest文件出错的……毫无规律，加上应用名字和图标的...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/01/10/OTA%E5%8D%87%E7%BA%A7%E5%90%8E%EF%BC%8C%E5%A4%9A%E4%B8%AA%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%97%B6crash/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-android:documentLaunchMode属性的作用"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -504,161 +657,6 @@ AMS的启动贯穿了这三个过...
         </p>
         <p class="article-more-link">
           <a href="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-PKMS启动过程"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/01/PKMS%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">PKMS启动过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/01/PKMS%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" class="article-date">
-	  <time datetime="2018-08-01T06:23:08.000Z" itemprop="datePublished">2018-08-01</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          PKMS启动过程参考：https://blog.csdn.net/u012124438/article/details/54882771
-PackageManagerService，是Android系统中核心服务之一，管理着所有跟package相关的工作。Android是基于mashup（混搭）的风格设计的，程序是由一个个的组件拼凑起来的，而PackageManagerService的任务就是解析package，然后把其中的组件信息一个个的拆解出来把相关信息放到内存里，当然还要处理pack...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/01/PKMS%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-ABI确定过程"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/28/ABI%E7%A1%AE%E5%AE%9A%E8%BF%87%E7%A8%8B/">ABI确定过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/28/ABI%E7%A1%AE%E5%AE%9A%E8%BF%87%E7%A8%8B/" class="article-date">
-	  <time datetime="2018-07-28T06:21:08.000Z" itemprop="datePublished">2018-07-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85/">应用安装</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          ABI确定过程之所以了解这块内容，是因为在项目中出现了一个奇怪的问题：64位的代码编译刷机后，多个app无法运行，点击后直接闪退，log提示是找不到dex文件。问题非必现，但是第一次启动后如果存在该问题，之后就会一直存在该问题。但是恢复出厂设置和重新刷机后问题可能会消失。
-经人提示是32和62位相关的东西引起的，看log发现出问题的apk都是64位的，但是查找的路径是32位的，所以找不到。
-问题的log如下：
-1234567891011121314151617181920212223242...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/28/ABI%E7%A1%AE%E5%AE%9A%E8%BF%87%E7%A8%8B/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-adb安装应用"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/28/adb%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/">应用安装-adb方式进行安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/28/adb%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/" class="article-date">
-	  <time datetime="2018-07-28T06:21:08.000Z" itemprop="datePublished">2018-07-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85/">应用安装</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          adb方式进行安装adb 相关代码在system&#x2F;core&#x2F;adb&#x2F;中，入口在&#x2F;system&#x2F;core&#x2F;adb&#x2F;client&#x2F;main.cpp的main方法中：
-1234int main(int argc, char** argv) &#123;    adb_trace_init(argv);    return adb_commandline(argc - 1, const_cast&lt;const ch...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/28/adb%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/#more">阅读全文</a>
         </p>
       
     </div>
