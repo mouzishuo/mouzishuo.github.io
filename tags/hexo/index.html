@@ -3,26 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>am的一些用法 | 得一</title>
+  <title>tag: hexo | 得一</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="keywords" content="Androiddebug" />
   
   
   
-  
-  <meta name="description" content="start 启动activity； broadcast 可以用来发送广播 crash可以模拟apk crash； hang 可以触发watchdog; restart 上层重启; set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attach debugger to Android process再进行调试，但是这种方法不适用于调试应用启动时的调试，如果需要在启动的地方调试则">
-<meta property="og:type" content="article">
-<meta property="og:title" content="am的一些用法">
-<meta property="og:url" content="https://mouzishuo.github.io/2022/12/09/am.usage/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="得一">
+<meta property="og:url" content="https://mouzishuo.github.io/tags/hexo/index.html">
 <meta property="og:site_name" content="得一">
-<meta property="og:description" content="start 启动activity； broadcast 可以用来发送广播 crash可以模拟apk crash； hang 可以触发watchdog; restart 上层重启; set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attach debugger to Android process再进行调试，但是这种方法不适用于调试应用启动时的调试，如果需要在启动的地方调试则">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-12-09T08:14:00.433Z">
-<meta property="article:modified_time" content="2022-12-09T08:14:00.433Z">
 <meta property="article:author" content="me">
-<meta property="article:tag" content="Android">
-<meta property="article:tag" content="debug">
 <meta name="twitter:card" content="summary">
   
 
@@ -63,6 +55,8 @@
   
 
   
+    <link rel="stylesheet" href="/css/archive.css" >
+  
   
   
 
@@ -70,7 +64,7 @@
 
 
 
-  <body data-spy="scroll" data-target="#toc" data-offset="50">
+  <body>
 
 
   
@@ -93,7 +87,7 @@
             
               <a class="brand" style="
                  margin-top: 5px;"  
-                href="#" data-toggle="modal" data-target="#myModal" >
+                 >
                   <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
               </a>
             
@@ -160,96 +154,64 @@
             
       <div id="content" class="outer">
         
-          <section id="main" style="float:none;"><article id="post-am.usage" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
+          <section id="main" style="float:none;">
   
-    <h1 class="thumb" class="article-title" itemprop="name">
-      am的一些用法
+  
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <h1><a href="/archives/2022" class="archive-year">2022</a></h1>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      
+	<a href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/" class="archive-article-date">
+	  <time datetime="2022-12-09T09:13:15.756Z" itemprop="datePublished">2022-12-09</time>
+	</a>
+
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/">hexo博客The &#34;mode&#34; argument must be integer. Received an instance of Object问题</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2022/12/09/am.usage/" class="article-date">
-	  <time datetime="2022-12-09T08:14:00.433Z" itemprop="datePublished">2022-12-09</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/debug/">debug</a>
-
-      
-	<a class="article-views">
-	<span id="busuanzi_container_page_pv">
-		阅读量<span id="busuanzi_value_page_pv"></span>
-	</span>
-	</a>
-
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>start 启动activity；</li>
-<li>broadcast 可以用来发送广播</li>
-<li>crash可以模拟apk crash；</li>
-<li>hang 可以触发watchdog;</li>
-<li>restart 上层重启;</li>
-<li>set-debug-app<br>一般在AS中进行调试的时候都是先打断点，然后<code>Attach debugger to Android process</code>再进行调试，但是这种方法不适用于调试应用启动时的调试，如果需要在启动的地方调试则需要<code>Run Debug app</code>，但是这种凡是比较慢，尤其是大项目，因为包含编译等工作。另一种方式是使用<code>adb shell am set-debug-app -w &lt;packagename&gt;</code>命令，然后会弹出”Waiting For Debugger”的提示，此时打开AS的Attach debugger to Android process即可，此时我们就可以方便在app启动时的断点调试了。</li>
-<li>kill</li>
-<li>force-stop</li>
-<li>get-uid-state:查看指定uid应用的状态比如：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">generic_x86_arm:/ <span class="comment"># am get-uid-state 10099                                                </span></span><br><span class="line">19 (CACHED_EMPTY)</span><br><span class="line">generic_x86_arm:/ <span class="comment"># am get-uid-state 10114                                                </span></span><br><span class="line">2 (TOP)</span><br><span class="line">generic_x86_arm:/ <span class="comment"># am get-uid-state 10143                                                                            </span></span><br><span class="line">0 (PERSISTENT)</span><br></pre></td></tr></table></figure></li>
-<li>get-config：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">generic_x86_arm:/ <span class="comment"># am get-config</span></span><br><span class="line">config: en-rUS-ldltr-sw348dp-w348dp-h662dp-normal-long-notround-nowidecg-lowdr-port-notnight-496dpi-finger-keysexposed-qwerty-navexposed-dpad-2055x1080-v30</span><br><span class="line">abi: x86,armeabi-v7a,armeabi</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          hexo本地加载慢
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2022/12/09/StatusBar%E6%98%BE%E7%A4%BA%E7%A7%92/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">StatusBar显示到秒</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
-<!-- Table of Contents -->
-
-  <aside id="toc-sidebar">
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+  
     
-        <ol class="nav">无</ol>
     
-    </div>
-  </aside>
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      
+	<a href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/" class="archive-article-date">
+	  <time datetime="2022-12-09T09:11:39.834Z" itemprop="datePublished">2022-12-09</time>
+	</a>
+
+      
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="archive-article-title" href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/">hexo本地加载慢</a>
+    </h1>
+  
+
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
+  
+
 
 </section>
         
@@ -355,10 +317,6 @@
 
 
 
-  
-<script src="/js/dialog.js"></script>
-
-
 
 
 
@@ -437,8 +395,6 @@
   
   <a id="rocket" href="#top" class=""></a>
   <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-  
-    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
   
 </body>
 </html>

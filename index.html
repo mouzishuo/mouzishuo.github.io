@@ -152,6 +152,166 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-Android S packages.xml乱码的原因"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/">Android S packages.xml乱码的原因</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/" class="article-date">
+	  <time datetime="2022-12-10T03:16:41.398Z" itemprop="datePublished">2022-12-10</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          问题背景客户项目遇到PackageManagerService扫描出现错误导致不停重启，然后进入recovery的问题。查看log是在开机读取Settings(packages.xml）中某个应用的签名信息时出错，系统构造了一个null的签名信息（数组）。导致之后比较签名数组长度时出现空指针。于是想把手机中的packages.xml做修改后模拟问题出现的原因。但是把这个文件pull出来之后发现里面是乱码，切换编码也没用。Android 11的模拟器没有这个问题，于是查看了这个文件的序列化过...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-hexo博客The “mode“ argument must be integer. Received an instance of Object问题"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/">hexo博客The &#34;mode&#34; argument must be integer. Received an instance of Object问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/" class="article-date">
+	  <time datetime="2022-12-09T09:13:15.756Z" itemprop="datePublished">2022-12-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/tool/">tool</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          
+问题原因：hexo和node版本不兼容。
+hexo和node版本对应关系参考https://hexo.io/zh-cn/docs/；
+升级过程参考https://www.jianshu.com/p/802182c01b59：
+
+
+   1、全局升级hexo-cli，先hexo version查看当前版本，然后npm i hexo-cli -g，再次hexo version查看是否升级成功。 2、使用npm install -g npm-check和npm-check，检查系统中的插件是否...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-hexo本地加载慢"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/">hexo本地加载慢</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/" class="article-date">
+	  <time datetime="2022-12-09T09:11:39.834Z" itemprop="datePublished">2022-12-09</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/tool/">tool</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          hexo有一段时间没用之后发现博客无法部署了，而且本地打开hexo博客都要几分钟。部署的问题是因为hexo版本太老，升级后解决。hexo打开慢据网上的说法是因为主题中使用了google字体，但是具体是哪些字体，怎么修改没有说。这里记录下大概的解决过程。
+
+查看加载慢的元素打开博客后，在Chrome浏览器的工具里打开开发者工具。然后选择Network选项。如图：刷新页面后可以看到每一个元素的加载时间。鼠标移到name和initiator项可以查看元素相关信息。
+
+在hexo目录下搜索相关内容...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-am.usage"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -542,168 +702,11 @@ junit....
 
 
   
-    <article id="post-编译Android内核时找不到openssl的bio.sh "  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/">编译Android内核时找不到openssl/bio.h</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/" class="article-date">
-	  <time datetime="2019-06-24T09:13:55.000Z" itemprop="datePublished">2019-06-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E7%BC%96%E8%AF%91/">编译</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          参考：https://blog.csdn.net/qq_41533289/article/details/82985788
-环境：Ubuntu 16.04 + Android P
-最近重装了系统，从14.04换成了16.04，之后按照官网安装了Android的编译环境，但是在编译Android P的项目时内核部分出现了下面的错误：
-fatal error: openssl/bio.h: No such file or directory
-代码里找不到什么问题，上网搜索得知出现fatal e...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-查找CVE对应的补丁"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/">查找CVE对应的补丁信息</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/" class="article-date">
-	  <time datetime="2019-06-24T06:03:56.000Z" itemprop="datePublished">2019-06-24</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/GMS/">GMS</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：
-
-The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allows attackers to gain privileges via a crafted ap...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Android O项目首次刷机PackageInstaller无法安装和卸载应用"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/02/11/Android%20O%E9%A1%B9%E7%9B%AE%E9%A6%96%E6%AC%A1%E5%88%B7%E6%9C%BAPackageInstaller%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8/">Android O项目首次刷机PackageInstaller无法安装和卸载应用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/02/11/Android%20O%E9%A1%B9%E7%9B%AE%E9%A6%96%E6%AC%A1%E5%88%B7%E6%9C%BAPackageInstaller%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8/" class="article-date">
-	  <time datetime="2019-02-11T07:29:30.000Z" itemprop="datePublished">2019-02-11</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          1.问题现象   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。
-2.问题log   应用安装的log：   12345678910111213141516171819202122232401-01 12:08:06.781  6599  6599 E AndroidRuntime: FATAL EXCEPTION: main01-01 12:08:06.781  6599  65...
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/02/11/Android%20O%E9%A1%B9%E7%9B%AE%E9%A6%96%E6%AC%A1%E5%88%B7%E6%9C%BAPackageInstaller%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
   </nav>
 
 </section>

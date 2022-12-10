@@ -152,6 +152,163 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-编译Android内核时找不到openssl的bio.sh "  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/">编译Android内核时找不到openssl/bio.h</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/" class="article-date">
+	  <time datetime="2019-06-24T09:13:55.000Z" itemprop="datePublished">2019-06-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E7%BC%96%E8%AF%91/">编译</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          参考：https://blog.csdn.net/qq_41533289/article/details/82985788
+环境：Ubuntu 16.04 + Android P
+最近重装了系统，从14.04换成了16.04，之后按照官网安装了Android的编译环境，但是在编译Android P的项目时内核部分出现了下面的错误：
+fatal error: openssl/bio.h: No such file or directory
+代码里找不到什么问题，上网搜索得知出现fatal e...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/06/24/%E7%BC%96%E8%AF%91Android%E5%86%85%E6%A0%B8%E6%97%B6%E6%89%BE%E4%B8%8D%E5%88%B0openssl%E7%9A%84bio.sh%20/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-查找CVE对应的补丁"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/">查找CVE对应的补丁信息</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/" class="article-date">
+	  <time datetime="2019-06-24T06:03:56.000Z" itemprop="datePublished">2019-06-24</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a><a class="article-category-link" href="/categories/Android/GMS/">GMS</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          首先查找CVE对应的内部bug号，这个可以查的网站好像挺多的，比如http://www3.cvedetails.com/index.php。查找CVE-2016-3866对应的Google和高通的内部bug号如下：
+
+The Qualcomm sound driver in Android before 2016-09-05 on Nexus 5X, 6, and 6P devices allows attackers to gain privileges via a crafted ap...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/06/24/%E6%9F%A5%E6%89%BECVE%E5%AF%B9%E5%BA%94%E7%9A%84%E8%A1%A5%E4%B8%81/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-Android O项目首次刷机PackageInstaller无法安装和卸载应用"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2019/02/11/Android%20O%E9%A1%B9%E7%9B%AE%E9%A6%96%E6%AC%A1%E5%88%B7%E6%9C%BAPackageInstaller%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8/">Android O项目首次刷机PackageInstaller无法安装和卸载应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2019/02/11/Android%20O%E9%A1%B9%E7%9B%AE%E9%A6%96%E6%AC%A1%E5%88%B7%E6%9C%BAPackageInstaller%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8/" class="article-date">
+	  <time datetime="2019-02-11T07:29:30.000Z" itemprop="datePublished">2019-02-11</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          1.问题现象   Android O的项目，刷机后首次开机，在文件管理器中选择apk进行安装，packageinstaller闪退，可卸载应用也无法卸载。重启手机后问题消失。
+2.问题log   应用安装的log：   12345678910111213141516171819202122232401-01 12:08:06.781  6599  6599 E AndroidRuntime: FATAL EXCEPTION: main01-01 12:08:06.781  6599  65...
+        </p>
+        <p class="article-more-link">
+          <a href="/2019/02/11/Android%20O%E9%A1%B9%E7%9B%AE%E9%A6%96%E6%AC%A1%E5%88%B7%E6%9C%BAPackageInstaller%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%BA%94%E7%94%A8/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-SparseArray"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -517,169 +674,11 @@ android:launcherMode的作用网上有很多介绍，也有大致的了解，但
 
 
   
-    <article id="post-虚拟按键隐藏过程log"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/">虚拟按键隐藏过程log</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/" class="article-date">
-	  <time datetime="2018-09-15T05:22:30.000Z" itemprop="datePublished">2018-09-15</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。
-刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdebug版本。编译时间比较长，闲着也是闲着，就先在代码里看下有没有什么头绪吧。
-在SystemUI...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-ActivityManager启动过程"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/09/02/ActivityManager%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">ActivityManagerService启动过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/09/02/ActivityManager%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" class="article-date">
-	  <time datetime="2018-09-02T03:46:00.000Z" itemprop="datePublished">2018-09-02</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/AMS/">AMS</a><a class="article-category-link" href="/categories/AMS/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          ActivityManagerService简称AMS，也就是通常说的组件管理器，是系统核心服务之一，用于对四大组件进行管理，包括创建四大组件，组件生命周期管理等。这里先先了解下AMS的创建过程。代码基于Android P。
-AMS的启动是在SystemServer中进行的。SystemServer中服务启动分为三个过程：
-123startBootstrapServices();startCoreServices();startOtherServices();
-
-AMS的启动贯穿了这三个过...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/09/02/ActivityManager%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-应用安装-点击apk安装"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/">应用安装-点击apk安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/" class="article-date">
-	  <time datetime="2018-08-27T16:00:00.000Z" itemprop="datePublished">2018-08-28</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85/">应用安装</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          之前了解了通过adb进行应用安装的过程，现在了解在应用中点击apk进行应用安装的过程，代码基于Android P。安装流程的PKMS部分和通过adb安装类似，这里主要是了解下应用安装发起过程和PackageInstaller相关代码。
-发起安装该部分以DocumentsUI为例，了解应用安装发起的过程。打开Files应用，切换到内部存储，找到apk，点击安装。对应的代码如下：
-1234567891011private void onDocumentPicked(DocumentInfo d...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页 &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页 &amp;raquo;</a>
   </nav>
 
 </section>

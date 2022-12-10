@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>android s packages.xml乱码的原因 | 得一</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="PKMS" />
+  
+  
+  
+  
+  <meta name="description" content="问题背景客户项目遇到PackageManagerService扫描出现错误导致不停重启，然后进入recovery的问题。查看log是在开机读取Settings(packages.xml）中某个应用的签名信息时出错，系统构造了一个null的签名信息（数组）。导致之后比较签名数组长度时出现空指针。于是想把手机中的packages.xml做修改后模拟问题出现的原因。但是把这个文件pull出来之后发现里面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android S packages.xml乱码的原因">
+<meta property="og:url" content="https://mouzishuo.github.io/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/index.html">
+<meta property="og:site_name" content="得一">
+<meta property="og:description" content="问题背景客户项目遇到PackageManagerService扫描出现错误导致不停重启，然后进入recovery的问题。查看log是在开机读取Settings(packages.xml）中某个应用的签名信息时出错，系统构造了一个null的签名信息（数组）。导致之后比较签名数组长度时出现空指针。于是想把手机中的packages.xml做修改后模拟问题出现的原因。但是把这个文件pull出来之后发现里面">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-10T03:16:41.398Z">
+<meta property="article:modified_time" content="2022-12-10T03:16:41.402Z">
+<meta property="article:author" content="me">
+<meta property="article:tag" content="PKMS">
+<meta name="twitter:card" content="summary">
+  
+
+  
+
+  <link rel="icon" href="/css/images/avatar.jpg">
+  <link rel="apple-touch-icon" href="/css/images/avatar.jpg">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+<script src="/js/jquery-3.1.1.min.js"></script>
+
+  
+<script src="/js/bootstrap.js"></script>
+
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    
+<link rel="stylesheet" href="/css/dialog.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 5px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="93px" height="93px" alt="Hike News" src="/css/images/avatar.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-Android S packages.xml乱码的原因" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      Android S packages.xml乱码的原因
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/" class="article-date">
+	  <time datetime="2022-12-10T03:16:41.398Z" itemprop="datePublished">2022-12-10</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h3><p>客户项目遇到PackageManagerService扫描出现错误导致不停重启，然后进入recovery的问题。查看log是在开机读取Settings(packages.xml）中某个应用的签名信息时出错，系统构造了一个null的签名信息（数组）。导致之后比较签名数组长度时出现空指针。于是想把手机中的packages.xml做修改后模拟问题出现的原因。但是把这个文件pull出来之后发现里面是乱码，切换编码也没用。Android 11的模拟器没有这个问题，于是查看了这个文件的序列化过程，略作纪录。</p>
+<h3 id="Android-S-xml序列化变更"><a href="#Android-S-xml序列化变更" class="headerlink" title="Android S xml序列化变更"></a>Android S xml序列化变更</h3><p>以<code>frameworks/base/services/core/java/com/android/server/pm/Settings.java</code>中<code>writeLPr</code>方法中序列化过程为例，Android S中的序列化工具创建代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">FileOutputStream</span> <span class="variable">fstr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(mSettingsFilename);</span><br><span class="line"><span class="keyword">final</span> <span class="type">TypedXmlSerializer</span> <span class="variable">serializer</span> <span class="operator">=</span> Xml.resolveSerializer(fstr);</span><br><span class="line">serializer.startDocument(<span class="literal">null</span>, <span class="literal">true</span>);</span><br><span class="line">serializer.setFeature(<span class="string">&quot;http://xmlpull.org/v1/doc/features.html#indent-output&quot;</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">serializer.startTag(<span class="literal">null</span>, <span class="string">&quot;packages&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Android R中代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">FileOutputStream</span> <span class="variable">fstr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(mSettingsFilename);</span><br><span class="line"><span class="type">BufferedOutputStream</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(fstr);</span><br><span class="line"></span><br><span class="line"><span class="comment">//XmlSerializer serializer = XmlUtils.serializerInstance();</span></span><br><span class="line"><span class="type">XmlSerializer</span> <span class="variable">serializer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FastXmlSerializer</span>();</span><br><span class="line">serializer.setOutput(str, StandardCharsets.UTF_8.name());</span><br><span class="line">serializer.startDocument(<span class="literal">null</span>, <span class="literal">true</span>);</span><br><span class="line">serializer.setFeature(<span class="string">&quot;http://xmlpull.org/v1/doc/features.html#indent-output&quot;</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">serializer.startTag(<span class="literal">null</span>, <span class="string">&quot;packages&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>主要差别就在Xml Serializer的构建上，FastXmlSerializer序列化的xml文件可以正常查看，那TypedXmlSerializer有什么不同呢？先看下TypedXmlSerializer的注释：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Specialization of &#123;<span class="doctag">@link</span> XmlSerializer&#125; which adds explicit methods to</span></span><br><span class="line"><span class="comment"> * support consistent and efficient conversion of primitive data types.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@hide</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TypedXmlSerializer</span> <span class="keyword">extends</span> <span class="title class_">XmlSerializer</span> &#123;</span><br><span class="line">     <span class="comment">//……</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>也就是所TypedXmlSerializer在序列化过程中会对原生数据类型进行转换。<code>TypedXmlSerializer</code>是个接口，具体构建的对象类型要看<code>Xml.resolveSerializer</code>的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Creates a new &#123;<span class="doctag">@link</span> XmlSerializer&#125; which is optimized for use inside the</span></span><br><span class="line"><span class="comment"> * system, typically by supporting only a basic set of features.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * This returned instance may be configured to write using an efficient</span></span><br><span class="line"><span class="comment"> * binary format instead of a human-readable text format, depending on</span></span><br><span class="line"><span class="comment"> * device feature flags.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * To ensure that both formats are detected and transparently handled</span></span><br><span class="line"><span class="comment"> * correctly, you must shift to using both &#123;<span class="doctag">@link</span> #resolveSerializer&#125; and</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> #resolvePullParser&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@hide</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="meta">@NonNull</span> TypedXmlSerializer <span class="title function_">resolveSerializer</span><span class="params">(<span class="meta">@NonNull</span> OutputStream out)</span></span><br><span class="line">        <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="keyword">final</span> TypedXmlSerializer xml;</span><br><span class="line">    <span class="keyword">if</span> (ENABLE_BINARY_DEFAULT) &#123;</span><br><span class="line">        xml = newBinarySerializer();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        xml = newFastSerializer();</span><br><span class="line">    &#125;</span><br><span class="line">    xml.setOutput(out, StandardCharsets.UTF_8.name());</span><br><span class="line">    <span class="keyword">return</span> xml;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上述代码来看根据系统ENABLE_BINARY_DEFAULT的配置，可以选择构建<code>BinarySerializer</code>或是<code>FastSerializer</code>。<code>ENABLE_BINARY_DEFAULT</code>的定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">ENABLE_BINARY_DEFAULT</span> <span class="operator">=</span> SystemProperties</span><br><span class="line">        .getBoolean(<span class="string">&quot;persist.sys.binary_xml&quot;</span>, <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+<p>所以在调试的时候可以设置<code>persist.sys.binary_xml</code>的值为false然后重启来切换xml serializer并更新xml的内容。</p>
+<p>BinarySerializer的注释如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Serializer that writes XML documents using a custom binary wire protocol</span></span><br><span class="line"><span class="comment"> * which benchmarking has shown to be 4.3x faster and use 2.4x less disk space</span></span><br><span class="line"><span class="comment"> * than &#123;<span class="doctag">@code</span> Xml.newFastSerializer()&#125; for a typical &#123;<span class="doctag">@code</span> packages.xml&#125;.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * The high-level design of the wire protocol is to directly serialize the event</span></span><br><span class="line"><span class="comment"> * stream, while efficiently and compactly writing strongly-typed primitives</span></span><br><span class="line"><span class="comment"> * delivered through the &#123;<span class="doctag">@link</span> TypedXmlSerializer&#125; interface.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * Each serialized event is a single byte where the lower half is a normal</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> XmlPullParser&#125; token and the upper half is an optional data type</span></span><br><span class="line"><span class="comment"> * signal, such as &#123;<span class="doctag">@link</span> #TYPE_INT&#125;.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * This serializer has some specific limitations:</span></span><br><span class="line"><span class="comment"> * &lt;ul&gt;</span></span><br><span class="line"><span class="comment"> * &lt;li&gt;Only the UTF-8 encoding is supported.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt;Variable length values, such as &#123;<span class="doctag">@code</span> byte[]&#125; or &#123;<span class="doctag">@link</span> String&#125;, are</span></span><br><span class="line"><span class="comment"> * limited to 65,535 bytes in length. Note that &#123;<span class="doctag">@link</span> String&#125; values are stored</span></span><br><span class="line"><span class="comment"> * as UTF-8 on the wire.</span></span><br><span class="line"><span class="comment"> * &lt;li&gt;Namespaces, prefixes, properties, and options are unsupported.</span></span><br><span class="line"><span class="comment"> * &lt;/ul&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>可见使用新的serializer的目的和Android资源编译的目的类似，一个是俭省存储空间，一个是加快访问速度。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">hexo博客The &#34;mode&#34; argument must be integer. Received an instance of Object问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-S-xml%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%98%E6%9B%B4"><span class="nav-number">2.</span> <span class="nav-text">Android S xml序列化变更</span></a></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2018 - 2022 得一 All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/scripts.js"></script>
+
+
+
+  
+<script src="/js/home.js"></script>
+
+
+
+
+  
+<script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            得一
+          </div>
+          <div class="panel-body">
+            Copyright © 2022 me All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>

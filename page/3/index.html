@@ -152,6 +152,164 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-虚拟按键隐藏过程log"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/">虚拟按键隐藏过程log</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/" class="article-date">
+	  <time datetime="2018-09-15T05:22:30.000Z" itemprop="datePublished">2018-09-15</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          公司最近开始搞Android P的项目，有一天在新的代码上出现了一个奇怪的问题。在点完开机向导后，进入到launcher，发现虚拟按键中的recents不见了，点击那个区域也没反应，但是在系统配置发生改变时（比如切换言）recents又出来了。
+刚开始只有一个user版的手机，开机向导过程中的log抓不到，怀疑是别人改了SystemUI造成的也没法验证，为了方便分析问题，只能先编一个userdebug版本。编译时间比较长，闲着也是闲着，就先在代码里看下有没有什么头绪吧。
+在SystemUI...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/09/15/%E8%99%9A%E6%8B%9F%E6%8C%89%E9%94%AE%E9%9A%90%E8%97%8F%E8%BF%87%E7%A8%8Blog/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-ActivityManager启动过程"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/09/02/ActivityManager%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">ActivityManagerService启动过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/09/02/ActivityManager%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" class="article-date">
+	  <time datetime="2018-09-02T03:46:00.000Z" itemprop="datePublished">2018-09-02</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/AMS/">AMS</a><a class="article-category-link" href="/categories/AMS/Android/">Android</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          ActivityManagerService简称AMS，也就是通常说的组件管理器，是系统核心服务之一，用于对四大组件进行管理，包括创建四大组件，组件生命周期管理等。这里先先了解下AMS的创建过程。代码基于Android P。
+AMS的启动是在SystemServer中进行的。SystemServer中服务启动分为三个过程：
+123startBootstrapServices();startCoreServices();startOtherServices();
+
+AMS的启动贯穿了这三个过...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/09/02/ActivityManager%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
+    <article id="post-应用安装-点击apk安装"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/">应用安装-点击apk安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/" class="article-date">
+	  <time datetime="2018-08-27T16:00:00.000Z" itemprop="datePublished">2018-08-28</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85/">应用安装</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          之前了解了通过adb进行应用安装的过程，现在了解在应用中点击apk进行应用安装的过程，代码基于Android P。安装流程的PKMS部分和通过adb安装类似，这里主要是了解下应用安装发起过程和PackageInstaller相关代码。
+发起安装该部分以DocumentsUI为例，了解应用安装发起的过程。打开Files应用，切换到内部存储，找到apk，点击安装。对应的代码如下：
+1234567891011private void onDocumentPicked(DocumentInfo d...
+        </p>
+        <p class="article-more-link">
+          <a href="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-PKMS启动过程"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -522,119 +680,11 @@ Later, in a ...
 
 
   
-    <article id="post-SharePreferences中commit与apply的区别"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/10/SharePreferences%E4%B8%ADcommit%E4%B8%8Eapply%E7%9A%84%E5%8C%BA%E5%88%AB/">SharedPreferences中commit与apply的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/10/SharePreferences%E4%B8%ADcommit%E4%B8%8Eapply%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-	  <time datetime="2018-07-10T02:13:55.000Z" itemprop="datePublished">2018-07-10</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          SharedPreferences中commit与apply的区别
-apply（）写入文件的操作是异步的，会把Runnable放到线程池中执行，而commit（）的写入文件的操作是在当前线程同步执行的。 因此当两者都可以使用的时候还是推荐使用apply（），因为apply（）写入文件操作是异步执行的，不会占用主线程资源。
-commit（）有返回值，apply（）没有返回值。apply（）失败了是不会报错的。
-
-另外：
-1、如果先后apply（）了几次，那么会以最后一次apply（）的为准。...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/10/SharePreferences%E4%B8%ADcommit%E4%B8%8Eapply%E7%9A%84%E5%8C%BA%E5%88%AB/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-Pixel折腾"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2018/07/03/Pixel%E6%8A%98%E8%85%BE/">Pixel折腾</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2018/07/03/Pixel%E6%8A%98%E8%85%BE/" class="article-date">
-	  <time datetime="2018-07-03T07:25:08.000Z" itemprop="datePublished">2018-07-03</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/%E6%8A%98%E8%85%BE/">折腾</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          拿到手里是Android 7.1的系统，忍不住翻了墙升级到了最新的8.1版本，然后就开始不停地踩坑了……
-
-手机到手当然要先测试下，装了翻墙软件（Turbo），登陆了Google账号，下了下东西，运行没问题。然后试了指纹解锁，也没问题，然后就升级吧！接着悲剧就开始了，刚开始升级包时而能下载，时而下载不了，后来搜了下发现是因为升级了Google play 服务造成的（印象中是这个），卸载后下载正常，然后顺利更新。
-升级8.1最新版本后，开机，发现图案解锁错误，不清楚什么原因，可能是Googl...
-        </p>
-        <p class="article-more-link">
-          <a href="/2018/07/03/Pixel%E6%8A%98%E8%85%BE/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页 &amp;raquo;</a>
   </nav>
 
 </section>
