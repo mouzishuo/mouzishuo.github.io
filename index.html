@@ -29,14 +29,14 @@
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
     @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
   
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 
 
   
-<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="/js/jquery-3.1.1.min.js"></script>
 
   
-<script src="../js/bootstrap.js"></script>
+<script src="/js/bootstrap.js"></script>
 
 
   <!-- Bootstrap core CSS -->
@@ -91,13 +91,13 @@
             <div class="navbar-collapse collapse">
               <ul class="hnav navbar-nav">
                 
-                  <li> <a class="main-nav-link" href="index.html">首页</a> </li>
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
                 
-                  <li> <a class="main-nav-link" href="archives">归档</a> </li>
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
                 
-                  <li> <a class="main-nav-link" href="categories">分类</a> </li>
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
                 
-                  <li> <a class="main-nav-link" href="tags">标签</a> </li>
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
                 
                   <li><div id="search-form-wrap">
 
@@ -126,13 +126,13 @@
             UNTITLED: '(无标题)',
         },
         ROOT_URL: '/',
-        CONTENT_URL: 'content.json',
+        CONTENT_URL: '/content.json',
     };
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
 
-<script src="../js/insight.js"></script>
+<script src="/js/insight.js"></script>
 
 
 </div></li>
@@ -160,7 +160,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/">Android S packages.xml乱码的原因</a>
+      <a class="article-title" href="/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/">Android S packages.xml乱码的原因</a>
     </h1>
   
 
@@ -168,12 +168,12 @@
     
     <div class="article-meta">
       
-	<a href="2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/" class="article-date">
+	<a href="/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/" class="article-date">
 	  <time datetime="2022-12-10T03:16:41.398Z" itemprop="datePublished">2022-12-10</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
 
       
     </div>
@@ -183,7 +183,7 @@
           问题背景客户项目遇到PackageManagerService扫描出现错误导致不停重启，然后进入recovery的问题。查看log是在开机读取Settings(packages.xml）中某个应用的签名信息时出错，系统构造了一个null的签名信息（数组）。导致之后比较签名数组长度时出现空指针。于是想把手机中的packages.xml做修改后模拟问题出现的原因。但是把这个文件pull出来之后发现里面是乱码，切换编码也没用。Android 11的模拟器没有这个问题，于是查看了这个文件的序列化过...
         </p>
         <p class="article-more-link">
-          <a href="2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/#more">阅读全文</a>
+          <a href="/2022/12/10/Android%20S%20packages.xml%E4%B9%B1%E7%A0%81%E7%9A%84%E5%8E%9F%E5%9B%A0/#more">阅读全文</a>
         </p>
       
     </div>
@@ -210,7 +210,7 @@
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/">hexo博客The &#34;mode&#34; argument must be integer. Received an instance of Object问题</a>
+      <a class="article-title" href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/">hexo博客The &#34;mode&#34; argument must be integer. Received an instance of Object问题</a>
     </h1>
   
 
@@ -218,12 +218,12 @@
     
     <div class="article-meta">
       
-	<a href="2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/" class="article-date">
+	<a href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/" class="article-date">
 	  <time datetime="2022-12-09T09:13:15.756Z" itemprop="datePublished">2022-12-09</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/tool/">tool</a>
+    <a class="article-category-link" href="/categories/tool/">tool</a>
 
       
     </div>
@@ -237,7 +237,7 @@ hexo和node版本对应关系参考https://hexo.io/zh-cn/docs/；
    1、全局升级hexo-cli，先hexo version查看当前版本，然后npm i hexo-cli -g，再次hexo version查看是否升级成功。 2、使用npm install -g npm-check和npm-check，检查系统中的插件是否有升...
         </p>
         <p class="article-more-link">
-          <a href="2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/#more">阅读全文</a>
+          <a href="/2022/12/09/hexo%E5%8D%9A%E5%AE%A2The%20%E2%80%9Cmode%E2%80%9C%20argument%20must%20be%20integer.%20Received%20an%20instance%20of%20Object%E9%97%AE%E9%A2%98/#more">阅读全文</a>
         </p>
       
     </div>
@@ -264,7 +264,7 @@ hexo和node版本对应关系参考https://hexo.io/zh-cn/docs/；
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/">hexo本地加载慢</a>
+      <a class="article-title" href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/">hexo本地加载慢</a>
     </h1>
   
 
@@ -272,12 +272,12 @@ hexo和node版本对应关系参考https://hexo.io/zh-cn/docs/；
     
     <div class="article-meta">
       
-	<a href="2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/" class="article-date">
+	<a href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/" class="article-date">
 	  <time datetime="2022-12-09T09:11:39.834Z" itemprop="datePublished">2022-12-09</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/tool/">tool</a>
+    <a class="article-category-link" href="/categories/tool/">tool</a>
 
       
     </div>
@@ -291,7 +291,7 @@ hexo和node版本对应关系参考https://hexo.io/zh-cn/docs/；
 在hexo目录下搜索相关内容...
         </p>
         <p class="article-more-link">
-          <a href="2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/#more">阅读全文</a>
+          <a href="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/#more">阅读全文</a>
         </p>
       
     </div>
@@ -318,7 +318,7 @@ hexo和node版本对应关系参考https://hexo.io/zh-cn/docs/；
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2022/12/09/am.usage/">am的一些用法</a>
+      <a class="article-title" href="/2022/12/09/am.usage/">am的一些用法</a>
     </h1>
   
 
@@ -326,12 +326,12 @@ hexo和node版本对应关系参考https://hexo.io/zh-cn/docs/；
     
     <div class="article-meta">
       
-	<a href="2022/12/09/am.usage/" class="article-date">
+	<a href="/2022/12/09/am.usage/" class="article-date">
 	  <time datetime="2022-12-09T08:14:00.433Z" itemprop="datePublished">2022-12-09</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/debug/">debug</a>
+    <a class="article-category-link" href="/categories/debug/">debug</a>
 
       
     </div>
@@ -347,7 +347,7 @@ restart 上层重启;
 set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attach debugger to Android process再进行调试，但是这种方法不适用于调试应用启动时的调试，如果需要在启动的地方调试则需要Run Debug app，但是这种凡是比较慢，尤其是大项目，因为包含编译等工作。另一种方...
         </p>
         <p class="article-more-link">
-          <a href="2022/12/09/am.usage/#more">阅读全文</a>
+          <a href="/2022/12/09/am.usage/#more">阅读全文</a>
         </p>
       
     </div>
@@ -374,7 +374,7 @@ set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attac
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2022/12/09/StatusBar%E6%98%BE%E7%A4%BA%E7%A7%92/">StatusBar显示到秒</a>
+      <a class="article-title" href="/2022/12/09/StatusBar%E6%98%BE%E7%A4%BA%E7%A7%92/">StatusBar显示到秒</a>
     </h1>
   
 
@@ -382,12 +382,12 @@ set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attac
     
     <div class="article-meta">
       
-	<a href="2022/12/09/StatusBar%E6%98%BE%E7%A4%BA%E7%A7%92/" class="article-date">
+	<a href="/2022/12/09/StatusBar%E6%98%BE%E7%A4%BA%E7%A7%92/" class="article-date">
 	  <time datetime="2022-12-09T08:12:13.592Z" itemprop="datePublished">2022-12-09</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/debug/">debug</a>
+    <a class="article-category-link" href="/categories/debug/">debug</a>
 
       
     </div>
@@ -400,7 +400,7 @@ set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attac
 启动System UI Tuner后在Status bar -&gt; time...
         </p>
         <p class="article-more-link">
-          <a href="2022/12/09/StatusBar%E6%98%BE%E7%A4%BA%E7%A7%92/#more">阅读全文</a>
+          <a href="/2022/12/09/StatusBar%E6%98%BE%E7%A4%BA%E7%A7%92/#more">阅读全文</a>
         </p>
       
     </div>
@@ -427,7 +427,7 @@ set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attac
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2022/12/09/kill%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95/">kill的一些用法</a>
+      <a class="article-title" href="/2022/12/09/kill%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95/">kill的一些用法</a>
     </h1>
   
 
@@ -435,12 +435,12 @@ set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attac
     
     <div class="article-meta">
       
-	<a href="2022/12/09/kill%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95/" class="article-date">
+	<a href="/2022/12/09/kill%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95/" class="article-date">
 	  <time datetime="2022-12-09T08:10:11.575Z" itemprop="datePublished">2022-12-09</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/debug/">debug</a>
+    <a class="article-category-link" href="/categories/debug/">debug</a>
 
       
     </div>
@@ -451,7 +451,7 @@ set-debug-app一般在AS中进行调试的时候都是先打断点，然后Attac
 adb shell kill -3&#x2F;SIGQUIT &lt;pid&gt;可以在不发生ANR的情况下就打印指定进程的堆栈。如果嫌查找pid麻烦，可以使用adb shell killall -3 &lt;processname&gt;. 或者和pidof命令组合，比如打印Settings的堆栈可以使用如下命令：adb shell kill -3 `pidof com.android.settings`或者kill -3 $(pidof com.android.settings) ...
         </p>
         <p class="article-more-link">
-          <a href="2022/12/09/kill%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95/#more">阅读全文</a>
+          <a href="/2022/12/09/kill%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95/#more">阅读全文</a>
         </p>
       
     </div>
@@ -478,7 +478,7 @@ adb shell kill -3&#x2F;SIGQUIT &lt;pid&gt;可以在不发生ANR的情况下就�
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2022/11/29/trace%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BF%A1%E6%81%AF/">trace中线程信息</a>
+      <a class="article-title" href="/2022/11/29/trace%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BF%A1%E6%81%AF/">trace中线程信息</a>
     </h1>
   
 
@@ -486,12 +486,12 @@ adb shell kill -3&#x2F;SIGQUIT &lt;pid&gt;可以在不发生ANR的情况下就�
     
     <div class="article-meta">
       
-	<a href="2022/11/29/trace%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BF%A1%E6%81%AF/" class="article-date">
+	<a href="/2022/11/29/trace%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BF%A1%E6%81%AF/" class="article-date">
 	  <time datetime="2022-11-29T08:29:08.000Z" itemprop="datePublished">2022-11-29</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/debug/">debug</a>
+    <a class="article-category-link" href="/categories/debug/">debug</a>
 
       
     </div>
@@ -505,7 +505,7 @@ adb shell kill -3&#x2F;SIGQUIT &lt;pid&gt;可以在不发生ANR的情况下就�
   | state=S schedstat...
         </p>
         <p class="article-more-link">
-          <a href="2022/11/29/trace%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BF%A1%E6%81%AF/#more">阅读全文</a>
+          <a href="/2022/11/29/trace%E4%B8%AD%E7%BA%BF%E7%A8%8B%E4%BF%A1%E6%81%AF/#more">阅读全文</a>
         </p>
       
     </div>
@@ -532,7 +532,7 @@ adb shell kill -3&#x2F;SIGQUIT &lt;pid&gt;可以在不发生ANR的情况下就�
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2019/09/27/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/">Android消息机制简介</a>
+      <a class="article-title" href="/2019/09/27/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/">Android消息机制简介</a>
     </h1>
   
 
@@ -540,12 +540,12 @@ adb shell kill -3&#x2F;SIGQUIT &lt;pid&gt;可以在不发生ANR的情况下就�
     
     <div class="article-meta">
       
-	<a href="2019/09/27/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/" class="article-date">
+	<a href="/2019/09/27/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/" class="article-date">
 	  <time datetime="2019-09-27T08:00:53.354Z" itemprop="datePublished">2019-09-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/Android%E5%9F%BA%E7%A1%80/">Android基础</a>
+    <a class="article-category-link" href="/categories/Android%E5%9F%BA%E7%A1%80/">Android基础</a>
 
       
     </div>
@@ -558,7 +558,7 @@ Handler
 Handler类注释：Handler可以向与线程关联的MessageQueue中发送Message及Runnable对象，并可以处对这些Message及Runnable对象进行处理.每一个Handler都和一个线程以及该线程的MessageQueue关联。当创建一个Handler时，该Handler就会和创建该Handler的线程MessageQueue绑定–之后Handler将传递Message和runnable objects...
         </p>
         <p class="article-more-link">
-          <a href="2019/09/27/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/#more">阅读全文</a>
+          <a href="/2019/09/27/Android%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6/#more">阅读全文</a>
         </p>
       
     </div>
@@ -585,7 +585,7 @@ Handler类注释：Handler可以向与线程关联的MessageQueue中发送Messag
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2019/09/27/Privileged%20Permission%20Whitelisting/">Privileged Permission Whitelisting</a>
+      <a class="article-title" href="/2019/09/27/Privileged%20Permission%20Whitelisting/">Privileged Permission Whitelisting</a>
     </h1>
   
 
@@ -593,12 +593,12 @@ Handler类注释：Handler可以向与线程关联的MessageQueue中发送Messag
     
     <div class="article-meta">
       
-	<a href="2019/09/27/Privileged%20Permission%20Whitelisting/" class="article-date">
+	<a href="/2019/09/27/Privileged%20Permission%20Whitelisting/" class="article-date">
 	  <time datetime="2019-09-26T16:59:23.000Z" itemprop="datePublished">2019-09-27</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
 
       
     </div>
@@ -614,7 +614,7 @@ Android 9及以上- /system/, product, /vendor
 在过去，设备开发人员几乎无法控制可以向特权应用授予哪些signature|privileged权限。从Android 8.0开...
         </p>
         <p class="article-more-link">
-          <a href="2019/09/27/Privileged%20Permission%20Whitelisting/#more">阅读全文</a>
+          <a href="/2019/09/27/Privileged%20Permission%20Whitelisting/#more">阅读全文</a>
         </p>
       
     </div>
@@ -641,7 +641,7 @@ Android 9及以上- /system/, product, /vendor
         
   
     <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/">高通ramdump抓取及解析</a>
+      <a class="article-title" href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/">高通ramdump抓取及解析</a>
     </h1>
   
 
@@ -649,12 +649,12 @@ Android 9及以上- /system/, product, /vendor
     
     <div class="article-meta">
       
-	<a href="2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/" class="article-date">
+	<a href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/" class="article-date">
 	  <time datetime="2019-06-25T08:29:08.000Z" itemprop="datePublished">2019-06-25</time>
 	</a>
 
       
-    <a class="article-category-link" href="categories/kernel-panic/">kernel panic</a>
+    <a class="article-category-link" href="/categories/kernel-panic/">kernel panic</a>
 
       
     </div>
@@ -681,7 +681,7 @@ fail
 junit....
         </p>
         <p class="article-more-link">
-          <a href="2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/#more">阅读全文</a>
+          <a href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/#more">阅读全文</a>
         </p>
       
     </div>
@@ -704,7 +704,7 @@ junit....
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="page/2/">2</a><a class="page-number" href="page/3/">3</a><a class="page-number" href="page/4/">4</a><a class="extend next" rel="next" href="page/2/">下一页 &amp;raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页 &amp;raquo;</a>
   </nav>
 
 </section>
@@ -751,13 +751,13 @@ junit....
     </div>
     <!-- <nav id="mobile-nav">
   
-    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="/" class="mobile-nav-link">Home</a>
   
-    <a href="archives" class="mobile-nav-link">Archives</a>
+    <a href="/archives" class="mobile-nav-link">Archives</a>
   
-    <a href="categories" class="mobile-nav-link">Categories</a>
+    <a href="/categories" class="mobile-nav-link">Categories</a>
   
-    <a href="tags" class="mobile-nav-link">Tags</a>
+    <a href="/tags" class="mobile-nav-link">Tags</a>
   
 </nav> -->
     
@@ -795,20 +795,20 @@ junit....
 
 
   
-<link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
 
   
-<script src="../fancybox/jquery.fancybox.pack.js"></script>
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
 
 
-<script src="../js/scripts.js"></script>
+<script src="/js/scripts.js"></script>
 
 
 
   
-<script src="../js/home.js"></script>
+<script src="/js/home.js"></script>
 
 
 
