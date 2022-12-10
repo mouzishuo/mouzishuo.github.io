@@ -18,13 +18,13 @@
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="之前了解了通过adb进行应用安装的过程，现在了解在应用中点击apk进行应用安装的过程，代码基于Android P。安装流程的PKMS部分和通过adb安装类似，这里主要是了解下应用安装发起过程和PackageInstaller相关代码。 发起安装该部分以DocumentsUI为例，了解应用安装发起的过程。打开Files应用，切换到内部存储，找到apk，点击安装。对应的代码如下： 1234567891">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://mouzishuo.github.io/.io//staging.png">
+<meta property="og:image" content="https://mouzishuo.github.io/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/staging.png">
 <meta property="article:published_time" content="2018-08-27T16:00:00.000Z">
-<meta property="article:modified_time" content="2018-08-30T06:39:16.686Z">
+<meta property="article:modified_time" content="2022-12-10T07:20:43.064Z">
 <meta property="article:author" content="me">
 <meta property="article:tag" content="PackageInstaller">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://mouzishuo.github.io/.io//staging.png">
+<meta name="twitter:image" content="https://mouzishuo.github.io/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/staging.png">
   
 
   
@@ -214,7 +214,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Intent &#123; act=android.intent.action.VIEW dat=file:///data/user_de/0/com.android.packageinstaller/no_backup/package5143412883397554305.apk flg=0x2000000 cmp=com.android.packageinstaller/.DeleteStagedFileOnResult (has extras) &#125;</span><br></pre></td></tr></table></figure>
 
 <p>此时的界面是这个样子的：</p>
-<p><img src="/.io//staging.png" alt="staging"></p>
+<p><img src="/2018/08/28/%E5%BA%94%E7%94%A8%E5%AE%89%E8%A3%85-%E7%82%B9%E5%87%BBapk%E5%AE%89%E8%A3%85/staging.png" alt="staging"></p>
 <p> 临时文件的路径如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/data/user_de/0/com.android.packageinstaller/no_backup/package3066602231324109028.apk</span><br></pre></td></tr></table></figure>
 
