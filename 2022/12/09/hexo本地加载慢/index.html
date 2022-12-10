@@ -18,13 +18,13 @@
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="hexo有一段时间没用之后发现博客无法部署了，而且本地打开hexo博客都要几分钟。部署的问题是因为hexo版本太老，升级后解决。hexo打开慢据网上的说法是因为主题中使用了google字体，但是具体是哪些字体，怎么修改没有说。这里记录下大概的解决过程。  查看加载慢的元素打开博客后，在Chrome浏览器的工具里打开开发者工具。然后选择Network选项。如图：刷新页面后可以看到每一个元素的加载时间">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://mouzishuo.github.io/_post/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/network.png">
+<meta property="og:image" content="https://mouzishuo.github.io/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/network.png">
 <meta property="article:published_time" content="2022-12-09T09:11:39.834Z">
-<meta property="article:modified_time" content="2022-12-10T07:01:30.187Z">
+<meta property="article:modified_time" content="2022-12-10T07:18:13.706Z">
 <meta property="article:author" content="me">
 <meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://mouzishuo.github.io/_post/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/network.png">
+<meta name="twitter:image" content="https://mouzishuo.github.io/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/network.png">
   
 
   
@@ -196,7 +196,7 @@
       
         <p>hexo有一段时间没用之后发现博客无法部署了，而且本地打开hexo博客都要几分钟。部署的问题是因为hexo版本太老，升级后解决。hexo打开慢据网上的说法是因为主题中使用了google字体，但是具体是哪些字体，怎么修改没有说。这里记录下大概的解决过程。</p>
 <ol>
-<li><p>查看加载慢的元素<br>打开博客后，在Chrome浏览器的工具里打开开发者工具。然后选择Network选项。如图：<br><img src="/_post/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/network.png" alt="Network"><br>刷新页面后可以看到每一个元素的加载时间。鼠标移到name和initiator项可以查看元素相关信息。</p>
+<li><p>查看加载慢的元素<br>打开博客后，在Chrome浏览器的工具里打开开发者工具。然后选择Network选项。如图：<br><img src="/2022/12/09/hexo%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%85%A2/network.png" alt="Network"><br>刷新页面后可以看到每一个元素的加载时间。鼠标移到name和initiator项可以查看元素相关信息。</p>
 </li>
 <li><p>在hexo目录下搜索相关内容，进行修改，这里图省事只是把出现问题的字体去掉了。修改文件为Blog&#x2F;themes&#x2F;hiker&#x2F;layout&#x2F;_partial&#x2F;head.ejs和Blog&#x2F;themes&#x2F;hiker&#x2F;source&#x2F;css&#x2F;_variables.styl。另外可以在开发者工具中的Elements页面中搜索相关内容，查看有问题的是哪些元素。</p>
 </li>
