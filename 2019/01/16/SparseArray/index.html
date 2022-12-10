@@ -18,14 +18,14 @@
 <meta property="og:site_name" content="得一">
 <meta property="og:description" content="SparseArray稀疏数组，是Android内部特有的api,标准的jdk是没有这个类的. SparseArray保存的是Integer到Object的映射。和普通Array不同，SparseArray允许索引之间存在间隔，在Android中用来替代HashMap&lt;Integer, Object&gt;这种形式，目的是节省内存：一方面，SparseArray不会进行自动装箱的操作；另一方">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://mouzishuo.github.io/.io//android/Documents/Notes/Map/SparseArray.png">
+<meta property="og:image" content="https://mouzishuo.github.io/2019/01/16/SparseArray/SparseArray.png">
 <meta property="article:published_time" content="2019-01-16T03:17:15.840Z">
-<meta property="article:modified_time" content="2019-01-16T03:17:03.268Z">
+<meta property="article:modified_time" content="2022-12-10T07:23:11.818Z">
 <meta property="article:author" content="me">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://mouzishuo.github.io/.io//android/Documents/Notes/Map/SparseArray.png">
+<meta name="twitter:image" content="https://mouzishuo.github.io/2019/01/16/SparseArray/SparseArray.png">
   
 
   
@@ -201,7 +201,7 @@
 <p>为了提高性能，SparseArray对删除操作进行了优化：在删除元素，并不会马上把数组中的元素移除，而是会先把该元素标记为已删除。该项在之后可以得到复用（key不变），或者在之后的垃圾回收过程中进行统一的移除。垃圾回收发生在以下几种情况：数据容量需要发生改变、map的size发生改变或者元素值被检索。</p>
 <p>SparseArray可以通过<code>keyAt</code>和<code>valueAt</code>方法进行遍历。</p>
 <p>SparseArray的成员如下：</p>
-<p><img src="/.io//android/Documents/Notes/Map/SparseArray.png" alt="SparseArray"></p>
+<p><img src="/2019/01/16/SparseArray/SparseArray.png" alt="SparseArray"></p>
 <p>可以看到，SparseArray添加和获取删除元素的方式都和HashMap类似。</p>
 
       
