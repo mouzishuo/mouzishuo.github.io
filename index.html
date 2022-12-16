@@ -152,6 +152,64 @@
         
           <section id="main" style="float:none;">
   
+    <article id="post-在hexo中引用自己的文章"  class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" itemprop="name">
+      <a class="article-title" href="/2022/12/16/%E5%9C%A8hexo%E4%B8%AD%E5%BC%95%E7%94%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%87%E7%AB%A0/">hexo中应用自己的文章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2022/12/16/%E5%9C%A8hexo%E4%B8%AD%E5%BC%95%E7%94%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%87%E7%AB%A0/" class="article-date">
+	  <time datetime="2022-12-16T02:24:48.287Z" itemprop="datePublished">2022-12-16</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/tool/">tool</a>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p class="article-excerpt-content">
+          
+使用的形式，因为hexo在generate的时候会在post目录下生成html，可以根据这个路径进行引用，也可以在网页中查看要引用的文章的路径。
+
+使用post_link标签。格式如下：&#123;% post_link 文件名(不要后缀) 文章别名(可选) %&#125;文件名为要引用文章对应的markdown文件名，如果带目录需要加上目录，比如要引用source/_post/test/test.md对应的文章，文件名为test&#x2F;test。
+
+
+参考：
+
+&#x2F;{年}&...
+        </p>
+        <p class="article-more-link">
+          <a href="/2022/12/16/%E5%9C%A8hexo%E4%B8%AD%E5%BC%95%E7%94%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%87%E7%AB%A0/#more">阅读全文</a>
+        </p>
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+</article>
+
+<!-- Table of Contents -->
+
+
+  
     <article id="post-Android S packages.xml乱码的原因"  class="article article-type-post" itemscope itemprop="blogPost" >
   <div id="articleInner" class="article-inner">
     
@@ -615,73 +673,6 @@ Android 9及以上- /system/, product, /vendor
         </p>
         <p class="article-more-link">
           <a href="/2019/09/27/Privileged%20Permission%20Whitelisting/#more">阅读全文</a>
-        </p>
-      
-    </div>
-    <footer class="article-footer">
-      
-      
-      
-      
-
-    </footer>
-  </div>
-  
-</article>
-
-<!-- Table of Contents -->
-
-
-  
-    <article id="post-高通ramdump抓取及解析"  class="article article-type-post" itemscope itemprop="blogPost" >
-  <div id="articleInner" class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="thumb" itemprop="name">
-      <a class="article-title" href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/">高通ramdump抓取及解析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      
-	<a href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/" class="article-date">
-	  <time datetime="2019-06-25T08:29:08.000Z" itemprop="datePublished">2019-06-25</time>
-	</a>
-
-      
-    <a class="article-category-link" href="/categories/kernel-panic/">kernel panic</a>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p class="article-excerpt-content">
-          问题场景在做一个高通7.1的SMR版本时，发现了STS中有三个失败项：
-
-
-
-Test
-Result
-Details
-
-
-
-android.security.sts.Poc16_08#testPocCVE_2014_9904
-fail
-junit.framework.AssertionFailedError: Phone has had a hard reset
-
-
-android.security.sts.Poc16_09#testPocCVE_2016_3866
-fail
-junit....
-        </p>
-        <p class="article-more-link">
-          <a href="/2019/06/25/%E9%AB%98%E9%80%9Aramdump%E6%8A%93%E5%8F%96%E5%8F%8A%E8%A7%A3%E6%9E%90/#more">阅读全文</a>
         </p>
       
     </div>
